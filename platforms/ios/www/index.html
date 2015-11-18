@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/themify-icons.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>ShevetApp</title>
+    </head>
+    <body>
+    	<!-- PANEL -->
+    	<div data-role="panel" id="sa-menu" data-position="left" data-display="overlay" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
+	        <a href="#" data-rel="close" class="sa-close">Close panel</a>
+	        <div class="ui-panel-inner">
+	        asdf
+	        </div>
+		</div>
+    	<!-- POPUPS -->
+		<div data-role="popup" id="sa-form-errors" class="popup-full sa-errors">
+			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
+			<h3>Un pequeño problema...</h3>
+			<ul data-role="listview" class="sa-items errors"></ul>
+		</div>
+    	<!-- APP PAGES -->
+    	<div data-role="page" id="signup">
+	 		<div class="ui-content">
+            	<form id="signup-form" name="signup_form">
+            		<p><a href="#login">Ya tienes cuenta?</a></p>
+            		<div class="param">
+            			<label for="first_name">Nombre</label>
+            			<input class="form-input" id="first_name" name="first_name" type="text" value="" placeholder="Nombre" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="last_name">Apellido</label>
+            			<input class="form-input" id="last_name" name="last_name" type="text" value="" placeholder="Apellido" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="email">Email</label>
+            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="direccion@email.com" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="pass">Contraseña deseada</label>
+            			<input class="form-input" id="pass" name="pass" type="password" value="" placeholder="Contraseña" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="pass">Repetir contraseña</label>
+            			<input class="form-input" id="pass1" name="pass1" type="password" value="" placeholder="Contraseña" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="clear"></div>
+            		<input id="sa-signup" type="submit" class="ui-btn submit-button" name="signup" value="Crear cuenta nueva" />
+            		<div class="clear"></div>
+            	</form>
+			</div>
+		</div>
+		<div data-role="page" id="signup-waiting">
+			<div class="ui-content">
+				<div class="alert info">
+					<h2>
+						<span class="sa-icon ti-info"></span>
+						Información recibida!
+					</h2>
+				</div>
+				<p class="bigger">Todos los nuevos usuarios necesitan ser aprobados por nuestro moderadores. Te notificaremos cuando has sido aprobado.</p>
+			</div>
+		</div>
+		<div data-role="page" id="signup-rejected">
+			<div class="ui-content">
+				<div class="alert error">
+					<h2>
+						<span class="sa-icon ti-alert"></span>
+						Cuenta no aprobada...
+					</h2>
+				</div>
+				<p class="bigger">Lastimosamente, no hemos podido verificar su información.</p>
+			</div>
+		</div>
+		<div data-role="page" id="login">
+	 		<div class="ui-content">
+            	<form id="login-form" name="login_form">
+            		<p><a href="#signup">Crear cuenta nueva.</a></p>
+            		<div class="param">
+            			<label for="user">Email</label>
+            			<input class="form-input" id="user" name="user" type="text" value="" placeholder="Email" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="pass">Contraseña</label>
+            			<input class="form-input" id="pass" name="pass" type="password" value="" placeholder="Contraseña" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="clear"></div>
+            		<input id="sa-login" type="submit" class="ui-btn submit-button" name="login" value="Ingresar" />
+            		<div class="clear"></div>
+            	</form>
+			</div>
+		</div>
+        <div data-role="page" id="news-feed">
+ 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
+ 				<div class="o1">
+            		<div id="sa-menu-button" class="top-button ti-menu"></div>
+            		<a id="sa-title" href="#calendar">
+           				<span id="sa-hebdate-date"></span>
+           				<span id="sa-hebdate-special"></span>
+           			</a>
+            		<div id="sa-settings-button" class="top-button ti-settings"></div>
+ 				</div>
+ 				<div class="o2">
+            		<div id="sa-zmanim">
+            			<div id="sa-zmanim-event">
+            				Test
+            			</div>
+            			<div id="sa-zmanim-scroll">
+            			
+            			</div>
+            		</div>
+ 				</div>
+        	</div>
+	 		<div class="ui-content">
+            	<p>Hello world</p>
+			</div>
+		</div>
+		<div data-role="page" id="events">
+ 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
+            	<h1>My Title</h1>
+        	</div>
+	 		<div class="ui-content">
+            	<p>Hello world</p>
+			</div><!-- /content -->
+	 		<div data-role="footer">
+				<h4>My Footer</h4>
+			</div>
+		</div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/telephonenumber.js"></script>
+        <script type="text/javascript" src="js/deviceinformation.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+        <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
+        <script type="text/javascript" src="js/hebcal.min.js"></script>
+        <script type="text/javascript" src="js/sha256.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
