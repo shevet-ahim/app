@@ -18,11 +18,6 @@ var app = {
     onDeviceReady: function() {
     	window.sa = new sa();
     	
-    	// testing
-    	setTimeout(function(){
-    		sa.loggedIn();
-    	},2000);
-    	
     	// get fallbacks for js functions
     	if (typeof atob == "undefined")
     		$.getScript("js/base64.min.js");
@@ -32,9 +27,10 @@ var app = {
 // ==== SA APP INSTANCE ====
 function sa(){
 	this.app_url = 'http://localhost/shevet_ahim/backend/htdocs/api.php';
+	this.signed_up = null;
 	this.session_id = null;
 	this.session_key = null;
-	this.session_status = false;
+	this.session_status = null;
 	this.hebdate = null;
 	this.position = null;
 	this.requests = {};
@@ -78,7 +74,38 @@ sa.prototype.init = function(){
 	});
 	$('#sa-form-errors').popup();
 	$("#sa-form-errors .errors").listview();
-	$("#sa-menu").panel();
+	$("#sa-menu").panel().on("panelbeforeopen",function(e,ui) {
+		$('.blur-copy > .contain').html($('.ui-page-active').html()).width($('.ui-page-active').width()).scrollTop($('.ui-page-active').scrollTop()).foggy({
+			blurRadius: 2,
+			cssFilterSupport: true,
+			opacity: 1,
+		}).children('.ui-header,.ui-content').width($('.ui-page-active').width());
+		$('.blur-copy .ui-content').css('margin-top',(parseFloat($('.blur-copy .ui-content').position().top) + parseFloat($('.ui-page-active').css('padding-top')) + 'px'));
+		$('.blur-copy .ui-header').css('top','0');
+	}).on("panelopen",function(e,ui) {
+		$('.blur-copy').fadeIn(200);
+		
+	}).on("panelbeforeclose",function(e,ui) {
+		$('.blur-copy').hide(0);
+	});
+	
+	setTimeout(function(){
+		$('#sa-hebdate-date').html(self.hebdate.toString());
+	},3000);
+	
+	// get stored session
+	this.signed_up = this.getItem('sa-signed-up');
+	this.session_id = this.getItem('sa-session-id');
+	this.session_key = this.getItem('sa-session-key');
+	this.session_status = this.getItem('sa-session-status');
+	
+	// initialize appropriate state
+	if (this.session_id && this.session_key && this.session_status == 'approved')
+		$.mobile.navigate("#news-feed");
+	if (this.session_id && this.session_key && this.session_status == 'pending')
+		$.mobile.navigate("#signup-waiting");
+	if (this.session_id && this.session_key && this.session_status == 'rejected')
+		$.mobile.navigate("#signup-rejected");
 }
 
 sa.prototype.signup = function(button){
@@ -99,6 +126,8 @@ sa.prototype.signup = function(button){
 					$.mobile.navigate("#signup-waiting");
 				if (result.User.signup.results[0] == 'approved')
 					self.login(null,info);
+				
+				self.setItem('sa-signed-up',true);
 			}
 		}
 		else
@@ -125,6 +154,10 @@ sa.prototype.login = function(button,info){
 				this.session_id = result.User.login.results[0].session_id;
 				this.session_key = result.User.login.results[0].session_key;
 				this.session_status = result.User.login.results[0].status;
+				self.setItem('sa-session-id',result.User.login.results[0].session_id);
+				self.setItem('sa-session-key',result.User.login.results[0].session_key);
+				self.setItem('sa-session-status',result.User.login.results[0].status);
+				self.setItem('sa-signed-up',true);
 				
 				if (this.session_status == 'approved') {
 					$.mobile.navigate("#news-feed");
@@ -140,11 +173,6 @@ sa.prototype.login = function(button,info){
 		else
 			self.displayErrors(['Problema de conexión!']);
 	});
-}
-
-sa.prototype.loggedIn = function(){
-	// initialize top bar
-	$('#sa-hebdate-date').html(this.hebdate.toString());
 }
 
 //==== SA APP UTILITIES ====
@@ -204,4 +232,41 @@ sa.prototype.displayErrors = function (errors,error_fields,button) {
 	
 	$("#sa-form-errors .errors").listview("refresh");
 	$('#sa-form-errors').popup('open');
+}
+
+sa.prototype.getItem = function (key) {
+	var item = window.localStorage.getItem(key);
+	if (!this.isJSON(item))
+		return null;
+	
+	return JSON.parse(item);
+}
+
+sa.prototype.setItem = function (key,value) {
+	try {
+		window.localStorage.setItem(key,JSON.stringify(value));
+		return true;
+	} 
+	catch (e) {
+		return false;
+	}
+}
+
+sa.prototype.removeItem = function (key) {
+	try {
+		window.localStorage.removeItem(key);
+		return true;
+	} 
+	catch (e) {
+		return false;
+	}
+}
+
+sa.prototype.isJSON = function (str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }

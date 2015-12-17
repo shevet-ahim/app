@@ -1,5 +1,4 @@
-/*
- *
+cordova.define("cordova-plugin-whitelist.whitelist", function(require, exports, module) { /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -19,10 +18,12 @@
  *
 */
 
-module.exports = {
-    id: 'ios',
-    bootstrap: function() {
-        require('cordova/channel').onNativeReady.fire();
-    }
-};
+if (!document.querySelector('meta[http-equiv=Content-Security-Policy]')) {
+    var msg = 'No Content-Security-Policy meta tag found. Please add one when using the cordova-plugin-whitelist plugin.';
+    console.error(msg);
+    setInterval(function() {
+        console.warn(msg);
+    }, 10000);
+}
 
+});

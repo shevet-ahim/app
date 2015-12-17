@@ -15,9 +15,23 @@
     <body>
     	<!-- PANEL -->
     	<div data-role="panel" id="sa-menu" data-position="left" data-display="overlay" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
-	        <a href="#" data-rel="close" class="sa-close">Close panel</a>
-	        <div class="ui-panel-inner">
-	        asdf
+	        
+	        <a href="#" data-rel="close" class="sa-close-popup ti-close"></a>
+	        <div class="sa-menu-inner">
+	        	<div class="sa-menu-title">ShevetApp</div>
+	        	<div class="sa-menu-menu">
+	        		<a href="#schedule">Horarios</a>
+	        		<a href="#events">Eventos</a>
+	        		<a href="#torah">Torah</a>
+	        		<a href="#shiurim">Shiurim</a>
+	        		<a href="#kashrut">Kashrut</a>
+	        		<a href="#kids">Niños</a>
+	        		<a href="#directory">Directorio</a>
+	        		<a href="#settings">Configuración</a>
+	        	</div>
+	        </div>
+	        <div class="blur-copy">
+	        	<div class="contain"></div>
 	        </div>
 		</div>
     	<!-- POPUPS -->
@@ -107,12 +121,12 @@
         <div data-role="page" id="news-feed">
  			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
  				<div class="o1">
-            		<div id="sa-menu-button" class="top-button ti-menu"></div>
+            		<a id="sa-menu-button" class="top-button ti-menu" href="#sa-menu"></a>
             		<a id="sa-title" href="#calendar">
            				<span id="sa-hebdate-date"></span>
            				<span id="sa-hebdate-special"></span>
            			</a>
-            		<div id="sa-settings-button" class="top-button ti-settings"></div>
+            		<a id="sa-settings-button" class="top-button ti-settings" href="#settings"></a>
  				</div>
  				<div class="o2">
             		<div id="sa-zmanim">
@@ -140,12 +154,24 @@
 				<h4>My Footer</h4>
 			</div>
 		</div>
-        <script type="text/javascript" src="cordova.js"></script>
+		<div data-role="page" id="settings">
+ 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
+            	<h1>My Title</h1>
+        	</div>
+	 		<div class="ui-content">
+            	<p>Hello world</p>
+			</div><!-- /content -->
+	 		<div data-role="footer">
+				<h4>My Footer</h4>
+			</div>
+		</div>
+		<script type="text/javascript" src="../platforms/android/platform_www/cordova.js"></script>
         <script type="text/javascript" src="js/telephonenumber.js"></script>
         <script type="text/javascript" src="js/deviceinformation.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
+        <script type="text/javascript" src="js/jquery.foggy.min.js"></script>
         <script type="text/javascript" src="js/hebcal.min.js"></script>
         <script type="text/javascript" src="js/sha256.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
