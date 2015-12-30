@@ -40,13 +40,14 @@
 	        <div class="sa-menu-inner">
 	        	<div class="sa-menu-title">ShevetApp</div>
 	        	<div class="sa-menu-menu">
-	        		<a href="#schedule">Horarios</a>
+	        		<a href="#zmanim">Horarios</a>
 	        		<a href="#events">Eventos</a>
 	        		<a href="#content">Torah</a>
-	        		<a href="#regular">Shiurim</a>
-	        		<a href="#products">Kashrut</a>
-	        		<a href="#kids">Niños</a>
+	        		<a href="#shiurim">Shiurim</a>
+	        		<a href="#kashrut">Kashrut</a>
+	        		<a id="sa-menu-kids" href="#kids">Niños</a>
 	        		<a href="#directory">Directorio</a>
+	        		<a href="#shlijim">Shlijim</a>
 	        		<a href="#settings">Configuración</a>
 	        		<a href="#logout">Salir</a>
 	        	</div>
@@ -88,10 +89,52 @@
 				<span class="p"></span>
 			</div>
 			<div class="img"></div>
+			<span class="status"><span class="sa-icon ti-alert"></span><span></span></span>
+			<div class="times">Horario: <span class="t"></span></div>
 			<div class="content"></div>
 			<a href="#" class="remind sa-add-reminder"><span class="ti-calendar"></span> Agregar a mi calendario.</a>
 			<div class="categories">Categorías: <span></span></div>
 		</div>
+		<li id="sa-shlijim-dummy" class="dummy sa-shlijim">
+			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
+		</li>
+		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
+			<h1 class="name"><span class="sa-icon"></span><span></span></h1>
+			<div class="img"></div>
+			<div class="status">Estatus: <span class="sa-icon"></span><span></span></div>
+			<div class="country">País: <span></span></div>
+			<div class="motivo">Motivo: <span></span></div>
+			<div class="num_estudiantes">Num. Estudiantes: <span></span></div>
+			<div class="comentarios">Comentarios:</div>
+			<div class="content"></div>
+		</div>
+		<div id="sa-schedule-dummy" class="dummy sa-schedule">
+			<h3 class="title"><a href="#" data-params=""></a></h3>
+			<div class="time">
+				<span class="t"></span>
+				<span class="p"></span>
+			</div>
+			<div class="times">
+				<span class="p"></span>
+				<span class="t"></span>
+			</div>
+			<a href="#" data-params="" class="more">Leer más</a>
+		</div>
+		<div id="sa-directory-dummy" class="dummy sa-directory">
+			<span class="sa-icon ti-alert"></span>
+			<h3 class="title"><a href="#" data-params=""></a></h3>
+			<div class="categories">Categorías: <span></span></div>
+			<div class="times">Horario: <span class="t"></span></div>
+			<a href="#" data-params="" class="more">Leer más</a>
+		</div>
+		<li id="sa-product-dummy" class="dummy sa-product tablist-right" data-role="collapsible" data-iconpos="right" data-shadow="false" data-corners="false">
+		    <h2></h2>
+		    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
+				<li class="status"><span class="sa-icon ti-alert"></span><span></span></li>
+				<li class="supervision">Supervision: <span></span></li>
+				<li class="updated">Actualizado: <span></span></li>
+		    </ul>
+		</li>
 		
 		<!-- HELPERS -->
 		<a id="sa-token-helper" class="token" href="#" data-params=""></a>
@@ -180,10 +223,62 @@
 		<div data-role="page" id="zmanim">
  			<div class="ui-content"></div>
 		</div>
+		<div data-role="page" id="shiurim">
+ 			<div class="ui-content"></div>
+		</div>
 		<div data-role="page" id="events">
  			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="events-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="kids">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="kids-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="content">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="content-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="kashrut">
+ 			<div class="ui-content">
+ 				<div data-role="tabs" id="tabs">
+					<div data-role="navbar">
+						<ul>
+							<li><a id="karshrut-restaurants-tab" href="#karshrut-restaurants" data-ajax="false" class="sa-tabs ui-btn-active">Restaurantes</a></li>
+							<li><a id="karshrut-products-tab" href="#kashrut-products" data-ajax="false" class="sa-tabs">Productos</a></li>
+						</ul>
+					</div>
+					<div id="karshrut-restaurants" class="ui-content">
+						
+					</div>
+					<div id="kashrut-products">
+						<ul class="sa-listview ui-listview-outer" data-role="listview" data-inset="true"></ul>
+					</div>
+				</div>
+ 			</div>
+		</div>
+		<div data-role="page" id="kashrut-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="directory">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="directory-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="shlijim">
+ 			<div class="ui-content">
+ 				<ul class="sa-listview" data-role="listview" data-inset="true">
+ 				
+ 				</ul>
+ 			</div>
+		</div>
+		<div data-role="page" id="shlijim-detail">
  			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="settings">

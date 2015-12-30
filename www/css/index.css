@@ -450,6 +450,106 @@ a.sa-close-popup {
 	
 }
 
+.sa-feed-post{
+	
+}
+.sa-feed-post .ago{
+	
+}
+.sa-feed-post .author{
+	
+}
+.sa-feed-post .author .p{
+	
+}
+.sa-feed-post .author .n{
+	
+}
+.sa-feed-post .title{
+	
+}
+.sa-feed-post .title a{
+	
+}
+.sa-feed-post .img{
+	
+}
+.sa-feed-post .img img{
+	
+}
+.sa-feed-post .time{
+	
+}
+.sa-feed-post .time .t{
+	
+}
+.sa-feed-post .time .p{
+	
+}
+.sa-feed-post .abstract{
+	text-overflow: ellipsis;
+    max-height: 300px;
+    overflow: hidden;
+}
+.sa-feed-post a.more{
+	
+}
+.sa-feed-post a.more:active{
+	
+}
+
+.sa-detail{
+	
+}
+.sa-detail .author{
+	
+}
+.sa-detail .author .p{
+	
+}
+.sa-detail .author .n{
+	
+}
+.sa-detail .title{
+	
+}
+.sa-detail .title a{
+	
+}
+.sa-detail .img{
+	
+}
+.sa-detail .img img{
+	
+}
+.sa-detail .time{
+	
+}
+.sa-detail .time .t{
+	
+}
+.sa-detail .time .p{
+	
+}
+.sa-detail .content{
+	
+}
+.sa-detail a.reminder{
+	
+}
+.sa-detail a.reminder:active{
+	
+}
+.sa-detail .categories span{
+	
+}
+a.token{
+	
+}
+a.token:active{
+	
+}
+
 .alert{
 	padding:10px;
 	-webkit-border-radius: 3px;
