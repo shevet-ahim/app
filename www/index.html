@@ -16,40 +16,135 @@
     	<!-- PANELS -->
     	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
 			<div class="o1">
-           		<a id="sa-menu-button" class="top-button ti-menu" href="#sa-menu"></a>
-           		<a id="sa-title" href="#calendar">
-          				<span id="sa-hebdate-date"></span>
-          				<span id="sa-hebdate-special"></span>
-          			</a>
-           		<a id="sa-settings-button" class="top-button ti-settings" href="#settings"></a>
+				<div class="contain">
+	           		<a id="sa-menu-button" class="top-button ti-menu" href="#sa-menu"></a>
+	           		<a id="sa-title" href="#calendar">
+	          				<span id="sa-hebdate-date"></span>
+	          				<span id="sa-hebdate-special"></span>
+	          			</a>
+	           		<a id="sa-settings-button" class="top-button ti-settings" href="#settings"></a>
+           		</div>
+           		<div class="bg"></div>
 			</div>
 			<div class="o2">
-           	<div id="sa-tefilot">
-           		<div id="sa-tefilot-event"></div>
-           		<div id="sa-tefilot-scroll">
-           				<div id="sa-tefila-dummy" class="dummy sa-tefila">
-           					<div class="p"></div>
-           					<div class="t"></div>
-           				</div>
-           			</div>
+				<div class="contain">
+	           		<div id="sa-tefilot">
+		           		<div id="sa-tefilot-event"></div>
+		           		<div id="sa-tefilot-scroll">
+	           				<div id="sa-tefila-dummy" class="dummy sa-tefila">
+	           					<div class="p"></div>
+	           					<div class="t"></div>
+	           				</div>
+	           			</div>
+	           		</div>
            		</div>
+           		<div class="bg"></div>
 			</div>
        	</div>
-    	<div data-role="panel" id="sa-menu" data-position="left" data-display="overlay" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
+    	<div data-role="panel" id="sa-menu" data-position="left" data-display="push" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
 	        <a href="#" data-rel="close" class="sa-close-popup ti-close"></a>
 	        <div class="sa-menu-inner">
 	        	<div class="sa-menu-title">ShevetApp</div>
 	        	<div class="sa-menu-menu">
-	        		<a href="#zmanim">Horarios</a>
-	        		<a href="#events">Eventos</a>
-	        		<a href="#content">Torah</a>
-	        		<a href="#shiurim">Shiurim</a>
-	        		<a href="#kashrut">Kashrut</a>
-	        		<a id="sa-menu-kids" href="#kids">Niños</a>
-	        		<a href="#directory">Directorio</a>
-	        		<a href="#shlijim">Shlijim</a>
-	        		<a href="#settings">Configuración</a>
-	        		<a href="#logout">Salir</a>
+	        		<a href="#news-feed">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-rss-alt sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">ShevetFeed</div>
+	        		</a>
+	        		<a href="#zmanim">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-time sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Horarios</div>
+	        		</a>
+	        		<a href="#events">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-agenda sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Eventos</div>
+	        		</a>
+	        		<a href="#content">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-book sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Torah</div>
+	        		</a>
+	        		<a href="#shiurim">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-volume sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Shiurim</div>
+	        		</a>
+	        		<a href="#kashrut">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-shopping-cart sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Kashrut</div>
+	        		</a>
+	        		<a id="sa-menu-kids" href="#kids">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-hand-open sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Niños</div>
+	        		</a>
+	        		<a href="#directory">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-world sa-icon"></span>
+		        				<div class="bg"></div>
+		        			</div>
+	        			</div>
+	        			<div class="menu-item">Directorio</div>
+	        		</a>
+	        		<a href="#shlijim">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+		        				<span class="ti-id-badge sa-icon"></span>
+		        				<div class="bg"></div>
+	        				</div>
+	        			</div>
+	        			<div class="menu-item">Shlijim</div>
+	        		</a>
+	        		<a href="#settings">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+	        					<span class="ti-settings sa-icon"></span>
+	        					<div class="bg"></div>
+	        				</div>
+	        			</div>
+	        			<div class="menu-item">Configuración</div>
+	        		</a>
+	        		<a href="#logout">
+	        			<div class="menu-icon">
+	        				<div class="contain">
+	        					<span class="ti-time sa-icon"></span>
+	        					<div class="bg"></div>
+	        				</div>
+	        			</div>
+	        			<div class="menu-item">Salir de cuenta</div>
+	        		</a>
 	        	</div>
 	        </div>
 		</div>
@@ -233,9 +328,6 @@
  			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="kids">
- 			<div class="ui-content"></div>
-		</div>
-		<div data-role="page" id="kids-detail">
  			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="content">

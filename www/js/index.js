@@ -135,7 +135,7 @@ sa.prototype.init = function(){
 					self.loadFeed();
 				}
 				else if (page == 'events')
-					self.loadEvents();
+					self.loadEvents(true);
 				else if (page == 'events-detail')
 					self.displayDetail();
 				else if (page == 'content')
@@ -143,9 +143,7 @@ sa.prototype.init = function(){
 				else if (page == 'content-detail')
 					self.displayDetail();
 				else if (page == 'kids')
-					self.loadContent();
-				else if (page == 'kids-detail')
-					self.displayDetail();
+					self.loadEvents(true,null,true);
 				else if (page == 'shiurim')
 					self.loadShiurim();
 				else if (page == 'zmanim')
@@ -287,7 +285,7 @@ sa.prototype.login = function(button,info){
 				else if (self.session.status == 'rejected')
 					$("body").pagecontainer("change","#signup-rejected");
 				
-				if (this.session.has_children == 'Y')
+				if (self.session.has_children == 'Y')
 					$('#sa-menu-kids').css('display','');
 				else
 					$('#sa-menu-kids').css('display','none');
@@ -316,6 +314,13 @@ sa.prototype.logout = function(){
 	this.removeItem('sa-content');
 	this.removeItem('sa-shiurim');
 	this.removeItem('sa-zmanim');
+	this.removeItem('sa-events-kids');
+	var event_cats = this.getItem('sa-events-cats');
+	if (event_cats && event_cats.length > 0) {
+		for (i in event_cats) {
+			this.removeItem('sa-events-' + event_cats[i]);
+		}
+	}
 }
 
 sa.prototype.loadTefilot = function(return_data){
@@ -441,13 +446,30 @@ sa.prototype.loadFeed = function(){
 	});
 }
 
-sa.prototype.loadEvents = function(){
-	var self = this;
-	var events = this.getItem('sa-events');
+sa.prototype.loadEvents = function(in_feed,category,for_kids,older){
 	var new_items = [];
 	var popups = [];
+	var key = category;
+	var sex = this.session.sex;
+	var age = this.session.age;
+	var page = 'events';
+	var category = (typeof category == 'undefined') ? null : category;
 	
-	this.addRequest('Events','get',[true,null,null,null,this.session.age,this.session.sex]);
+	if (for_kids) {
+		key = 'kids';
+		sex = null;
+		age = 1;
+		page = 'kids';
+	}
+	
+	var self = this;
+	var cats = this.getItem('sa-events-cats');
+	var events = this.getItem('sa-events' + (key ? '-' + key : ''));
+	
+	if ((!events || events.length == 0) && key != 'kids')
+		events = this.getItem('sa-events');
+	
+	this.addRequest('Events','get',[in_feed,category,null,null,age,sex]);
 	this.sendRequests(function(result){
 		// receive and parse events
 		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
@@ -459,6 +481,12 @@ sa.prototype.loadEvents = function(){
 		}
 		
 		events = (!events) ? [] : events;
+		if (key) {
+			events.filter(function(item) {
+				return item.key = key;
+			});
+		}
+		
 		if (new_items.length > 0) {
 			// sorting oldest first
 			new_items.sort(function(a,b) {
@@ -477,8 +505,14 @@ sa.prototype.loadEvents = function(){
 			}
 		}
 
-		self.displayFeed('events',events,null,['event']);
-		self.setItem('sa-events',events);
+		self.displayFeed(page,events,null,['event']);
+		self.setItem('sa-events' + (key ? '-' + key : ''),events);
+		
+		cats = (!cats) ? [] : cats;
+		if (key && cats.indexOf(key) < 0) {
+			cats.push(key);
+			self.setItem('sa-events-cats',cats);
+		}
 	});
 }
 
