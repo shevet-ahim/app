@@ -22,7 +22,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://localhost/shevet_ahim/backend/htdocs/api.php';
+	this.app_url = 'http://66.172.10.252/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -791,18 +791,35 @@ sa.prototype.displayFeed = function(page,feed,older,types,categories,topics){
 		
 		if (feed[i].type == 'event') {
 			url = 'events';
-			clone.find('.time .t').html(moment.unix(feed[i].timestamp).format('dddd h:mm A'));
-			clone.find('.time .p').html(feed[i].place);
+			clone.find('.time .t span:last').html(moment.unix(feed[i].timestamp).format('dddd h:mm A'));
+			clone.find('.time .p span:last').html(feed[i].place);
 			clone.find('.author').remove();
 		}
 		
 		if (feed[i].type == 'content') {
 			url = 'content';
-			clone.find('.author .n').html(feed[i].author_name).attr('href','mailto:' + feed[i].author_email);
 			clone.find('.time').remove();
+			
+			if (feed[i].author_name) {
+				clone.find('.author .n').html(feed[i].author_name).attr('href','mailto:' + feed[i].author_email);
+				clone.find('.author .a').html('...' + moment(feed[i].timestamp * 1000).locale('es').fromNow());
+				clone.find('.ago').remove();
+				
+				if (feed[i].author_img)
+					clone.find('.author .p').attr('src',this.app_url + '?image=' + feed[i].author_img);
+				else
+					clone.find('.author .p').remove();
+			}
+			else
+				clone.find('.author').remove();
 		}
 		
-		clone.find('.ago').html(moment(feed[i].timestamp * 1000).locale('es').fromNow());
+		if (feed[i].img)
+			clone.find('.img').attr('src',this.app_url + '?image=' + feed[i].img);
+		else
+			clone.find('.img').remove();
+		
+		clone.find('.ago').html('...' + moment(feed[i].timestamp * 1000).locale('es').fromNow());
 		clone.find('.title a').html(feed[i].title).attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type})));
 		clone.find('.more').attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type})));
 		clone.find('.abstract').html((feed[i]['abstract'] ? feed[i]['abstract'] : feed[i].content));
@@ -825,17 +842,18 @@ sa.prototype.displaySchedule = function(page,events){
 	for (i in events) {
 		var clone = dummy.clone();
 		var helper = clone.find('.times').clone();
+		clone.find('.times').remove();
 		clone.find('.title a').html(events[i].title);
 		
 		if (events[i].type == 'event') {
-			clone.find('.more').attr('href','#events-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:events[i].id, type:events[i].type})));
-			clone.find('.time .t').html(moment.unix(events[i].timestamp).format('h:mm A'));
-			clone.find('.time .p').html(events[i].place);
+			clone.find('.more').attr('href','#events-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:events[i].id, type:'shiurim'})));
+			clone.find('.time .t span:last').html(moment.unix(events[i].timestamp).format('h:mm A'));
+			clone.find('.time .p span:last').html(events[i].place);
 			clone.find('.times').remove();
 		}
 		else if (events[i].type == 'zman') {
-			clone.find('.time .t').html(moment.unix(events[i].timestamp).format('h:mm A'));
-			clone.find('.time .p').html(events[i].place);
+			clone.find('.time .t span:last').html(moment.unix(events[i].timestamp).format('h:mm A'));
+			clone.find('.time .p').remove();
 			clone.find('.times').remove();
 			clone.find('.more').remove();
 		}
@@ -843,7 +861,7 @@ sa.prototype.displaySchedule = function(page,events){
 			for (place in events[i].places) {
 				var h_clone = helper.clone();
 				h_clone.find('.p').html(place);
-				h_clone.find('.t').html(events[i].places[place].times.join(', '));
+				h_clone.find('.t span:last').html(events[i].places[place].times.join(', '));
 				clone.find('.title').after(h_clone);
 			}
 			
@@ -988,10 +1006,10 @@ sa.prototype.displayDirectory = function(directory,category){
 				times1.push(moment(time[0]).format('h:mm a') + ' - ' + moment(time[1]).format('h:mm a'));
 			}
 			
-			clone.find('.times .t').html(times1.join(', '));
+			clone.find('.times .t span:last').html(times1.join(', '));
 		}
 		else
-			clone.find('.times .t').html('No disponible.');
+			clone.find('.times .t span:last').html('No disponible.');
 		
 		if (category == 'restaurants') {
 			if (directory[i].warn != 'Y')
@@ -1004,7 +1022,7 @@ sa.prototype.displayDirectory = function(directory,category){
 					var topic = restaurant_categories[j].split('|');
 					var helper = $('#sa-token-helper').clone();
 					helper.html(topic[1]).attr('href','#kashrut').attr('data-params',encodeURIComponent(JSON.stringify({restaurant_type:topic[0], tab:'#kashrut-restaurants'})));
-					clone.find('.categories span').append(helper);
+					clone.find('.categories span:last').append(helper);
 				}
 			}
 		}
@@ -1033,6 +1051,9 @@ sa.prototype.displayDetail = function(){
 	else if (params.type == 'directory'){
 		query = 'directory-' + params.category;
 		page = (params.category == 'restaurants') ? 'kashrut' : page;
+	}
+	else if (params.type == 'shiurim'){
+		page = 'events';
 	}
 
 	if (!params.id || !params.type) {
@@ -1063,7 +1084,7 @@ sa.prototype.displayDetail = function(){
 	var clone = $('#sa-detail-dummy').clone();
 	var item = filtered[0];
 	if (item.type == 'event') {
-		clone.find('.ago').html(moment(item.timestamp * 1000).locale('es').fromNow());
+		clone.find('.ago').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
 		clone.find('.title').html(item.title);
 		clone.attr('id','');
 		
@@ -1072,8 +1093,8 @@ sa.prototype.displayDetail = function(){
 		else
 			clone.find('.content').remove();
 		
-		clone.find('.time .t').html(moment.unix(item.timestamp).format());
-		clone.find('.time .p').html(item.place);
+		clone.find('.time .t span:last').html(moment.unix(item.timestamp).format('dddd h:mm A'));
+		clone.find('.time .p span:last').html(item.place);
 		clone.find('.author').remove();
 		clone.find('.ago').remove();
 		clone.find('.times').remove();
@@ -1081,10 +1102,10 @@ sa.prototype.displayDetail = function(){
 		
 		var helper = $('#sa-token-helper').clone();
 		helper.html(item.category).attr('href','#events').attr('data-params',encodeURIComponent(JSON.stringify({category:item.key})));
-		clone.find('.categories span').append(helper);
+		clone.find('.categories span:last').append(helper);
 	}
 	else if (item.type == 'content') {
-		clone.find('.ago').html(moment(item.timestamp * 1000).locale('es').fromNow());
+		clone.find('.ago').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
 		clone.find('.title').html(item.title);
 		clone.attr('id','');
 		
@@ -1093,19 +1114,31 @@ sa.prototype.displayDetail = function(){
 		else
 			clone.find('.content').remove();
 		
-		clone.find('.author .n').html(item.author_name).attr('href','mailto:' + item.author_email);
 		clone.find('.time').remove();
 		clone.find('.remind').remove();
 		clone.find('.times').remove();
 		clone.find('.status').remove();
+		
+		if (item.author_name) {
+			clone.find('.author .n').html(item.author_name).attr('href','mailto:' + item.author_email);
+			clone.find('.author .a').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
+			clone.find('.ago').remove();
+			
+			if (item.author_img)
+				clone.find('.author .p').attr('src',this.app_url + '?image=' + item.author_img);
+			else
+				clone.find('.author .p').remove();
+		}
+		else
+			clone.find('.author').remove();
 
 		var topics = (typeof item.topics == 'string') ? item.topics.split(',') : []; 
-		if (topics.length > 0) {
+		if (topics.length > 0 && topics != '') {
 			for (i in topics) {
 				var topic = topics[i].split('|');
 				var helper = $('#sa-token-helper').clone();
 				helper.html(topic[1]).attr('href','#content').attr('data-params',encodeURIComponent(JSON.stringify({topics:[topic[0]]})));
-				clone.find('.categories span').append(helper);
+				clone.find('.categories span:last').append(helper);
 			}
 		}
 		else
@@ -1154,7 +1187,7 @@ sa.prototype.displayDetail = function(){
 					var topic = restaurant_categories[j].split('|');
 					var helper = $('#sa-token-helper').clone();
 					helper.html(topic[1]).attr('href','#kashrut').attr('data-params',encodeURIComponent(JSON.stringify({restaurant_type:topic[0], tab:'#kashrut-restaurants'})));
-					clone.find('.categories span').append(helper);
+					clone.find('.categories span:last').append(helper);
 				}
 			}
 			clone.find('.title').after(clone.find('.categories'));
@@ -1164,6 +1197,12 @@ sa.prototype.displayDetail = function(){
 			clone.find('.status').remove();
 		}
 	}
+	
+	if (item.img) {
+		clone.find('.img').attr('src',this.app_url + '?image=' + item.img);
+	}
+	else
+		clone.find('.img').remove();
 	
 	clone.removeClass('dummy');
 	$('#' + page + '-detail .ui-content').html('');
