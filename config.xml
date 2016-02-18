@@ -87,4 +87,5 @@
     </platform>
     <plugin name="TelephoneNumber" value="com.simonmacdonald.cordova.plugins.TelephoneNumber"/>
     <plugin name="DeviceInformation" value="com.vliesaputra.cordova.plugins.DeviceInformation"/>
+    <allow-navigation href="http://66.172.10.252/*" />
 </widget>

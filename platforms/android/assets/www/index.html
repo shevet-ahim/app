@@ -6,40 +6,294 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://66.172.10.252 data: gap: 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src * data:; img-src * data:; font-src * data:">
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.min.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.theme.min.css" />
         <link rel="stylesheet" type="text/css" href="css/themify-icons.css" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
         <title>ShevetApp</title>
     </head>
     <body>
-    	<!-- PANEL -->
-    	<div data-role="panel" id="sa-menu" data-position="left" data-display="overlay" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
-	        
+    	<!-- PANELS -->
+    	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
+			<div class="o1">
+				<div class="contain">
+	           		<a id="sa-menu-button" class="top-button ti-menu" href="#sa-menu"></a>
+	           		<a id="sa-title" href="#zmanim">
+	          				<span id="sa-hebdate-date"></span>
+	          				<span id="sa-hebdate-special"></span>
+	          			</a>
+	           		<a id="sa-settings-button" class="top-button ti-settings" href="#settings"></a>
+           		</div>
+           		<div class="bg"></div>
+			</div>
+			<div class="o2">
+				<div class="contain">
+	           		<div id="sa-tefilot">
+		           		<div id="sa-tefilot-event"></div>
+		           		<div id="sa-tefilot-scroll">
+	           				<div id="sa-tefila-dummy" class="dummy sa-tefila">
+	           					<div class="p"></div>
+	           					<div class="t"></div>
+	           				</div>
+	           			</div>
+	           		</div>
+           		</div>
+           		<div class="bg"><div></div></div>
+			</div>
+       	</div>
+    	<div data-role="panel" id="sa-menu" data-position="left" data-display="push" data-theme="a" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open">
 	        <a href="#" data-rel="close" class="sa-close-popup ti-close"></a>
 	        <div class="sa-menu-inner">
-	        	<div class="sa-menu-title">ShevetApp</div>
+	        	<div class="sa-menu-title">
+	        		<div class="contain1">logo</div>
+	        		<div class="bg1"></div>
+	        	</div>
 	        	<div class="sa-menu-menu">
-	        		<a href="#schedule">Horarios</a>
-	        		<a href="#events">Eventos</a>
-	        		<a href="#torah">Torah</a>
-	        		<a href="#shiurim">Shiurim</a>
-	        		<a href="#kashrut">Kashrut</a>
-	        		<a href="#kids">Niños</a>
-	        		<a href="#directory">Directorio</a>
-	        		<a href="#settings">Configuración</a>
+	        		<div class="contain1">
+		        		<a href="#news-feed">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-rss-alt sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">ShevetFeed</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#zmanim">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-time sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Horarios</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#events">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-agenda sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Eventos</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#content">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-book sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Torah</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#shiurim">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-volume sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Shiurim</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#kashrut">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-shopping-cart sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Kashrut</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a id="sa-menu-kids" href="#kids">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-hand-open sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Niños</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#directory">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-world sa-icon"></span>
+			        				<div class="bg"></div>
+			        			</div>
+		        			</div>
+		        			<div class="menu-item">Directorio</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#shlijim">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+			        				<span class="ti-id-badge sa-icon"></span>
+			        				<div class="bg"></div>
+		        				</div>
+		        			</div>
+		        			<div class="menu-item">Shlijim</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#settings">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+		        					<span class="ti-settings sa-icon"></span>
+		        					<div class="bg"></div>
+		        				</div>
+		        			</div>
+		        			<div class="menu-item">Configuración</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#logout">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+		        					<span class="ti-power-off sa-icon"></span>
+		        					<div class="bg"></div>
+		        				</div>
+		        			</div>
+		        			<div class="menu-item">Salir de cuenta</div>
+		        		</a>
+	        		</div>
+	        		<div class="bg1"></div>
 	        	</div>
 	        </div>
-	        <div class="blur-copy">
-	        	<div class="contain"></div>
-	        </div>
 		</div>
+		
     	<!-- POPUPS -->
 		<div data-role="popup" id="sa-form-errors" class="popup-full sa-errors">
 			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
 			<h3>Un pequeño problema...</h3>
 			<ul data-role="listview" class="sa-items errors"></ul>
 		</div>
+		
+		<!-- DUMMIES -->
+		<div id="sa-feed-dummy" class="dummy sa-feed-post">
+			<div class="ago"></div>
+			<div class="author">
+				<img class="p" src="" />
+				<div class="i">
+					<a href="#" class="n"></a>
+					<div class="a"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<h3 class="title"><a href="#" data-params=""></a></h3>
+			<img class="img" src="">
+			<div class="time">
+				<span class="t">
+					<span class="ti-calendar sa-icon"></span>
+					<span></span>
+				</span>
+				<span class="p">
+					<span class="ti-location-pin sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
+			<div class="abstract"></div>
+			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
+		</div>
+		<div id="sa-detail-dummy" class="dummy sa-detail">
+			<h1 class="title"></h1>
+			<div class="author">
+				<img class="p" src="" />
+				<div class="i">
+					<a href="#" class="n"></a>
+					<div class="a"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="ago"></div>
+			<div class="time">
+				<span class="t">
+					<span class="ti-calendar sa-icon"></span>
+					<span></span>
+				</span>
+				<span class="p">
+					<span class="ti-location-pin sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
+			<img class="img" src="" />
+			<span class="status"><span class="sa-icon ti-alert"></span><span></span></span>
+			<div class="times">Horario: <span class="t"></span></div>
+			<div class="content"></div>
+			<a href="#" class="remind sa-add-reminder"><span class="ti-calendar sa-icon"></span> Agregar a mi calendario.</a>
+			<div class="categories"><span class="ti-tag sa-icon"></span> Categorías: <span class="tokens"></span></div>
+		</div>
+		<li id="sa-shlijim-dummy" class="dummy sa-shlijim">
+			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
+		</li>
+		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
+			<h1 class="name"><span class="sa-icon"></span><span></span></h1>
+			<div class="img"></div>
+			<div class="status">Estatus: <span class="sa-icon"></span><span></span></div>
+			<div class="country">País: <span></span></div>
+			<div class="motivo">Motivo: <span></span></div>
+			<div class="num_estudiantes">Num. Estudiantes: <span></span></div>
+			<div class="comentarios">Comentarios:</div>
+			<div class="content"></div>
+		</div>
+		<div id="sa-schedule-dummy" class="dummy sa-schedule">
+			<h3 class="title">
+				<a href="#" data-params=""></a>
+				<div class="bg"></div>
+			</h3>
+			<div class="time">
+				<span class="t">
+					<span class="ti-time sa-icon"></span>
+					<span></span>
+				</span>
+				<span class="p">
+					<span class="ti-location-pin sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
+			<div class="times">
+				<span class="p"></span>
+				<span class="t">
+					<span class="ti-time sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
+			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
+		</div>
+		<div id="sa-directory-dummy" class="dummy sa-directory">
+			<span class="sa-icon ti-alert"></span>
+			<h3 class="title">
+				<a href="#" data-params=""></a>
+				<div class="bg"></div>
+			</h3>
+			<div class="categories"><span class="ti-calendar sa-icon"></span> Categorías: <span class="tokens"></span></div>
+			<div class="times">
+				<span class="p">Horario:</span>
+				<span class="t">
+					<span class="ti-time sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
+			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
+		</div>
+		<li id="sa-product-dummy" class="dummy sa-product tablist-right" data-role="collapsible" data-iconpos="right" data-shadow="false" data-corners="false">
+		    <h2></h2>
+		    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
+				<li class="status"><span class="sa-icon ti-alert"></span><span></span></li>
+				<li class="supervision">Supervision: <span></span></li>
+				<li class="updated">Actualizado: <span></span></li>
+		    </ul>
+		</li>
+		
+		<!-- HELPERS -->
+		<a id="sa-token-helper" class="token" href="#" data-params=""></a>
+		
     	<!-- APP PAGES -->
     	<div data-role="page" id="signup">
 	 		<div class="ui-content">
@@ -118,62 +372,105 @@
             	</form>
 			</div>
 		</div>
-        <div data-role="page" id="news-feed">
- 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
- 				<div class="o1">
-            		<a id="sa-menu-button" class="top-button ti-menu" href="#sa-menu"></a>
-            		<a id="sa-title" href="#calendar">
-           				<span id="sa-hebdate-date"></span>
-           				<span id="sa-hebdate-special"></span>
-           			</a>
-            		<a id="sa-settings-button" class="top-button ti-settings" href="#settings"></a>
- 				</div>
- 				<div class="o2">
-            		<div id="sa-zmanim">
-            			<div id="sa-zmanim-event">
-            				Test
-            			</div>
-            			<div id="sa-zmanim-scroll">
-            			
-            			</div>
-            		</div>
- 				</div>
-        	</div>
-	 		<div class="ui-content">
-            	<p>Hello world</p>
-			</div>
+        <div data-role="page" id="news-feed" class="sa-feed">
+        	<div class="bg"></div>
+	 		<div class="ui-content"></div>
 		</div>
-		<div data-role="page" id="events">
- 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
-            	<h1>My Title</h1>
-        	</div>
-	 		<div class="ui-content">
-            	<p>Hello world</p>
-			</div><!-- /content -->
-	 		<div data-role="footer">
-				<h4>My Footer</h4>
-			</div>
+		<div data-role="page" id="zmanim" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="shiurim" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="events" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="events-detail" class="sa-item-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="kids" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="content" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="content-detail" class="sa-item-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="kashrut" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content">
+ 				<div data-role="tabs" id="tabs">
+					<div data-role="navbar">
+						<ul>
+							<li><a id="karshrut-restaurants-tab" href="#karshrut-restaurants" data-ajax="false" class="sa-tabs ui-btn-active">Restaurantes</a></li>
+							<li><a id="karshrut-products-tab" href="#kashrut-products" data-ajax="false" class="sa-tabs">Productos</a></li>
+						</ul>
+					</div>
+					<div id="karshrut-restaurants" class="ui-content">
+						
+					</div>
+					<div id="kashrut-products">
+						<ul class="sa-listview ui-listview-outer" data-role="listview" data-inset="true"></ul>
+					</div>
+				</div>
+ 			</div>
+		</div>
+		<div data-role="page" id="kashrut-detail" class="sa-item-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="directory" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="directory-detail" class="sa-item-detail">
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="shlijim" class="sa-feed">
+			<div class="bg"></div>
+ 			<div class="ui-content">
+ 				<ul class="sa-listview" data-role="listview" data-inset="true">
+ 				
+ 				</ul>
+ 			</div>
+		</div>
+		<div data-role="page" id="shlijim-detail" class="sa-item-detail">
+ 			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="settings">
- 			<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
-            	<h1>My Title</h1>
-        	</div>
-	 		<div class="ui-content">
-            	<p>Hello world</p>
-			</div><!-- /content -->
-	 		<div data-role="footer">
-				<h4>My Footer</h4>
+ 			<div class="ui-content"></div>
+		</div>
+		<div data-role="page" id="logout">
+ 			<div class="ui-content">
+				<div class="alert info">
+					<h2>
+						<span class="sa-icon ti-info"></span>
+						Hasta luego!
+					</h2>
+				</div>
+				<p class="bigger">Su sesión ha sido cerrada.</p>
+				<a class="ui-btn submit-button" href="#login">Ingresar</a>
+				<a class="ui-btn submit-button" href="#signup">Registrar Cuenta</a>
 			</div>
 		</div>
-		<script type="text/javascript" src="../platforms/android/platform_www/cordova.js"></script>
-        <script type="text/javascript" src="js/telephonenumber.js"></script>
-        <script type="text/javascript" src="js/deviceinformation.js"></script>
+		<script type="text/javascript" src="cordova.js"></script>
+        <!--  script type="text/javascript" src="js/telephonenumber.js"></script -->
+        <!-- script type="text/javascript" src="js/deviceinformation.js"></script -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
-        <script type="text/javascript" src="js/jquery.foggy.min.js"></script>
+        <!--  script type="text/javascript" src="js/jquery.foggy.min.js"></script -->
+        <script type="text/javascript" src="js/async.js"></script>
         <script type="text/javascript" src="js/hebcal.min.js"></script>
-        <script type="text/javascript" src="js/sha256.js"></script>
+        <script type="text/javascript" src="js/hmac-sha256.js"></script>
+        <script type="text/javascript" src="js/cipher-core-min.js"></script>
+        <script type="text/javascript" src="js/enc-utf16-min.js"></script>
+        <script type="text/javascript" src="js/enc-base64-min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
