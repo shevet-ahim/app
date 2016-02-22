@@ -32,10 +32,10 @@
 	           		<div id="sa-tefilot">
 		           		<div id="sa-tefilot-event"></div>
 		           		<div id="sa-tefilot-scroll">
-	           				<div id="sa-tefila-dummy" class="dummy sa-tefila">
-	           					<div class="p"></div>
-	           					<div class="t"></div>
-	           				</div>
+	           				<a id="sa-tefila-dummy" class="dummy sa-tefila">
+	           					<span class="p"></span>
+	           					<span class="t"></span>
+	           				</a>
 	           			</div>
 	           		</div>
            		</div>
@@ -46,7 +46,9 @@
 	        <a href="#" data-rel="close" class="sa-close-popup ti-close"></a>
 	        <div class="sa-menu-inner">
 	        	<div class="sa-menu-title">
-	        		<div class="contain1">logo</div>
+	        		<div class="contain1">
+	        			<img class="logo" src="img/logo_dark.png" />
+	        		</div>
 	        		<div class="bg1"></div>
 	        	</div>
 	        	<div class="sa-menu-menu">
@@ -171,6 +173,13 @@
 			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
 			<h3>Un pequeño problema...</h3>
 			<ul data-role="listview" class="sa-items errors"></ul>
+			<input data-rel="back" type="submit" class="ui-btn ui-icon-check ui-btn-icon-left submit-button ti-close" name="close" value="OK" />
+		</div>
+		<div data-role="popup" id="sa-form-messages" class="popup-full sa-messages">
+			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
+			<h3>Información Actualizada</h3>
+			<ul data-role="listview" class="sa-items messages"></ul>
+			<input data-rel="back" type="submit" class="ui-btn ui-icon-check ui-btn-icon-left submit-button ti-close" name="close" value="OK" />
 		</div>
 		
 		<!-- DUMMIES -->
@@ -224,7 +233,13 @@
 			</div>
 			<img class="img" src="" />
 			<span class="status"><span class="sa-icon ti-alert"></span><span></span></span>
-			<div class="times">Horario: <span class="t"></span></div>
+			<div class="times">
+				<span class="p">Horario:</span>
+				<span class="t">
+					<span class="ti-time sa-icon"></span>
+					<span></span>
+				</span>
+			</div>
 			<div class="content"></div>
 			<a href="#" class="remind sa-add-reminder"><span class="ti-calendar sa-icon"></span> Agregar a mi calendario.</a>
 			<div class="categories"><span class="ti-tag sa-icon"></span> Categorías: <span class="tokens"></span></div>
@@ -233,13 +248,13 @@
 			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
 		</li>
 		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
-			<h1 class="name"><span class="sa-icon"></span><span></span></h1>
-			<div class="img"></div>
-			<div class="status">Estatus: <span class="sa-icon"></span><span></span></div>
-			<div class="country">País: <span></span></div>
-			<div class="motivo">Motivo: <span></span></div>
-			<div class="num_estudiantes">Num. Estudiantes: <span></span></div>
-			<div class="comentarios">Comentarios:</div>
+			<h1 class="name"><span></span></h1>
+			<img class="img" src="" />
+			<div class="status"><u>Estatus:</u> <span class="sa-icon"></span><span></span></div>
+			<div class="country status"><u>País:</u> <span></span></div>
+			<div class="motivo status"><u>Motivo:</u> <span></span></div>
+			<div class="num_estudiantes status"><u>Num. Estudiantes:</u> <span></span></div>
+			<div class="comentarios status"><u>Comentarios:</u></div>
 			<div class="content"></div>
 		</div>
 		<div id="sa-schedule-dummy" class="dummy sa-schedule">
@@ -286,19 +301,26 @@
 		    <h2></h2>
 		    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
 				<li class="status"><span class="sa-icon ti-alert"></span><span></span></li>
-				<li class="supervision">Supervision: <span></span></li>
-				<li class="updated">Actualizado: <span></span></li>
+				<li class="supervision"><u>Supervision:</u> <span></span></li>
+				<li class="updated"><u>Actualizado:</u> <span></span></li>
 		    </ul>
 		</li>
 		
 		<!-- HELPERS -->
-		<a id="sa-token-helper" class="token" href="#" data-params=""></a>
+		<a id="sa-token-helper" href="#" class="token" data-params=""></a>
+		<img id="sa-loading-helper" class="sa-loading" src="img/ajax-loader.gif">
 		
     	<!-- APP PAGES -->
-    	<div data-role="page" id="signup">
+    	<div data-role="page" id="signup" class="outside">
 	 		<div class="ui-content">
+	 			<img class="logo" src="img/logo_white.png" />
             	<form id="signup-form" name="signup_form">
             		<p><a href="#login">Ya tienes cuenta?</a></p>
+            		<div class="param">
+            			<label for="email">Email</label>
+            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="direccion@email.com" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
             		<div class="param">
             			<label for="first_name">Nombre</label>
             			<input class="form-input" id="first_name" name="first_name" type="text" value="" placeholder="Nombre" />
@@ -307,11 +329,6 @@
             		<div class="param">
             			<label for="last_name">Apellido</label>
             			<input class="form-input" id="last_name" name="last_name" type="text" value="" placeholder="Apellido" />
-            			<div class="input-status ti-alert"></div>
-            		</div>
-            		<div class="param">
-            			<label for="email">Email</label>
-            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="direccion@email.com" />
             			<div class="input-status ti-alert"></div>
             		</div>
             		<div class="param">
@@ -329,8 +346,9 @@
             		<div class="clear"></div>
             	</form>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="signup-waiting">
+		<div data-role="page" id="signup-waiting" class="outside">
 			<div class="ui-content">
 				<div class="alert info">
 					<h2>
@@ -338,10 +356,14 @@
 						Información recibida!
 					</h2>
 				</div>
-				<p class="bigger">Todos los nuevos usuarios necesitan ser aprobados por nuestro moderadores. Te notificaremos cuando has sido aprobado.</p>
+				<p class="bigger">Todos los nuevos usuarios necesitan ser aprobados por nuestro moderadores. El app ingresará a su cuenta automáticamente cuando su cuenta se apruebe.</p>
+				<div class="clear"></div>
+	            <input type="submit" class="logout ui-btn submit-button" id="logout1" name="logout" value="Salir de cuenta" />
+	            <div class="clear"></div>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="signup-rejected">
+		<div data-role="page" id="signup-rejected" class="outside">
 			<div class="ui-content">
 				<div class="alert error">
 					<h2>
@@ -350,15 +372,20 @@
 					</h2>
 				</div>
 				<p class="bigger">Lastimosamente, no hemos podido verificar su información.</p>
+				<div class="clear"></div>
+	            <input type="submit" class="logout ui-btn submit-button" id="logout2"  value="Salir de cuenta" />
+	            <div class="clear"></div>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="login">
+		<div data-role="page" id="login" class="outside">
 	 		<div class="ui-content">
+	 			<img class="logo" src="img/logo_white.png" />
             	<form id="login-form" name="login_form">
             		<p><a href="#signup">Crear cuenta nueva.</a></p>
             		<div class="param">
-            			<label for="user">Email</label>
-            			<input class="form-input" id="user" name="user" type="text" value="" placeholder="Email" />
+            			<label for="email">Email</label>
+            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="Email" />
             			<div class="input-status ti-alert"></div>
             		</div>
             		<div class="param">
@@ -371,6 +398,7 @@
             		<div class="clear"></div>
             	</form>
 			</div>
+			<div class="bg"></div>
 		</div>
         <div data-role="page" id="news-feed" class="sa-feed">
         	<div class="bg"></div>
@@ -408,8 +436,8 @@
  				<div data-role="tabs" id="tabs">
 					<div data-role="navbar">
 						<ul>
-							<li><a id="karshrut-restaurants-tab" href="#karshrut-restaurants" data-ajax="false" class="sa-tabs ui-btn-active">Restaurantes</a></li>
-							<li><a id="karshrut-products-tab" href="#kashrut-products" data-ajax="false" class="sa-tabs">Productos</a></li>
+							<li><a id="karshrut-restaurants-tab" href="#karshrut-restaurants" data-ajax="false" class="sa-tabs ui-btn-active"><span class="sa-icon ti-heart"></span> Restaurantes</a></li>
+							<li><a id="karshrut-products-tab" href="#kashrut-products" data-ajax="false" class="sa-tabs"><span class="sa-icon ti-shopping-cart"></span> Productos</a></li>
 						</ul>
 					</div>
 					<div id="karshrut-restaurants" class="ui-content">
@@ -443,7 +471,79 @@
  			<div class="ui-content"></div>
 		</div>
 		<div data-role="page" id="settings">
- 			<div class="ui-content"></div>
+ 			<div class="ui-content">
+ 				<div class="sa-detail sa-settings">
+ 					<h1 class="title">Configuración</h1>
+					<form id="settings-personal-form" name="settings_personal_form">
+	            		<div class="param">
+	            			<label for="first_name">Nombre</label>
+	            			<input class="form-input" id="first_name" name="first_name" type="text" value="" placeholder="Nombre" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="last_name">Apellido</label>
+	            			<input class="form-input" id="last_name" name="last_name" type="text" value="" placeholder="Apellido" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="email">Email</label>
+	            			<input class="form-input" id="email" name="email" type="email" value="" placeholder="direccion@email.com" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="tel">Teléfono</label>
+	            			<input class="form-input" id="tel" name="tel" type="text" value="" placeholder="0000-0000" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="age">Edad</label>
+	            			<input class="form-input form-number" id="age" name="age" type="number" value="" placeholder="0" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="sex">Sexo</label>
+	            			<select class="form-input" id="sex" name="sex"></select>
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="has_children">Tengo niños pequeños</label>
+	            			<input class="form-input form-checkbox" id="has_children" name="has_children" type="checkbox" value="1" checked="" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="push_notifications">Recibir notificaciones de contenido y eventos nuevos</label>
+	            			<input class="form-input form-checkbox" id="push_notifications" name="push_notifications" type="checkbox" value="1" checked="" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="clear"></div>
+	            		<input id="sa-settings-submit" type="submit" class="ui-btn submit-button" name="settings-submit" value="Guardar Configuración" />
+		            	<div class="clear"></div>
+	            	</form>
+ 				</div>
+ 				<div class="sa-detail sa-settings">
+ 					<h1 class="title">Cambiar Contraseña</h1>
+					<form id="settings-password-form" name="settings_password_form">
+						<div class="param">
+	            			<label for="current-pass">Contraseña actual</label>
+	            			<input class="form-input" id="current-pass" name="current_pass" type="password" value="" placeholder="Contraseña actual" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="pass">Contraseña nueva</label>
+	            			<input class="form-input" id="pass" name="pass" type="password" value="" placeholder="Contraseña nueva" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
+	            			<label for="pass">Repetir contraseña nueva</label>
+	            			<input class="form-input" id="pass1" name="pass1" type="password" value="" placeholder="Repetir contraseña nueva" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="clear"></div>
+	            		<input id="sa-password-submit" type="submit" class="ui-btn submit-button" name="password-submit" value="Cambiar Contraseña" />
+		            	<div class="clear"></div>
+	            	</form>
+ 				</div>
+ 			</div>
 		</div>
 		<div data-role="page" id="logout">
  			<div class="ui-content">
@@ -458,13 +558,13 @@
 				<a class="ui-btn submit-button" href="#signup">Registrar Cuenta</a>
 			</div>
 		</div>
+		<div id="sa-waypoint"></div>
 		<script type="text/javascript" src="cordova.js"></script>
         <!--  script type="text/javascript" src="js/telephonenumber.js"></script -->
         <!-- script type="text/javascript" src="js/deviceinformation.js"></script -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
-        <!--  script type="text/javascript" src="js/jquery.foggy.min.js"></script -->
         <script type="text/javascript" src="js/async.js"></script>
         <script type="text/javascript" src="js/hebcal.min.js"></script>
         <script type="text/javascript" src="js/hmac-sha256.js"></script>

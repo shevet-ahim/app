@@ -33,12 +33,14 @@ function sa(){
 	this.session.age = null;
 	this.session.sex = null;
 	this.session.has_children = null;
+	this.session.push_notifications = null;
 	
 	// app properties
 	this.hebdate = null;
 	this.position = null;
 	this.requests = {};
 	this.params = {};
+	this.cfg = {};
 	
 	// feed cache
 	this.feed = [];
@@ -104,9 +106,33 @@ sa.prototype.init = function(){
 			$(document).on('click','.sa-close-popup',function(e){
 				$(this).parents('.popup-full').find('.sa-items').html('');
 			});
+			$(document).on('click','#sa-settings-submit',function(e) {
+				self.saveSettings(this);
+				e.preventDefault();
+			});
+			$(document).on('click','#sa-password-submit',function(e) {
+				self.savePassword(this);
+				e.preventDefault();
+			});
+			$(document).on('click','#logout1,#logout2',function(){
+				self.logout();
+				$("body").pagecontainer("change","#logout");
+			});
+			$(document).on('click','.ui-input-btn',function(){
+				$(this).append($('#sa-loading-helper').clone().attr('id',''));
+			});
+			
 			$('#sa-top-nav').toolbar();
 			$('#sa-form-errors').popup();
 			$("#sa-form-errors .errors").listview();
+			$('#sa-form-errors .submit-button').button().click(function(){
+				$('#sa-form-errors').popup('close');
+			});
+			$('#sa-form-messages').popup();
+			$("#sa-form-messages .messages").listview();
+			$('#sa-form-messages .submit-button').button().click(function(){
+				$('#sa-form-messages').popup('close');
+			});
 			$("#sa-menu").panel();
 			
 			// page load events
@@ -117,6 +143,7 @@ sa.prototype.init = function(){
 				if (page == 'news-feed') {
 					self.loadTefilot();
 					self.loadFeed();
+					self.loadSettings();
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -149,10 +176,10 @@ sa.prototype.init = function(){
 				}
 				else if (page == 'kashrut-detail')
 					self.displayDetail();
+				else if (page == 'settings')
+					self.displaySettings();
 				else if (page == 'logout')
 					self.logout();
-				
-				
 			});
 			
 			// resize external panel
@@ -172,7 +199,15 @@ sa.prototype.init = function(){
 			setInterval(function() {
 				self.updateHdate();
 				self.loadTefilot();
-			},300000);
+				self.loadSettings();
+			},30000);
+			
+			setInterval(function() {
+			    var this_top = $(document).scrollTop();
+			    var this_height = $(document).height();
+			   
+			   // console.log(this_top,this_height)
+			}, 250);
 			
 			callback();
 		},
@@ -185,6 +220,7 @@ sa.prototype.init = function(){
 			this.session.age = this.getItem('sa-session-age');
 			this.session.sex = this.getItem('sa-session-sex');
 			this.session.has_children = this.getItem('sa-session-has-children');
+			this.session.push_notifications = this.getItem('sa-session-push-notifications');
 			
 			// initialize appropriate state
 			if (this.session.id && this.session.key && this.session.status == 'approved') {
@@ -212,9 +248,9 @@ sa.prototype.init = function(){
 			}
 			
 			if (this.session.has_children == 'Y')
-				$('#sa-menu-kids').css('display','');
+				$('#sa-menu-kids').css('display','').prev('.line').css('display','');
 			else
-				$('#sa-menu-kids').css('display','none');
+				$('#sa-menu-kids').css('display','none').prev('.line').css('display','none');
 			
 			callback();
 		}.bind(this)
@@ -270,6 +306,7 @@ sa.prototype.login = function(button,info){
 				self.setProp(['session','age'],result.User.login.results[0].age);
 				self.setProp(['session','sex'],result.User.login.results[0].sex);
 				self.setProp(['session','has_children'],result.User.login.results[0].has_children);
+				self.setProp(['session','push_notifications'],result.User.login.results[0].push_notifications);
 				
 				self.setItem('sa-signed-up',true);
 				self.setItem('sa-session-id',result.User.login.results[0].session_id);
@@ -278,6 +315,7 @@ sa.prototype.login = function(button,info){
 				self.setItem('sa-session-age',result.User.login.results[0].age);
 				self.setItem('sa-session-sex',result.User.login.results[0].sex);
 				self.setItem('sa-session-has-children',result.User.login.results[0].has_children);
+				self.setItem('sa-session-push-notifications',result.User.login.results[0].push_notifications);
 				
 				if (self.session.status == 'approved')
 					$("body").pagecontainer("change","#news-feed");
@@ -290,6 +328,59 @@ sa.prototype.login = function(button,info){
 					$('#sa-menu-kids').css('display','');
 				else
 					$('#sa-menu-kids').css('display','none');
+			}
+		}
+		else
+			self.displayErrors(['Problema de conexión!']);
+	});
+}
+
+sa.prototype.saveSettings = function(button){
+	var self = this;
+	var info = this.condenseForm($(button).parents('form').serializeArray());
+	
+	self.setProp(['session','age'],info.age);
+	self.setProp(['session','sex'],info.sex);
+	self.setProp(['session','has_children'],info.has_children);
+	self.setProp(['session','push_notifications'],info.push_notifications);
+	
+	self.setItem('sa-session-age',info.age);
+	self.setItem('sa-session-sex',info.sex);
+	self.setItem('sa-session-has-children',info.has_children);
+	self.setItem('sa-session-push-notifications',info.push_notifications);
+	
+	this.addRequest('User','saveSettings',[info]);
+	this.sendRequests(function(result){
+		if (typeof result.User.saveSettings.results[0] != 'undefined') {
+			if (typeof result.User.saveSettings.results[0].errors != 'undefined') {
+				var errors = result.User.saveSettings.results[0].errors;
+				var error_fields = result.User.saveSettings.results[0].error_fields;
+				self.displayErrors(errors,error_fields,button);
+			}
+			else if (result.User.saveSettings.results[0]) {
+				self.displayMessages(result.User.saveSettings.results[0].messages,button);
+				self.loadSettings();
+			}
+		}
+		else
+			self.displayErrors(['Problema de conexión!']);
+	});
+}
+
+sa.prototype.savePassword = function(button){
+	var self = this;
+	var info = this.condenseForm($(button).parents('form').serializeArray());
+	
+	this.addRequest('User','savePassword',[info]);
+	this.sendRequests(function(result){
+		if (typeof result.User.savePassword.results[0] != 'undefined') {
+			if (typeof result.User.savePassword.results[0].errors != 'undefined') {
+				var errors = result.User.savePassword.results[0].errors;
+				var error_fields = result.User.savePassword.results[0].error_fields;
+				self.displayErrors(errors,error_fields,button);
+			}
+			else if (result.User.savePassword.results[0]) {
+				self.displayMessages(result.User.savePassword.results[0].messages,button);
 			}
 		}
 		else
@@ -446,6 +537,40 @@ sa.prototype.loadFeed = function(){
 		self.setItem('sa-feed',feed);
 		self.setItem('sa-events',events);
 		self.setItem('sa-content',content);
+	});
+}
+
+sa.prototype.loadSettings = function(){
+	var self = this;
+	this.addRequest('Settings','getForApp',[]);
+	this.sendRequests(function(result){
+		if (typeof result.Settings.getForApp.results[0] != 'undefined' && result.Settings.getForApp.results[0]) {
+			var results = result.Settings.getForApp.results[0];
+			var initial_status = results.user.status;
+			self.setProp('cfg',results);
+			self.setItem('sa-cfg',results);
+			self.setProp(['session','status'],results.user.status);
+			self.getItem('sa-session-status',results.user.status);
+
+			if (results.user.status == 'approved' && initial_status != 'approved') {
+				$("body").pagecontainer("change","#news-feed");
+				if (!self.preloaded) {
+					self.loadTefilot();
+					self.loadFeed();
+				}
+			}
+			else if (results.user.status == 'pending') {
+				$("body").pagecontainer("change","#signup-waiting");
+				$("#sa-top-nav").hide();
+			}
+			else if (results.user.status == 'rejected') {
+				$("body").pagecontainer("change","#signup-rejected");
+				$("#sa-top-nav").hide();
+			}
+		}
+		else {
+			self.setProp('cfg',self.getItem('sa-feed'));
+		}
 	});
 }
 
@@ -897,7 +1022,7 @@ sa.prototype.displayProducts = function(container,products){
 			clone.find('.supervision').remove();
 		
 		if (products[i].warn != 'Y') {
-			clone.find('.ti-alert').remove();
+			clone.find('.ti-alert').removeClass('ti-alert').addClass('ti-check-box');
 			clone.find('.status span:last').html('Kosher');
 		}
 		else {
@@ -975,6 +1100,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 		clone.find('.t').html(current[i].join('/'));
 		clone.attr('id','');
 		clone.removeClass('dummy');
+		clone.attr('href','#zmanim')
 		dummy.parent().append(clone);
 	}
 }
@@ -1026,6 +1152,7 @@ sa.prototype.displayDirectory = function(directory,category){
 				for (j in restaurant_categories) {
 					var topic = restaurant_categories[j].split('|');
 					var helper = $('#sa-token-helper').clone();
+					helper.removeAttr('id','');
 					helper.html(topic[1]).attr('href','#kashrut').attr('data-params',encodeURIComponent(JSON.stringify({restaurant_type:topic[0], tab:'#kashrut-restaurants'})));
 					clone.find('.categories span:last').append(helper);
 				}
@@ -1106,6 +1233,7 @@ sa.prototype.displayDetail = function(){
 		clone.find('.status').remove();
 		
 		var helper = $('#sa-token-helper').clone();
+		helper.removeAttr('id','');
 		helper.html(item.category).attr('href','#events').attr('data-params',encodeURIComponent(JSON.stringify({category:item.key})));
 		clone.find('.categories span:last').append(helper);
 	}
@@ -1142,6 +1270,7 @@ sa.prototype.displayDetail = function(){
 			for (i in topics) {
 				var topic = topics[i].split('|');
 				var helper = $('#sa-token-helper').clone();
+				helper.removeAttr('id','');
 				helper.html(topic[1]).attr('href','#content').attr('data-params',encodeURIComponent(JSON.stringify({topics:[topic[0]]})));
 				clone.find('.categories span:last').append(helper);
 			}
@@ -1172,14 +1301,15 @@ sa.prototype.displayDetail = function(){
 				var time = times[j].split('|');
 				times1.push(moment(time[0]).format('h:mm a') + ' - ' + moment(time[1]).format('h:mm a'));
 			}
-			clone.find('.times .t').html(times1.join(', '));
+			
+			clone.find('.times .t span:last').html(times1.join(', '));
 		}
 		else
-			clone.find('.times .t').html('No disponible.');
+			clone.find('.times .t span:last').html('No disponible.');
 		
 		if (item.key == 'restaurants') {
 			if (item.warn != 'Y') {
-				clone.find('.ti-alert').remove();
+				clone.find('.ti-alert').removeClass('ti-alert').addClass('ti-check-box');
 				clone.find('.status span:last').html('Kosher');
 			}
 			else {
@@ -1191,6 +1321,7 @@ sa.prototype.displayDetail = function(){
 				for (j in restaurant_categories) {
 					var topic = restaurant_categories[j].split('|');
 					var helper = $('#sa-token-helper').clone();
+					helper.removeAttr('id','');
 					helper.html(topic[1]).attr('href','#kashrut').attr('data-params',encodeURIComponent(JSON.stringify({restaurant_type:topic[0], tab:'#kashrut-restaurants'})));
 					clone.find('.categories span:last').append(helper);
 				}
@@ -1253,7 +1384,7 @@ sa.prototype.displayShlijimDetail = function(){
 		status = 'Rechazado';
 	
 	clone.find('.name span:last').html(item.name);
-	clone.find('.status span:last').html(status);
+	clone.find('.status:first span:last').html(status);
 	clone.find('.country span:last').html(item.country);
 	clone.find('.motivo span:last').html(item.motivo);
 	clone.find('.num_estudiantes span:last').html(item.num_estudiantes);
@@ -1273,10 +1404,37 @@ sa.prototype.displayShlijimDetail = function(){
 		clone.find('.sa-icon').addClass('ti-na');
 	}
 	
+	if (item.img) {
+		clone.find('.img').attr('src',this.app_url + '?image=' + item.img);
+	}
+	else
+		clone.find('.img').remove();
+	
 	clone.attr('id','');
 	clone.removeClass('dummy');
 	$('#shlijim-detail .ui-content').html('');
 	$('#shlijim-detail .ui-content').append(clone);
+}
+
+sa.prototype.displaySettings = function(){
+	if (this.cfg && this.cfg.sexos && Object.keys(this.cfg.sexos).length > 0) {
+		$('#settings #sex').html('').append('<option value="">Por favor seleccionar</option>');
+		for (i in this.cfg.sexos) {
+			$('#settings #sex').append('<option value="' + i + '">' + this.cfg.sexos[i] + '</option>');
+		}
+	}
+	
+	$('#settings #first_name').val(this.cfg.user.first_name);
+	$('#settings #last_name').val(this.cfg.user.last_name);
+	$('#settings #email').val(this.cfg.user.email);
+	$('#settings #age').val(this.cfg.user.age);
+	$('#settings #sex').val(this.cfg.user.sex).selectmenu("refresh");
+	$('#settings #tel').val(this.cfg.user.tel);
+	
+	if (this.cfg.user.has_children)
+		$('#settings #has-children').prop('checked',true).checkboxradio('refresh');
+	if (this.cfg.user.push_notifications)
+		$('#settings #push-notifications').prop('checked',true).checkboxradio('refresh');
 }
 
 //==== SA APP UTILITIES ====
@@ -1301,6 +1459,7 @@ sa.prototype.sendRequests = function (callback) {
 	}
 	
 	$.post(this.app_url,params,function(data) {
+		$('.ui-input-btn .sa-loading').remove();
 		if (!self.isJSON(data))
 			callback({});
 		else
@@ -1339,6 +1498,7 @@ sa.prototype.condenseForm = function (form) {
 }
 
 sa.prototype.displayErrors = function (errors,error_fields,button) {
+	$('#sa-form-errors .errors').html('');
 	if (error_fields && button) {
 		for (i in error_fields) {
 			$(button).parents('form').find('#' + error_fields[i]).parents('.param').addClass('error');
@@ -1351,6 +1511,19 @@ sa.prototype.displayErrors = function (errors,error_fields,button) {
 	
 	$("#sa-form-errors .errors").listview("refresh");
 	$('#sa-form-errors').popup('open');
+}
+
+sa.prototype.displayMessages = function (messages,button) {
+	$('#sa-form-messages .messages').html('');
+	if (messages && messages.length > 0) {
+		for (i in messages) {
+			$('#sa-form-messages .messages').append('<li>' + messages[i] + '</li>');
+		}
+	}
+		
+	$("#sa-form-messages .messages").listview("refresh");
+	$('#sa-form-messages .submit-button').button('refresh');
+	$('#sa-form-messages').popup('open');
 }
 
 sa.prototype.getItem = function (key) {

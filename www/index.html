@@ -46,7 +46,9 @@
 	        <a href="#" data-rel="close" class="sa-close-popup ti-close"></a>
 	        <div class="sa-menu-inner">
 	        	<div class="sa-menu-title">
-	        		<div class="contain1">logo</div>
+	        		<div class="contain1">
+	        			<img class="logo" src="img/logo_dark.png" />
+	        		</div>
 	        		<div class="bg1"></div>
 	        	</div>
 	        	<div class="sa-menu-menu">
@@ -171,12 +173,27 @@
 			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
 			<h3>Un pequeño problema...</h3>
 			<ul data-role="listview" class="sa-items errors"></ul>
+			<div class="clear"></div>
+			<input data-rel="back" type="submit" class="ui-btn ui-icon-check ui-btn-icon-left submit-button ti-close" name="close" value="OK" />
+			<div class="clear"></div>
 		</div>
 		<div data-role="popup" id="sa-form-messages" class="popup-full sa-messages">
 			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
-			<h3>Cuenta actualizada</h3>
+			<h3>Información Actualizada</h3>
 			<ul data-role="listview" class="sa-items messages"></ul>
-			<input type="submit" class="ui-btn submit-button ti-close" name="close" value="OK" />
+			<div class="clear"></div>
+			<input data-rel="back" type="submit" class="ui-btn ui-icon-check ui-btn-icon-left submit-button ti-close" name="close" value="OK" />
+			<div class="clear"></div>
+		</div>
+		<div data-role="popup" id="sa-form-announcements" class="popup-full sa-announcements">
+			<a href="#" data-rel="back" class="sa-close-popup ti-close"></a>
+			<input type="hidden" class="next-id" value="" />
+			<h3></h3>
+			<div class="clear"></div>
+			<div class="content"></div>
+			<input id="next" data-rel="back" type="submit" class="ui-btn ui-icon-carat-r ui-btn-icon-right submit-button ti-close" name="close" value="Siguiente" />
+			<input id="close-ann" data-rel="back" type="submit" class="ui-btn submit-button ti-close" name="close" value="OK" />
+			<div class="clear"></div>
 		</div>
 		
 		<!-- DUMMIES -->
@@ -207,7 +224,7 @@
 			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
 		</div>
 		<div id="sa-detail-dummy" class="dummy sa-detail">
-			<h1 class="title"></h1>
+			<h1 class="title"><a href="#" class="sa-icon sa-back-button ti-arrow-left"></a><span></span></h1>
 			<div class="author">
 				<img class="p" src="" />
 				<div class="i">
@@ -245,13 +262,13 @@
 			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
 		</li>
 		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
-			<h1 class="name"><span class="sa-icon"></span><span></span></h1>
-			<div class="img"></div>
-			<div class="status">Estatus: <span class="sa-icon"></span><span></span></div>
-			<div class="country">País: <span></span></div>
-			<div class="motivo">Motivo: <span></span></div>
-			<div class="num_estudiantes">Num. Estudiantes: <span></span></div>
-			<div class="comentarios">Comentarios:</div>
+			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left"></a><span></span></h1>
+			<img class="img" src="" />
+			<div class="status"><u>Estatus:</u> <span class="sa-icon"></span><span></span></div>
+			<div class="country status"><u>País:</u> <span></span></div>
+			<div class="motivo status"><u>Motivo:</u> <span></span></div>
+			<div class="num_estudiantes status"><u>Num. Estudiantes:</u> <span></span></div>
+			<div class="comentarios status"><u>Comentarios:</u></div>
 			<div class="content"></div>
 		</div>
 		<div id="sa-schedule-dummy" class="dummy sa-schedule">
@@ -305,10 +322,12 @@
 		
 		<!-- HELPERS -->
 		<a id="sa-token-helper" href="#" class="token" data-params=""></a>
+		<img id="sa-loading-helper" class="sa-loading" src="img/ajax-loader.gif">
 		
     	<!-- APP PAGES -->
-    	<div data-role="page" id="signup">
+    	<div data-role="page" id="signup" class="outside">
 	 		<div class="ui-content">
+	 			<img class="logo" src="img/logo_white.png" />
             	<form id="signup-form" name="signup_form">
             		<p><a href="#login">Ya tienes cuenta?</a></p>
             		<div class="param">
@@ -341,8 +360,9 @@
             		<div class="clear"></div>
             	</form>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="signup-waiting">
+		<div data-role="page" id="signup-waiting" class="outside">
 			<div class="ui-content">
 				<div class="alert info">
 					<h2>
@@ -350,10 +370,14 @@
 						Información recibida!
 					</h2>
 				</div>
-				<p class="bigger">Todos los nuevos usuarios necesitan ser aprobados por nuestro moderadores. Te notificaremos cuando has sido aprobado.</p>
+				<p class="bigger">Todos los nuevos usuarios necesitan ser aprobados por nuestro moderadores. El app ingresará a su cuenta automáticamente cuando su cuenta se apruebe.</p>
+				<div class="clear"></div>
+	            <input type="submit" class="logout ui-btn submit-button" id="logout1" name="logout" value="Salir de cuenta" />
+	            <div class="clear"></div>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="signup-rejected">
+		<div data-role="page" id="signup-rejected" class="outside">
 			<div class="ui-content">
 				<div class="alert error">
 					<h2>
@@ -362,10 +386,15 @@
 					</h2>
 				</div>
 				<p class="bigger">Lastimosamente, no hemos podido verificar su información.</p>
+				<div class="clear"></div>
+	            <input type="submit" class="logout ui-btn submit-button" id="logout2"  value="Salir de cuenta" />
+	            <div class="clear"></div>
 			</div>
+			<div class="bg"></div>
 		</div>
-		<div data-role="page" id="login">
+		<div data-role="page" id="login" class="outside">
 	 		<div class="ui-content">
+	 			<img class="logo" src="img/logo_white.png" />
             	<form id="login-form" name="login_form">
             		<p><a href="#signup">Crear cuenta nueva.</a></p>
             		<div class="param">
@@ -383,6 +412,7 @@
             		<div class="clear"></div>
             	</form>
 			</div>
+			<div class="bg"></div>
 		</div>
         <div data-role="page" id="news-feed" class="sa-feed">
         	<div class="bg"></div>
@@ -542,13 +572,13 @@
 				<a class="ui-btn submit-button" href="#signup">Registrar Cuenta</a>
 			</div>
 		</div>
+		<div id="sa-waypoint"></div>
 		<script type="text/javascript" src="cordova.js"></script>
         <!--  script type="text/javascript" src="js/telephonenumber.js"></script -->
         <!-- script type="text/javascript" src="js/deviceinformation.js"></script -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
-        <!--  script type="text/javascript" src="js/jquery.foggy.min.js"></script -->
         <script type="text/javascript" src="js/async.js"></script>
         <script type="text/javascript" src="js/hebcal.min.js"></script>
         <script type="text/javascript" src="js/hmac-sha256.js"></script>
