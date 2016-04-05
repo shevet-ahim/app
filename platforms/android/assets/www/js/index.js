@@ -22,7 +22,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://66.172.10.252/shevet_ahim/backend/htdocs/api.php';
+	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -41,6 +41,7 @@ function sa(){
 	this.requests = {};
 	this.params = {};
 	this.cfg = {};
+	this.last_url = null;
 	
 	// feed cache
 	this.feed = [];
@@ -119,10 +120,17 @@ sa.prototype.init = function(){
 				$("body").pagecontainer("change","#logout");
 			});
 			$(document).on('click','.ui-input-btn',function(){
-				$(this).append($('#sa-loading-helper').clone().attr('id',''));
+				$(this).append($('#sa-loading-helper').clone().css('display','block').attr('id',''));
+			});
+			
+			$(document).on('click','.arrow',function(){
+				var page = $(this).attr('href');
+				if (page = '#zmanim')
+					self.loadZmanim();
 			});
 			
 			$('#sa-top-nav').toolbar();
+			$('#sa-bottom-nav').toolbar();
 			$('#sa-form-errors').popup();
 			$("#sa-form-errors .errors").listview();
 			$('#sa-form-errors .submit-button').button().click(function(){
@@ -132,6 +140,13 @@ sa.prototype.init = function(){
 			$("#sa-form-messages .messages").listview();
 			$('#sa-form-messages .submit-button').button().click(function(){
 				$('#sa-form-messages').popup('close');
+			});
+			$('#sa-form-announcements').popup();
+			$('#sa-form-announcements #close-ann').button().click(function(){
+				$('#sa-form-announcements').popup('close');
+			});
+			$('#sa-form-announcements #next').button().click(function(){
+				self.displayAnnouncements();
 			});
 			$("#sa-menu").panel();
 			
@@ -144,6 +159,7 @@ sa.prototype.init = function(){
 					self.loadTefilot();
 					self.loadFeed();
 					self.loadSettings();
+					self.startTicker();
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -180,6 +196,10 @@ sa.prototype.init = function(){
 					self.displaySettings();
 				else if (page == 'logout')
 					self.logout();
+				
+				// set last url for back button
+				self.setProp('last_url',ui.prevPage.prop("id"));
+				ui.toPage.find('.sa-back-button').attr('href','#' + ui.prevPage.prop("id"));
 			});
 			
 			// resize external panel
@@ -200,6 +220,7 @@ sa.prototype.init = function(){
 				self.updateHdate();
 				self.loadTefilot();
 				self.loadSettings();
+				self.startTicker();
 			},30000);
 			
 			setInterval(function() {
@@ -233,18 +254,22 @@ sa.prototype.init = function(){
 			else if (this.session.id && this.session.key && this.session.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 			else if (this.session.id && this.session.key && this.session.status == 'rejected') {
 				$("body").pagecontainer("change","#signup-rejected");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 			else if (this.session.signed_up) {
 				$("body").pagecontainer("change","#signup");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 			else {
 				$("body").pagecontainer("change","#login");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 			
 			if (this.session.has_children == 'Y')
@@ -391,13 +416,21 @@ sa.prototype.savePassword = function(button){
 sa.prototype.logout = function(){
 	this.addRequest('User','logOut',[this.session.id]);
 	this.sendRequests(function(result){});
+	
 	// remove session properties
+	this.session.id = null;
+	this.session.key = null;
+	this.session.status = null;
+	this.session.age = null;
+	this.session.sex = null;
+	this.session.has_children = null;
 	this.removeItem('sa-session-id');
 	this.removeItem('sa-session-key');
 	this.removeItem('sa-session-status');
 	this.removeItem('sa-session-age');
 	this.removeItem('sa-session-sex');
 	this.removeItem('sa-session-has-children');
+	this.removeItem('sa-cfg');
 	
 	// remove cached content
 	this.removeItem('sa-tefilot');
@@ -415,6 +448,7 @@ sa.prototype.logout = function(){
 	}
 	
 	$("#sa-top-nav").hide();
+	$("#sa-bottom-nav").hide();
 }
 
 sa.prototype.loadTefilot = function(return_data){
@@ -426,7 +460,7 @@ sa.prototype.loadTefilot = function(return_data){
 	var tefilot_cats = {};
 	var tefilot_places = {};
 
-	this.addRequest('Events','get',[false,'rezos']);
+	this.addRequest('Events','get',[false,'rezos',false,false,false,false,false,false,(moment().add(1,'days').unix())]);
 	this.sendRequests(function(result){
 		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
 			var results = result.Events.get.results[0];
@@ -438,12 +472,34 @@ sa.prototype.loadTefilot = function(return_data){
 				
 				var t = results[i].time.split(' ');
 				var t1 = t[1].split(':');
+				var d = moment().format('d');
+				var d1 = moment().add(1,'days').format('d');
+				var h = moment().hour();
+				var time_raw = moment().hour(t1[0]).minute(t1[1]);
+				var weekdays = results[i].weekdays.split(',');
+
+				if (h >= 9) {
+					if (results[i].key == 'shajarit') {
+						if (weekdays.indexOf(d1) < 0)
+							continue;
+					}
+					else {
+						if (weekdays.indexOf(d) < 0)
+							continue;
+					}
+				}
+				/*
+				if (parseInt(results[i].weekday) == parseInt(d) && (h >= 9) && results[i].key == 'shajarit')
+					continue;
+				else if (parseInt(results[i].weekday) != parseInt(d) && results[i].key != 'shajarit')
+					continue;
+*/
 				var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm');
 				tefilot[results[i].key][results[i].place_abbr].push(time);
 				tefilot_cats[results[i].key] = results[i].category;
 				tefilot_places[results[i].place_abbr] = results[i].place;
 			}
-			
+
 			if (Object.keys(tefilot) == 0)
 				tefilot = cached_tefilot;
 			
@@ -462,8 +518,10 @@ sa.prototype.loadFeed = function(){
 	var feed = this.getItem('sa-feed');
 	var events = this.getItem('sa-events');
 	var content = this.getItem('sa-content');
+	var popups_shown = this.getItem('sa-popups');
 	var new_items = [];
 	var popups = [];
+	popups_shown = (!popups_shown) ? [] : popups_shown;
 	
 	this.addRequest('Events','get',[true,null,null,null,this.session.age,this.session.sex]);
 	this.addRequest('Content','get',[null,null,this.session.age,this.session.sex]);
@@ -482,10 +540,12 @@ sa.prototype.loadFeed = function(){
 			var results = result.Content.get.results[0];
 			for (i in results) {
 				results[i].timestamp = self.getEventTimestamp(results[i]);
-				if (results[i].in_popup != 'Y')
-					new_items.push(results[i]);
-				else
+				new_items.push(results[i]);
+				
+				if (results[i].is_popup == 'Y' && popups_shown.indexOf(results[i].id) < 0) {
 					popups.push(results[i]);
+					popups_shown.push(results[i].id);
+				}
 			}
 		}
 		
@@ -530,11 +590,12 @@ sa.prototype.loadFeed = function(){
 				}
 			}
 		}
-		
+
 		self.displayFeed('news-feed',feed);
 		self.displayAnnouncements(popups);
-		
+
 		self.setItem('sa-feed',feed);
+		self.setItem('sa-popups',popups_shown);
 		self.setItem('sa-events',events);
 		self.setItem('sa-content',content);
 	});
@@ -562,10 +623,12 @@ sa.prototype.loadSettings = function(){
 			else if (results.user.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 			else if (results.user.status == 'rejected') {
 				$("body").pagecontainer("change","#signup-rejected");
 				$("#sa-top-nav").hide();
+				$("#sa-bottom-nav").hide();
 			}
 		}
 		else {
@@ -588,6 +651,8 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,older){
 		sex = null;
 		age = 1;
 		page = 'kids';
+		in_feed = false;
+		category = 'kids';
 	}
 	
 	var self = this;
@@ -633,7 +698,7 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,older){
 			}
 		}
 
-		self.displayFeed(page,events,null,['event']);
+		self.displayFeed(page,events,null,['event'],category);
 		self.setItem('sa-events' + (key ? '-' + key : ''),events);
 		
 		cats = (!cats) ? [] : cats;
@@ -686,11 +751,13 @@ sa.prototype.loadShiurim = function(){
 }
 
 sa.prototype.loadZmanim = function(){
+	var params = this.params;
 	var self = this;
 	var events = this.getItem('sa-zmanim');
 	var new_items = [];
+	var timestamp = (!params || !params.timestamp) ? moment().unix() : params.timestamp;
 	
-	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,this.session.age,this.session.sex]);
+	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,null,timestamp]);
 	this.sendRequests(function(result){
 		// get zmanim
 		var hdate = new Hebcal.HDate().setLocation(self.position.coords.latitude,self.position.coords.longitude);
@@ -771,14 +838,11 @@ sa.prototype.loadZmanim = function(){
 		
 		events = (!events) ? [] : events;
 		if (new_items.length > 0) {
-			// sorting oldest first
-			new_items.sort(function(a,b) {
-				return b.timestamp - a.timestamp;
-			});
+			events = [];
 			
 			// add to cache and remove oldest items
 			for (i in new_items) {
-				var found = $.grep(events,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+				var found = $.grep(events,function(item1){ return item1.type == new_items[i].type && item1.id == new_items[i].id; });
 				if (found && found.length > 0)
 					continue;
 				
@@ -786,8 +850,13 @@ sa.prototype.loadZmanim = function(){
 				if (events.length > 50)
 					events.shift();
 			}
+			
+			// sorting oldest first
+			events.sort(function(a,b) {
+				return b.timestamp - a.timestamp;
+			});
 		}
-		
+
 		self.displaySchedule('zmanim',events);
 		self.setItem('sa-zmanim',events);
 	});
@@ -900,11 +969,11 @@ sa.prototype.loadShlijim = function(){
 }
 
 //==== SA APP DISPLAY FUNCTIONS ====
-sa.prototype.displayFeed = function(page,feed,older,types,categories,topics){
+sa.prototype.displayFeed = function(page,feed,older,types,category,topics){
 	if (!feed || feed.length == 0)
 		return false;
 	
-	categories = (!categories) ? [] : categories;
+	category = (!category) ? null : category;
 	types = (!types) ? [] : types;
 	topics = (!topics) ? [] : topics;
 
@@ -948,8 +1017,8 @@ sa.prototype.displayFeed = function(page,feed,older,types,categories,topics){
 			clone.find('.img').remove();
 		
 		clone.find('.ago').html('...' + moment(feed[i].timestamp * 1000).locale('es').fromNow());
-		clone.find('.title a').html(feed[i].title).attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type})));
-		clone.find('.more').attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type})));
+		clone.find('.title a').html(feed[i].title).attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type, category: category})));
+		clone.find('.more').attr('href','#' + url + '-detail').attr('data-params',encodeURIComponent(JSON.stringify({id:feed[i].id, type:feed[i].type, category: category})));
 		clone.find('.abstract').html((feed[i]['abstract'] ? feed[i]['abstract'] : feed[i].content));
 		clone.attr('id','feed-'+feed[i].type + '-' + feed[i].id);
 		clone.removeClass('dummy');
@@ -961,13 +1030,33 @@ sa.prototype.displayFeed = function(page,feed,older,types,categories,topics){
 	}
 	$('#sa-menu').height($(document).height());
 	$("#sa-top-nav").show();
+	$("#sa-bottom-nav").show();
 }
 
 sa.prototype.displaySchedule = function(page,events){
 	if (!events || events.length == 0)
 		return false;
 	
+	var params = this.params;
+	var self = this;
+	var title = '';
+	
+	if (page == 'zmanim')
+		title = 'Horarios diarios';
+	else if (page == 'shiurim')
+		title = 'Shiurim diarios';
+	
+	var timestamp = (!params || !params.timestamp) ? moment().unix() : params.timestamp;
+	var title_clone = self.displayHeader('calendar',title,{page: page,timestamp:timestamp});
+	
+	if (this.position)
+		hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
+	else
+		hebdate.setLocation(8.97,-79.51);
+	
 	$('#' + page + ' .ui-content').html('');
+	$('#' + page + ' .ui-content').append(title_clone);
+	
 	var dummy = $('#sa-schedule-dummy');
 	for (i in events) {
 		var clone = dummy.clone();
@@ -1002,7 +1091,7 @@ sa.prototype.displaySchedule = function(page,events){
 		clone.attr('id','');
 		clone.removeClass('dummy');
 		
-		$('#' + page + ' .ui-content').prepend(clone);
+		$('#' + page + ' .ui-content .sa-schedule-title').after(clone);
 	}
 }
 
@@ -1062,10 +1151,6 @@ sa.prototype.displayShlijim = function(container,shlijim){
 	$(container + ' .sa-listview').listview('refresh');
 }
 
-sa.prototype.displayAnnouncements = function(popups){
-	
-}
-
 sa.prototype.displayTefilot = function(tefilot,cats) {
 	if (!tefilot || Object.keys(tefilot) == 0)
 		return false;
@@ -1073,7 +1158,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 	var h = moment().hour();
 	var current = {};
 	var key = null;
-	
+
 	if (h >= 21 || h < 9)
 		key = 'shajarit';
 	else if (h >= 9 || h < 6)
@@ -1101,7 +1186,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 		clone.attr('id','');
 		clone.removeClass('dummy');
 		clone.attr('href','#zmanim')
-		dummy.parent().append(clone);
+		$('#sa-tefilot-scroll .scroll').append(clone);
 	}
 }
 
@@ -1177,7 +1262,7 @@ sa.prototype.displayDetail = function(){
 	
 	// set query and page strings
 	if (params.type == 'event') {
-		query = 'events';
+		query = (!params.category) ? 'events' : 'events-' + params.category;
 		page = 'events';
 	}
 	else if (params.type == 'directory'){
@@ -1201,7 +1286,7 @@ sa.prototype.displayDetail = function(){
 		console.error('Error: No stored items for this content type.');
 		return false;
 	}
-	
+
 	var filtered = items.filter(function(item) {
 		return item.id == params.id;
 	});
@@ -1217,7 +1302,7 @@ sa.prototype.displayDetail = function(){
 	var item = filtered[0];
 	if (item.type == 'event') {
 		clone.find('.ago').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
-		clone.find('.title').html(item.title);
+		clone.find('.title span:last').html(item.title);
 		clone.attr('id','');
 		
 		if (item.content && item.content.length > 0)
@@ -1239,7 +1324,7 @@ sa.prototype.displayDetail = function(){
 	}
 	else if (item.type == 'content') {
 		clone.find('.ago').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
-		clone.find('.title').html(item.title);
+		clone.find('.title span:last').html(item.title);
 		clone.attr('id','');
 		
 		if (item.content && item.content.length > 0)
@@ -1279,7 +1364,7 @@ sa.prototype.displayDetail = function(){
 			clone.find('.categories').remove();
 	}
 	else if (item.type == 'directory') {
-		clone.find('.title').html(item.name);
+		clone.find('.title span:last').html(item.name);
 		clone.attr('id','');
 		
 		clone.find('.ago').remove();
@@ -1526,6 +1611,35 @@ sa.prototype.displayMessages = function (messages,button) {
 	$('#sa-form-messages').popup('open');
 }
 
+sa.prototype.displayAnnouncements = function(items){
+	if (items)
+		$('#sa-form-announcements .next-id').val('');
+	
+	var i = (items) ? 0 : $('#sa-form-announcements .next-id').val();
+	items = (items) ? items : window.popup_items;
+	window.popup_items = items;
+	var item = items[i];
+	
+	if (!items || !item)
+		return false;
+	
+	$('#sa-form-announcements h3').html(item.title);
+	$('#sa-form-announcements .content').html(item.content);
+	$('#sa-form-announcements .next-id').val(i + 1);
+	
+	if (i == (items.length - 1)) {
+		$('#sa-form-announcements').find('#close-ann').parent('.ui-btn').css('display','block');
+		$('#sa-form-announcements').find('#next').parent('.ui-btn').css('display','none');
+	}
+	else {
+		$('#sa-form-announcements').find('#close-ann').parent('.ui-btn').css('display','none');
+		$('#sa-form-announcements').find('#next').parent('.ui-btn').css('display','block');
+	}
+	
+	if (i == 0)
+		$('#sa-form-announcements').popup('open');
+}
+
 sa.prototype.getItem = function (key) {
 	var item = window.localStorage.getItem(key);
 	if (!this.isJSON(item))
@@ -1587,4 +1701,73 @@ sa.prototype.getEventTimestamp = function(event) {
 	}
 	else
 		return moment(event.date).unix();
+}
+
+sa.prototype.startTicker = function() {
+	var self = this;
+	var elem = $('#sa-tefilot-scroll .scroll');
+	var elem_f = $('#sa-tefilot-scroll .scroll');
+	var elem_sub_l = $('#sa-tefilot-scroll .scroll a:last');
+	var elem_sub_l_w = elem_sub_l.outerWidth();
+	var elem_w = elem.outerWidth();
+	var window_w = $('#sa-tefilot-scroll').width();
+	var cloned = false;
+	
+	if (elem_sub_l.length == 0) {
+		setTimeout(function(){
+			self.startTicker();
+		},200);
+		return false;
+	}
+
+	if (elem.width() < window_w)
+		return false;
+
+	var properties = {duration:400,easing:'linear',complete:function(){
+		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties);
+	},progress: function(){
+		offset = elem_sub_l.offset();
+		if (elem_sub_l && offset) {
+			if ((window_w + 500) - offset.left > 0) {
+				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',(offset.left + elem_sub_l_w)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
+				elem_sub_l = elem.find('a:last');
+				cloned = true;
+			}
+		}
+		
+		if (elem_f && elem_f.offset()) {
+			if ((elem_f.offset().left * -1) >= elem_f.outerWidth() && cloned) {
+				elem_f.remove();
+				elem_f = $('#sa-tefilot-scroll .scroll:first');
+				cloned = false;
+			}
+		}
+			
+	}};
+	elem.stop().animate({left:'-=50px'},properties);
+}
+
+sa.prototype.displayHeader = function(mode,title,params) {
+	var title_clone = $('#sa-schedule-title-dummy').clone();
+	title_clone.attr('id','');
+	title_clone.find('.title span').html(title);
+	
+	if (mode == 'calendar') {
+		var hebdate = new Hebcal.HDate(new Date(params.timestamp * 1000));
+		title_clone.find('.greg').html(moment(params.timestamp * 1000).locale('es').format('ddd, MMM D'));
+		title_clone.find('.religious').html(hebdate.toString());
+		title_clone.find('.arrow-left').attr('href','#' + params.page).attr('data-params',encodeURIComponent(JSON.stringify({timestamp:moment(params.timestamp * 1000).subtract(1,'day').unix()})));
+		title_clone.find('.arrow-right').attr('href','#' + params.page).attr('data-params',encodeURIComponent(JSON.stringify({timestamp:moment(params.timestamp * 1000).add(1,'day').unix()})));
+		title_clone.removeClass('dummy');
+	}
+	else {
+		title_clone.find('.sa-calendar-nav').remove();
+	}
+	
+	if (mode == 'events') {
+		
+	}
+	else {
+		
+	}
 }

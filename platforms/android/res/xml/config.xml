@@ -79,5 +79,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-navigation href="http://66.172.10.252/*" />
+    <allow-navigation href="http://45.79.131.79/*" />
 </widget>

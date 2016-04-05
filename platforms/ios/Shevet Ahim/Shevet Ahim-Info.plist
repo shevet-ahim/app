@@ -4,16 +4,16 @@
   <dict>
     <key>NSAppTransportSecurity</key>
     <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
       <key>NSExceptionDomains</key>
       <dict>
-        <key>66.172.10.252</key>
+        <key>45.79.131.79</key>
         <dict>
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
           <true/>
         </dict>
       </dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
     </dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>

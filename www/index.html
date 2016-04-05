@@ -6,7 +6,7 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://66.172.10.252 data: gap: 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src * data:; img-src * data:; font-src * data:">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' http://45.79.131.79/ data: gap: 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src * data:; img-src * data:; font-src * data:">
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.min.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.theme.min.css" />
         <link rel="stylesheet" type="text/css" href="css/themify-icons.css" />
@@ -32,11 +32,9 @@
 	           		<div id="sa-tefilot">
 		           		<div id="sa-tefilot-event"></div>
 		           		<div id="sa-tefilot-scroll">
-	           				<a id="sa-tefila-dummy" class="dummy sa-tefila">
-	           					<span class="p"></span>
-	           					<span class="t"></span>
-	           				</a>
-	           			</div>
+		           			<div class="scroll"></div>
+		           			<div class="auto-width"></div>
+		           		</div>
 	           		</div>
            		</div>
            		<div class="bg"><div></div></div>
@@ -167,6 +165,18 @@
 	        	</div>
 	        </div>
 		</div>
+		<div data-role="footer" data-id="top-nav" data-position="fixed" id="sa-bottom-nav">
+			<div class="contain">
+				<div class="o1">
+					<a href="#hatzalah" class="sa-icon ti-support"></a> 
+					<a href="#hatzalah">Hatzalah</a>
+				</div>
+				<div class="o2">
+					<a href="#dsi" class="sa-icon ti-target"></a>
+					<a href="#dsi">DSI</a>
+				</div>
+			</div>
+		</div>
 		
     	<!-- POPUPS -->
 		<div data-role="popup" id="sa-form-errors" class="popup-full sa-errors">
@@ -197,6 +207,10 @@
 		</div>
 		
 		<!-- DUMMIES -->
+		<a id="sa-tefila-dummy" class="dummy sa-tefila">
+			<span class="p"></span>
+			<span class="t"></span>
+    	</a>
 		<div id="sa-feed-dummy" class="dummy sa-feed-post">
 			<div class="ago"></div>
 			<div class="author">
@@ -262,8 +276,13 @@
 			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
 		</li>
 		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
-			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left"></a><span></span></h1>
-			<img class="img" src="" />
+			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left" data-rel="back"></a><span></span></h1>
+			<div class="img-contain">
+				<img class="img" src="" />
+				<div class="overlay">
+					<img src="img/x-overlay.png" />
+				</div>
+			</div>
 			<div class="status"><u>Estatus:</u> <span class="sa-icon"></span><span></span></div>
 			<div class="country status"><u>País:</u> <span></span></div>
 			<div class="motivo status"><u>Motivo:</u> <span></span></div>
@@ -295,6 +314,22 @@
 			</div>
 			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
 		</div>
+		<div id="sa-schedule-title-dummy" class="dummy sa-schedule-title sa-detail">
+			<h1 class="title"><a href="#news-feed" class="sa-icon sa-back-button ti-arrow-left" data-rel="back"></a><span></span></h1>
+			<div class="sa-calendar-nav">
+				<div class="current-url"></div>
+				<a class="arrow arrow-left" href="">
+					<span class="sa-icon ti-angle-double-left"></span>
+				</a>
+				<div class="sa-calendar-date">
+					<div class="greg"></div>
+					<div class="religious"></div>
+				</div>
+				<a class="arrow arrow-right" href="">
+					<span class="sa-icon ti-angle-double-right"></span>
+				</a>
+			</div>
+		</div>
 		<div id="sa-directory-dummy" class="dummy sa-directory">
 			<span class="sa-icon ti-alert"></span>
 			<h3 class="title">
@@ -323,6 +358,7 @@
 		<!-- HELPERS -->
 		<a id="sa-token-helper" href="#" class="token" data-params=""></a>
 		<img id="sa-loading-helper" class="sa-loading" src="img/ajax-loader.gif">
+		<div id="sa-no-results-helper" class="dummy sa-no-results">No hay contenido para mostrar en esta página.</div>
 		
     	<!-- APP PAGES -->
     	<div data-role="page" id="signup" class="outside">
@@ -487,7 +523,10 @@
 		<div data-role="page" id="settings">
  			<div class="ui-content">
  				<div class="sa-detail sa-settings">
- 					<h1 class="title">Configuración</h1>
+ 					<h1 class="title">
+ 						<a href="#news-feed" class="sa-icon sa-back-button ti-arrow-left" data-rel="back"></a>
+ 						Configuración
+ 					</h1>
 					<form id="settings-personal-form" name="settings_personal_form">
 	            		<div class="param">
 	            			<label for="first_name">Nombre</label>
@@ -570,6 +609,30 @@
 				<p class="bigger">Su sesión ha sido cerrada.</p>
 				<a class="ui-btn submit-button" href="#login">Ingresar</a>
 				<a class="ui-btn submit-button" href="#signup">Registrar Cuenta</a>
+			</div>
+		</div>
+		<div data-role="page" id="hatzalah">
+ 			<div class="ui-content">
+				<div class="alert error">
+					<h2>
+						<span class="sa-icon ti-support"></span>
+						Contactar a Hatzalah?
+					</h2>
+				</div>
+				<p>Al presionar el botón, se enviará una alerta a Hatzalah automáticamente. Está seguro que desea proceder?</p>
+				<a class="ui-btn submit-button" href="#" id="sa-contact-hatzalah">Contactar a Hatzalah</a>
+			</div>
+		</div>
+		<div data-role="page" id="dsi">
+ 			<div class="ui-content">
+				<div class="alert error">
+					<h2>
+						<span class="sa-icon ti-target"></span>
+						Contactar a DSI?
+					</h2>
+				</div>
+				<p>Al presionar el botón, se le enviará una alerta a DSI automáticamente. Está seguro que desea proceder?</p>
+				<a class="ui-btn submit-button" href="#" id="sa-contact-dsi">Contactar a DSI</a>
 			</div>
 		</div>
 		<div id="sa-waypoint"></div>

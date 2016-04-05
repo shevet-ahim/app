@@ -265,7 +265,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	-webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
 	box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
-	
+	margin-left: 0px;
 }
 #sa-top-nav .o1 {
 	height: 40px;
@@ -366,17 +366,72 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	right:0;
 }
 
+#sa-bottom-nav{
+	border: none;
+	text-align:center;
+	-webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.2);
+}
+#sa-bottom-nav .contain{
+	position:relative;
+	z-index:3;
+	padding: 5px 15px;
+}
+#sa-bottom-nav .bg{
+	z-index:1;
+	background-color:#FFF;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	filter: alpha(opacity=80);
+	-moz-opacity: 0.8;
+	-khtml-opacity: 0.8;
+	opacity: 0.8;
+}
+#sa-bottom-nav .bg div{
+	z-index:2;
+	background-image: url("../img/blurred1.jpg");
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	filter: alpha(opacity=20);
+	-moz-opacity: 0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+}
+#sa-bottom-nav a{
+	color: #444;
+}
+#sa-bottom-nav a.sa-icon{
+	text-decoration: none;
+    display: inline-block;
+    margin: -2px 3px -2px 0;
+    position: relative;
+    top: 1px;
+}
+
 #sa-menu{
 	overflow: hidden;
     background-color: #15758D;
     border: none !important;
     margin: 0 !important;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+	box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-webkit-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-moz-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
 }
 #sa-menu .ui-panel-inner{
 	padding:0;
+	box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-webkit-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-moz-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
 }
 #sa-menu .sa-menu-inner{
 	position:relative;
@@ -437,6 +492,9 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     background: -o-linear-gradient(#0087b2,#157d96);
     background: -moz-linear-gradient(#0087b2,#157d96);
     background: linear-gradient(#0087b2,#157d96);
+	box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-webkit-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
+	-moz-box-shadow: inset -4px 0 7px rgba(0,0,0,0.2);
 }
 #sa-menu .sa-menu-inner .sa-menu-menu .line{
 	height:1px;
@@ -502,9 +560,10 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 
 #sa-tefilot {
 	padding: 0 0 0 10px;
+	display: table;
 }
 #sa-tefilot div {
-	display:inline-block;
+	display:table-cell;
 }
 #sa-tefilot #sa-tefilot-event{
 	text-shadow: 0px 0px 2px #ddd;
@@ -515,11 +574,17 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 #sa-tefilot-scroll {
 	font-weight:normal;
 	padding-left: 5px;
+	white-space: nowrap;
+	position:relative;
+	overflow: hidden;
 }
 #sa-tefilot-scroll .sa-tefila{
 	margin-right:8px;
 	color: #333;
 	text-decoration: none;
+}
+#sa-tefilot-scroll .auto-width{
+	width:1500px;
 }
 #sa-tefilot-scroll .sa-tefila:last-child{
 	margin-right:0;
@@ -529,6 +594,13 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 #sa-tefilot-scroll .t{
 	
+}
+#sa-tefilot-scroll .scroll{
+	display:block;
+	position:absolute;
+	left:0;
+	top:0;
+	padding-left: 6px;
 }
 
 .sa-schedule {
@@ -583,25 +655,26 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     padding: 0 5px;
 }
 .sa-schedule .time .t .sa-icon,.sa-schedule .time .p .sa-icon, .sa-schedule .times .t .sa-icon,.sa-schedule .times .p .sa-icon{
-	margin: 0 2px 0 0;
+	margin: 0 5px 0 0;
     font-size: 15px;
-    display: inline-block;
     top: 1px;
     position: relative;
+    float: left;
 }
 .sa-schedule .times {
 	padding: 0 10px 5px;
+	line-height: 21px;
 }
 .sa-schedule .times:last-child {
 	padding: 0 10px 10px;
 }
 .sa-schedule .times .t{
-	display: inline-block;
-    padding: 0 5px 5px;
+	display: inline;
+    padding: 0 0 5px;
 	width:auto;
 }
 .sa-schedule .times .t span{
-	display: inline-block;
+	display: inline;
 	width:auto;
 }
 .sa-schedule .times .p{
@@ -609,6 +682,50 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     margin: 0 5px 0 0;
 	font-weight:600;
 	text-decoration:underline;
+}
+.sa-calendar-nav{
+	position: relative;
+}
+.sa-calendar-nav .arrow{
+	position: absolute;
+    top: 1px;
+    width: 27px;
+    background-color: #00A1CC;
+    height: 28px;
+    border-right: 1px solid #ddd;
+	text-decoration:none;
+	text-align:center;
+	vertical-align: middle;
+	z-index: 1;
+	border-bottom: 29px solid #EAEAEA;
+}
+.sa-calendar-nav .arrow-left{
+	left:0;
+}
+.sa-calendar-nav .arrow-right{
+	right:0;
+}
+.sa-calendar-nav .arrow .sa-icon{
+	color: #fff;
+    font-size: 16px;
+	position: relative;
+    top: 5px;
+}
+.sa-calendar-nav .sa-calendar-date{
+	text-align: center;
+    border: 1px solid #ddd;
+    background-color: #DCF8FF;
+	position: relative;
+}
+.sa-calendar-nav .sa-calendar-date div{
+	border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+.sa-calendar-nav .sa-calendar-date .greg{
+	font-weight: 600;
+}
+.sa-calendar-nav .sa-calendar-date .religious{
+	
 }
 
 .bigger{
@@ -759,6 +876,10 @@ form span.form-input {
 	margin-left: -24px;
     text-align: left;
 }
+
+.sa-loading{
+	display:none;
+}
 .ui-input-btn .sa-loading{
 	width: 20px;
     display: inline-block;
@@ -824,9 +945,16 @@ a.more:active{
 .popup-full.sa-messages h3 {
 	background-color:#90ee90;
 }
-
-.popup-full ul.messages{
+.popup-full.sa-announcements {
 	
+}
+.popup-full.sa-announcements h3 {
+	background-color: #00A1CC;
+	text-shadow: 0px 0px 1px #0382A0;
+	color:#fff;
+}
+.popup-full.sa-announcements .content {
+	padding: 0 15px;
 }
 .popup-full ul li{
 	white-space: normal !important;
@@ -835,6 +963,9 @@ a.more:active{
 	width: 80%;
     left: 50% !important;
     max-width: 100% !important;
+}
+#sa-form-announcements-popup{
+	width: 95%;
 }
 
 .sa-feed .ui-content{
@@ -998,6 +1129,12 @@ a.more:active{
     text-align: left;
     font-weight: 700;
     border-bottom: 1px solid #ddd;
+}
+.sa-detail .title .sa-icon,.sa-detail .name .sa-icon{
+	display: inline-block;
+    margin: 0px 10px 0px 0;
+	color: #00A1CC;
+	text-decoration:none;
 }
 .sa-detail .name{
 	padding:15px 10px 0px;
