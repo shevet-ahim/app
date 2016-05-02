@@ -168,11 +168,15 @@
 		<div data-role="footer" data-id="top-nav" data-position="fixed" id="sa-bottom-nav">
 			<div class="contain">
 				<div class="o1">
-					<a href="#hatzalah" class="sa-icon ti-support"></a> 
+					<a href="#hatzalah" class="sa-icon">
+						<img src="img/hatzalah.png" />
+					</a> 
 					<a href="#hatzalah">Hatzalah</a>
 				</div>
 				<div class="o2">
-					<a href="#dsi" class="sa-icon ti-target"></a>
+					<a href="#dsi" class="sa-icon">
+						<img src="img/dsi.png" />
+					</a> 
 					<a href="#dsi">DSI</a>
 				</div>
 			</div>
@@ -273,7 +277,7 @@
 			<div class="categories"><span class="ti-tag sa-icon"></span> Categorías: <span class="tokens"></span></div>
 		</div>
 		<li id="sa-shlijim-dummy" class="dummy sa-shlijim">
-			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span></span></a>
+			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span class="sa-search-text"></span></a>
 		</li>
 		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
 			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left" data-rel="back"></a><span></span></h1>
@@ -318,17 +322,25 @@
 			<h1 class="title"><a href="#news-feed" class="sa-icon sa-back-button ti-arrow-left" data-rel="back"></a><span></span></h1>
 			<div class="sa-calendar-nav">
 				<div class="current-url"></div>
-				<a class="arrow arrow-left" href="">
+				<a class="arrow arrow-left" href="" data-transition="slide" data-direction="reverse">
 					<span class="sa-icon ti-angle-double-left"></span>
 				</a>
 				<div class="sa-calendar-date">
 					<div class="greg"></div>
 					<div class="religious"></div>
 				</div>
-				<a class="arrow arrow-right" href="">
+				<a class="arrow arrow-right" href="" data-transition="slide">
 					<span class="sa-icon ti-angle-double-right"></span>
 				</a>
 			</div>
+			<form class="filters" id="sa-filters" name="filters">
+				<div class="param filter-category">
+           			<select class="form-input" id="filter-category" name="filter_category"></select>
+           		</div>
+           		<div class="param filter-search">
+           			<input type="search" class="form-input" id="filter-search" name="filter_search" placeholder="Buscar..." pattern="[a-zA-Z0-9\s]+" />
+           		</div>
+			</form>
 		</div>
 		<div id="sa-directory-dummy" class="dummy sa-directory">
 			<span class="sa-icon ti-alert"></span>
@@ -352,12 +364,16 @@
 				<li class="status"><span class="sa-icon ti-alert"></span><span></span></li>
 				<li class="supervision"><u>Supervision:</u> <span></span></li>
 				<li class="updated"><u>Actualizado:</u> <span></span></li>
+				<div class="sa-search-text invisible"></div>
 		    </ul>
 		</li>
 		
 		<!-- HELPERS -->
 		<a id="sa-token-helper" href="#" class="token" data-params=""></a>
 		<img id="sa-loading-helper" class="sa-loading" src="img/ajax-loader.gif">
+		<div id="sa-loading-mask" class="dummy sa-loading-mask">
+			<img class="sa-loading" src="img/ajax-loader.gif">
+		</div>
 		<div id="sa-no-results-helper" class="dummy sa-no-results">No hay contenido para mostrar en esta página.</div>
 		
     	<!-- APP PAGES -->
@@ -615,30 +631,34 @@
  			<div class="ui-content">
 				<div class="alert error">
 					<h2>
-						<span class="sa-icon ti-support"></span>
+						<span class="sa-icon-img">
+							<img src="img/hatzalah1.png" />
+						</span>
 						Contactar a Hatzalah?
 					</h2>
 				</div>
-				<p>Al presionar el botón, se enviará una alerta a Hatzalah automáticamente. Está seguro que desea proceder?</p>
-				<a class="ui-btn submit-button" href="#" id="sa-contact-hatzalah">Contactar a Hatzalah</a>
+				<p>Al presionar el botón, se iniciará una llamada y se enviará una alerta a Hatzalah automáticamente. Está seguro que desea proceder?</p>
+				<a class="ui-btn submit-button ui-emergency-btn" href="#" id="sa-contact-hatzalah">Contactar a Hatzalah</a>
 			</div>
 		</div>
 		<div data-role="page" id="dsi">
  			<div class="ui-content">
-				<div class="alert error">
+				<div class="alert dsi">
 					<h2>
-						<span class="sa-icon ti-target"></span>
+						<span class="sa-icon-img">
+							<img src="img/dsi1.png" />
+						</span>
 						Contactar a DSI?
 					</h2>
 				</div>
-				<p>Al presionar el botón, se le enviará una alerta a DSI automáticamente. Está seguro que desea proceder?</p>
-				<a class="ui-btn submit-button" href="#" id="sa-contact-dsi">Contactar a DSI</a>
+				<p>Al presionar el botón, se iniciará una llamada y se le enviará una alerta a DSI automáticamente. Está seguro que desea proceder?</p>
+				<a class="ui-btn submit-button ui-emergency-btn" href="#" id="sa-contact-dsi">Contactar a DSI</a>
 			</div>
 		</div>
+		<div data-role="page" id="blank"></div>
 		<div id="sa-waypoint"></div>
 		<script type="text/javascript" src="cordova.js"></script>
-        <!--  script type="text/javascript" src="js/telephonenumber.js"></script -->
-        <!-- script type="text/javascript" src="js/deviceinformation.js"></script -->
+        <script type="text/javascript" src="js/PushNotification.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
