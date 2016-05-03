@@ -22,7 +22,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+	this.app_url = 'http://app.shevetahim.com/api.php';
 	
 	// user
 	this.session = {};
@@ -1049,13 +1049,11 @@ sa.prototype.contactEmergency = function(){
 	this.addRequest('User','emergencyEmail',[org,lat,long]);
 	this.sendRequests(function(result){
 		if (typeof result.User.emergencyEmail.results[0] != 'undefined' && result.User.emergencyEmail.results[0]) {
-			//alert('La organización ha sido contactada. Puede llamar de nuevo o esperar respuesta.');			
+			alert('La organización ha sido contactada. Puede llamar de nuevo o esperar respuesta.');			
 		}
 	});
-	console.log(number)
+	
 	cordova.InAppBrowser.open('tel:'+number, '_self', 'location=no');
-	//document.location.href = 'tel:+1-800-555-1234';
-	//window.plugins.CallNumber.callNumber(function(){console.log('john')},function(){ alert('No se pudo iniciar la llamada.'); },number,false);
 }
 
 //==== SA APP DISPLAY FUNCTIONS ====

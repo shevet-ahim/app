@@ -25,8 +25,8 @@
     <description>
         Comunidad Shevet Ahim de Panamá - aplicación oficial.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="moises@organic.com.pa" href="www.organic.com.pa">
+        Organic Technologies
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
@@ -87,14 +87,14 @@
     <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
-    <access origin="*" />
+    <access launch-external="yes" origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-navigation href="http://45.79.131.79/*" />
+    <allow-navigation href="http://app.shevetahim.com/*" />
     <access launch-external="yes" origin="tel:*" />
     <access launch-external="yes" origin="geo:*" />
     <access launch-external="yes" origin="mailto:*" />
