@@ -85,7 +85,10 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="TelephoneNumber" value="com.simonmacdonald.cordova.plugins.TelephoneNumber"/>
-    <plugin name="DeviceInformation" value="com.vliesaputra.cordova.plugins.DeviceInformation"/>
     <allow-navigation href="http://45.79.131.79/*" />
+    <access origin="tel:*" launch-external="yes"/>
+	<access origin="geo:*" launch-external="yes"/>
+	<access origin="mailto:*" launch-external="yes"/>
+	<access origin="sms:*" launch-external="yes"/>
+	<access origin="market:*" launch-external="yes"/>
 </widget>

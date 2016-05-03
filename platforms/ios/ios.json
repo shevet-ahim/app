@@ -15,6 +15,14 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Sim\"><param name=\"ios-package\" value=\"Sim\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -42,6 +50,15 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "at.oneminutedistraction.phonenumber": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-sim": {
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
@@ -86,11 +103,39 @@
             "clobbers": [
                 "navigator.geolocation"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "pluginId": "cordova-plugin-inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
+        },
+        {
+            "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
+            "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
+            "pluginId": "at.oneminutedistraction.phonenumber",
+            "clobbers": [
+                "phonenumber"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-sim/www/sim.js",
+            "id": "cordova-plugin-sim.Sim",
+            "pluginId": "cordova-plugin-sim",
+            "merges": [
+                "window.plugins.sim"
+            ]
         }
     ],
     "plugin_metadata": {
         "com.phonegap.plugins.PushPlugin": "2.5.0",
         "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-geolocation": "2.2.0"
+        "cordova-plugin-geolocation": "2.2.0",
+        "cordova-plugin-inappbrowser": "1.4.0",
+        "at.oneminutedistraction.phonenumber": "0.0.1",
+        "cordova-plugin-sim": "1.2.1"
     }
 }

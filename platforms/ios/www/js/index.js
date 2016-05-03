@@ -42,6 +42,8 @@ function sa(){
 	this.params = {};
 	this.cfg = {};
 	this.last_url = null;
+	this.hatzalah_phone = null;
+	this.dsi_phone = null;
 	
 	// lazy loading
 	this.more_waiting = null;
@@ -58,6 +60,12 @@ function sa(){
 	this.init();
 }
 
+// error logging
+window.onerror = function(a,b,c) {
+  console.log(a,b,c);
+  return false;
+}
+
 sa.prototype.init = function(){
 	var self = this;
 	
@@ -66,19 +74,22 @@ sa.prototype.init = function(){
 	    	// get current position
 			navigator.geolocation.getCurrentPosition(function(position){
 				self.setProp('position',position);
-			});
+			},function(error){
+				console.log(error);
+			},{ enableHighAccuracy: true });
 			
 			// initialize hebdate object and set position (default Panama City)
 			self.setProp('hebdate',new Hebcal.HDate());
 			self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
 	
-			// try to get phone number and email
+			// try to get phone number
+			
 			/*
-			var deviceInfo = cordova.require("cordova/plugin/DeviceInformation");
-			deviceInfo.get(function(result) {
-		        console.log(result);
-		    });
-		    */
+			window.plugins.phonenumber.get(function(number){
+				console.log(number)
+			},function(){});
+			*/
+			
 			callback();
 		},
 		function (callback) {
@@ -640,6 +651,8 @@ sa.prototype.loadSettings = function(){
 			self.getItem('sa-session-status',results.user.status);
 			self.setItem('sa-events-cats',results.event_cats);
 			self.setItem('sa-content-cats',results.content_cats);
+			self.setProp('hatzalah_phone',results.hatzalah_phone);
+			self.setProp('dsi_phone',results.dsi_phone);
 
 			if (results.user.status == 'approved' && initial_status != 'approved') {
 				$("body").pagecontainer("change","#news-feed");
@@ -1027,8 +1040,22 @@ sa.prototype.loadShlijim = function(){
 
 sa.prototype.contactEmergency = function(){
 	var self = this;
-	console.log(this.position)
 	
+	var org = $('.ui-page-active').attr('id');
+	var lat = (self.position && self.position.coords) ? self.position.coords.latitude : null;
+	var long = (self.position && self.position.coords) ? self.position.coords.longitude : null;
+	var number = (org == 'hatzalah') ? self.hatzalah_phone : self.dsi_phone;
+	
+	this.addRequest('User','emergencyEmail',[org,lat,long]);
+	this.sendRequests(function(result){
+		if (typeof result.User.emergencyEmail.results[0] != 'undefined' && result.User.emergencyEmail.results[0]) {
+			//alert('La organización ha sido contactada. Puede llamar de nuevo o esperar respuesta.');			
+		}
+	});
+	console.log(number)
+	cordova.InAppBrowser.open('tel:'+number, '_self', 'location=no');
+	//document.location.href = 'tel:+1-800-555-1234';
+	//window.plugins.CallNumber.callNumber(function(){console.log('john')},function(){ alert('No se pudo iniciar la llamada.'); },number,false);
 }
 
 //==== SA APP DISPLAY FUNCTIONS ====

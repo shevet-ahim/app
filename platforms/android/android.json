@@ -19,6 +19,18 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PhoneNumberPlugin\"><param name=\"android-package\" value=\"at.oneminutedistraction.phonenumber.PhoneNumberPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Sim\"><param name=\"android-package\" value=\"com.pbakondy.Sim\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -53,6 +65,10 @@
                         {
                             "xml": "<uses-permission android:name=\"com.shevetahim.app.permission.C2D_MESSAGE\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+                            "count": 1
                         }
                     ],
                     "/manifest/application": [
@@ -77,6 +93,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -94,6 +114,15 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "at.oneminutedistraction.phonenumber": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-sim": {
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
@@ -116,7 +145,6 @@
         {
             "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
             "id": "cordova-plugin-geolocation.geolocation",
-            "pluginId": "cordova-plugin-geolocation",
             "clobbers": [
                 "navigator.geolocation"
             ]
@@ -124,13 +152,44 @@
         {
             "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
             "id": "cordova-plugin-geolocation.PositionError",
-            "pluginId": "cordova-plugin-geolocation",
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
+        },
+        {
+            "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
+            "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
+            "clobbers": [
+                "phonenumber"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-sim/www/sim.js",
+            "id": "cordova-plugin-sim.Sim",
+            "merges": [
+                "window.plugins.sim"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-sim/www/android/sim.js",
+            "id": "cordova-plugin-sim.SimAndroid",
+            "merges": [
+                "window.plugins.sim"
+            ]
         }
     ],
     "plugin_metadata": {
         "com.phonegap.plugins.PushPlugin": "2.5.0",
         "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-geolocation": "2.2.0"
+        "cordova-plugin-geolocation": "2.2.0",
+        "cordova-plugin-inappbrowser": "1.4.0",
+        "at.oneminutedistraction.phonenumber": "0.0.1",
+        "cordova-plugin-sim": "1.2.1"
     }
 }

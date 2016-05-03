@@ -15,6 +15,15 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "at.oneminutedistraction.phonenumber": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-sim": {
+            "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {
