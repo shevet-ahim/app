@@ -7,15 +7,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.phonegap.plugins.PushPlugin": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/phonegap-build/PushPlugin",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-compat": {
         "source": {
             "type": "registry",
@@ -49,12 +40,15 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-sim": {
+    "cordova-plugin-facebook": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-sim"
+            "id": "cordova-plugin-facebook"
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "FACEBOOK_DISPLAY_NAME": "ShevetApp",
+            "FACEBOOK_APP_ID": "990881847626346"
+        }
     }
 }

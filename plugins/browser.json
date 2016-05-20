@@ -10,9 +10,6 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
-        "com.phonegap.plugins.PushPlugin": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
@@ -22,7 +19,9 @@
         "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
-        "cordova-plugin-sim": {
+        "cordova-plugin-facebook": {
+            "FACEBOOK_APP_ID": "990881847626346",
+            "FACEBOOK_DISPLAY_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },

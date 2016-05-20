@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
                         },
@@ -27,10 +23,6 @@
                         {
                             "xml": "<feature name=\"PhoneNumberPlugin\"><param name=\"android-package\" value=\"at.oneminutedistraction.phonenumber.PhoneNumberPlugin\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Sim\"><param name=\"android-package\" value=\"com.pbakondy.Sim\" /></feature>",
-                            "count": 1
                         }
                     ]
                 }
@@ -39,52 +31,11 @@
                 "parents": {
                     "/manifest": [
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"com.google.android.c2dm.permission.RECEIVE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<permission android:name=\"com.shevetahim.app.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"com.shevetahim.app.permission.C2D_MESSAGE\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
                             "count": 1
                         }
                     ],
-                    "/manifest/application": [
-                        {
-                            "xml": "<activity android:exported=\"true\" android:name=\"com.plugin.gcm.PushHandlerActivity\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.shevetahim.app\" /></intent-filter></receiver>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<service android:name=\"com.plugin.gcm.GCMIntentService\" />",
-                            "count": 1
-                        }
-                    ],
+                    "/manifest/application": [],
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -93,9 +44,64 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
                             "count": 1
+                        }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<meta-data android:name=\"com.facebook.sdk.ApplicationId\" android:value=\"@string/facebook_app_id\" />",
+                            "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+                            "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|screenLayout|screenSize|orientation\" android:label=\"@string/app_name\" android:name=\"com.facebook.FacebookActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<provider android:authorities=\"com.facebook.app.FacebookContentProvider990881847626346\" android:exported=\"true\" android:name=\"com.facebook.FacebookContentProvider\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/facebookconnect.xml": {
+                "parents": {
+                    "/*": []
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"CordovaFacebook\"><param name=\"android-package\" value=\"com.blakeisrael.cordova.CordovaFacebook\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://m.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://graph.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://api.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/strings.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<string name=\"facebook_app_id\">990881847626346</string>",
                             "count": 1
                         }
                     ]
@@ -105,9 +111,6 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-compat": {
@@ -122,7 +125,9 @@
         "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
-        "cordova-plugin-sim": {
+        "cordova-plugin-facebook": {
+            "FACEBOOK_APP_ID": "990881847626346",
+            "FACEBOOK_DISPLAY_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
@@ -133,14 +138,6 @@
             "id": "cordova-plugin-whitelist.whitelist",
             "pluginId": "cordova-plugin-whitelist",
             "runs": true
-        },
-        {
-            "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-            "id": "com.phonegap.plugins.PushPlugin.PushNotification",
-            "pluginId": "com.phonegap.plugins.PushPlugin",
-            "clobbers": [
-                "PushNotification"
-            ]
         },
         {
             "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
@@ -170,26 +167,18 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-sim/www/sim.js",
-            "id": "cordova-plugin-sim.Sim",
-            "merges": [
-                "window.plugins.sim"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-sim/www/android/sim.js",
-            "id": "cordova-plugin-sim.SimAndroid",
-            "merges": [
-                "window.plugins.sim"
+            "file": "plugins/cordova-plugin-facebook/www/CordovaFacebook.js",
+            "id": "cordova-plugin-facebook.CordovaFacebook",
+            "clobbers": [
+                "CordovaFacebook"
             ]
         }
     ],
     "plugin_metadata": {
-        "com.phonegap.plugins.PushPlugin": "2.5.0",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.0",
         "cordova-plugin-inappbrowser": "1.4.0",
         "at.oneminutedistraction.phonenumber": "0.0.1",
-        "cordova-plugin-sim": "1.2.1"
+        "cordova-plugin-facebook": "0.2.2"
     }
 }

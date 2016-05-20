@@ -8,6 +8,7 @@
         Organic Technologies
     </author>
     <content src="index.html" />
+    <preference name="phonegap-version" value="6.0.1" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
@@ -41,11 +42,6 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-    <!--gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
-   		<param name="APP_ID" value="..." />
-    	<param name="APP_NAME" value="..." />
-	</gap:plugin -->
-    <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
     <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/icon-72-hdpi.png" />
@@ -85,7 +81,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <allow-navigation href="http://app.shevetahim.com/*" />
+    <allow-navigation href="http://45.79.131.79/*" />
     <access origin="tel:*" launch-external="yes"/>
 	<access origin="geo:*" launch-external="yes"/>
 	<access origin="mailto:*" launch-external="yes"/>

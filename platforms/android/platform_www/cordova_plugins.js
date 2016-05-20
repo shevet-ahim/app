@@ -7,14 +7,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
-        "pluginId": "com.phonegap.plugins.PushPlugin",
-        "clobbers": [
-            "PushNotification"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
         "id": "cordova-plugin-geolocation.geolocation",
         "clobbers": [
@@ -42,29 +34,21 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-sim/www/sim.js",
-        "id": "cordova-plugin-sim.Sim",
-        "merges": [
-            "window.plugins.sim"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-sim/www/android/sim.js",
-        "id": "cordova-plugin-sim.SimAndroid",
-        "merges": [
-            "window.plugins.sim"
+        "file": "plugins/cordova-plugin-facebook/www/CordovaFacebook.js",
+        "id": "cordova-plugin-facebook.CordovaFacebook",
+        "clobbers": [
+            "CordovaFacebook"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.phonegap.plugins.PushPlugin": "2.5.0",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
     "at.oneminutedistraction.phonenumber": "0.0.1",
-    "cordova-plugin-sim": "1.2.1"
+    "cordova-plugin-facebook": "0.2.2"
 };
 // BOTTOM OF METADATA
 });

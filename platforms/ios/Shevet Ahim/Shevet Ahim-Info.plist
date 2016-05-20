@@ -38,14 +38,33 @@
     <dict>
       <key>NSExceptionDomains</key>
       <dict>
-        <key>app.shevetahim.com</key>
+        <key>45.79.131.79</key>
         <dict>
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
           <true/>
         </dict>
       </dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb990881847626346</string>
+        </array>
+      </dict>
+    </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbauth</string>
+    </array>
+    <key>FacebookAppID</key>
+    <string>990881847626346</string>
+    <key>FacebookDisplayName</key>
+    <string>ShevetApp</string>
   </dict>
 </plist>

@@ -350,6 +350,12 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	-khtml-opacity: 0.2;
 	opacity: 0.2;
 }
+#sa-top-nav.ios {
+	height:96px;
+}
+#sa-top-nav.ios .o1 {
+	padding-top:15px;
+}
 #sa-top-nav #sa-title {
 	position:absolute;
 	top:0;

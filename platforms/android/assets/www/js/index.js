@@ -1,8 +1,13 @@
+
+
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        
+        
+        
     },
     // Bind Event Listeners
     //
@@ -17,12 +22,13 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
     	window.sa = new sa();
+    	console.log(navigator.plugins)
     }
 };
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://app.shevetahim.com/api.php';
+	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -68,9 +74,35 @@ window.onerror = function(a,b,c) {
 
 sa.prototype.init = function(){
 	var self = this;
+	console.log(window.CordovaFacebook)
+	console.log(window.plugins)
+	CordovaFacebook.login({
+		   permissions: ['email'],
+		   onSuccess: function(result) {
+		      if(result.declined.length > 0) {
+		         alert("The User declined something!");
+		      }
+		      /* ... */
+		   },
+		   onFailure: function(result) {
+		      if(result.cancelled) {
+		         alert("The user doesn't like my app");
+		      } else if(result.error) {
+		         alert("There was an error:" + result.errorLocalized);
+		      }
+		   }
+		});
 	
 	async.series([
 	    function (callback) {
+	    	// top bar for iOS
+	    	self.resizePanels();
+	    	
+	    	// rotation stuff
+	    	$(window).resize(function() {
+	    		self.resizePanels();
+	    	});
+	    	
 	    	// get current position
 			navigator.geolocation.getCurrentPosition(function(position){
 				self.setProp('position',position);
@@ -83,12 +115,11 @@ sa.prototype.init = function(){
 			self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
 	
 			// try to get phone number
-			
-			/*
-			window.plugins.phonenumber.get(function(number){
-				console.log(number)
-			},function(){});
-			*/
+			if (window.plugins.sim) {
+				window.plugins.sim.getSimInfo(function(result){
+					console.log(result)
+				},function(){});
+			}
 			
 			callback();
 		},
@@ -228,6 +259,7 @@ sa.prototype.init = function(){
 				self.setProp('more_last_load',moment().unix());
 				self.setProp('more_attempts',0);
 				$('#sa-menu').height($(document).height());
+				self.resizePanels();
 			});
 			
 			// tabs load events
@@ -2046,5 +2078,15 @@ sa.prototype.activateHeader = function(elem,page) {
 					$(this).parents('li').show();
 			});
 		});
+	}
+}
+
+sa.prototype.resizePanels = function() {
+	if (device.platform && device.platform.toLowerCase() == 'ios') {
+		$('#sa-top-nav').addClass('ios');
+		$('.ui-content').addClass('ios');
+		
+		var w = $(window).width();
+		$('.ui-page').css('width',w * 0.833);
 	}
 }
