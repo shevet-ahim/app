@@ -79,6 +79,7 @@ sa.prototype.init = function(){
 		      /* ... */
 		   },
 		   onFailure: function(result) {
+			   alert(JSON.stringify(result))
 		      if(result.cancelled) {
 		         alert("The user doesn't like my app");
 		      } else if(result.error) {
@@ -111,9 +112,18 @@ sa.prototype.init = function(){
 			// try to get phone number
 			if (window.plugins.sim) {
 				window.plugins.sim.getSimInfo(function(result){
+					alert(JSON.stringify(result))
 					console.log(result,'asdfadfs')
 				},function(){});
 			}
+			
+			// test calendar event
+			window.plugins.calendar.createEventInteractively('Test Event','phonegap hell','',new Date(),new Date(),function(result){
+				alert(JSON.stringify(result))
+			},function(result) {
+				alert(JSON.stringify(result))
+			});
+			 
 			
 			callback();
 		},
