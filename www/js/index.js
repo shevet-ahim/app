@@ -65,18 +65,14 @@ function sa(){
 	this.init();
 }
 
-// error logging
-window.onerror = function(a,b,c) {
-  console.log(a,b,c);
-  return false;
-}
 
 sa.prototype.init = function(){
 	var self = this;
 	
 	window.plugins.CordovaFacebook.login({
-		   permissions: ['email'],
+		   permissions: ['email','public_profile'],
 		   onSuccess: function(result) {
+			   alert(JSON.stringify(result))
 		      if(result.declined.length > 0) {
 		         alert("The User declined something!");
 		      }
