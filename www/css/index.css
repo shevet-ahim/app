@@ -912,6 +912,16 @@ form .ui-btn:not(.ui-input-btn):not(.submit-button){
 	font-size: 15px;
 	padding: 8px 0 8px 35px;
 }
+.facebook-button{
+	background-color: #365899 !important;
+    color: #FFF !important;
+    text-shadow: 0 1px 0 #a4a4a4 !important;
+    font-weight: 400 !important;
+	border: 1px solid #2c4573 !important;
+	box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 3px 0px;
+	border-radius: 4px;
+    margin-top: 10px !important;
+}
 form label,form select{
 	font-family: Lato, Helvetica, Arial, sans-serif;
 	font-weight:400;

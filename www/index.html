@@ -245,6 +245,10 @@
 			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
 		</div>
 		<div id="sa-detail-dummy" class="dummy sa-detail">
+			<input type="hidden" class="calendar_name" value="" />
+			<input type="hidden" class="calendar_location" value="" />
+			<input type="hidden" class="calendar_start" value="" />
+			<input type="hidden" class="calendar_end" value="" />
 			<h1 class="title"><a href="#" class="sa-icon sa-back-button ti-arrow-left"></a><span></span></h1>
 			<div class="author">
 				<img class="p" src="" />
@@ -464,7 +468,7 @@
             		</div>
             		<div class="clear"></div>
             		<input id="sa-login" type="submit" class="ui-btn submit-button" name="login" value="Ingresar" />
-            		<input id="sa-login" type="submit" class="ui-btn submit-button" name="login" value="Ingresar" />
+            		<a id="facebook-login-button" href="#" class="ui-btn facebook-button submit-button"><span class="sa-icon ti-facebook"></span> Facebook Login</a>
             		<div class="clear"></div>
             	</form>
 			</div>
@@ -545,7 +549,8 @@
  				<div class="sa-detail sa-settings">
  					<h1 class="title">
  						<a href="#news-feed" class="sa-icon sa-back-button ti-arrow-left" data-rel="back"></a>
- 						Configuración
+ 						<span class="default-label">Configuración</span>
+ 						<span class="special-label">Por favor verifique su información</span>
  					</h1>
 					<form id="settings-personal-form" name="settings_personal_form">
 	            		<div class="param">
@@ -589,11 +594,11 @@
 	            			<div class="input-status ti-alert"></div>
 	            		</div>
 	            		<div class="clear"></div>
-	            		<input id="sa-settings-submit" type="submit" class="ui-btn submit-button" name="settings-submit" value="Guardar Configuración" />
+	            		<input id="sa-settings-submit" type="submit" class="ui-btn submit-button" name="settings-submit" value="Guardar Configuración" data-target="" />
 		            	<div class="clear"></div>
 	            	</form>
  				</div>
- 				<div class="sa-detail sa-settings">
+ 				<div class="sa-detail sa-settings sa-password-settings">
  					<h1 class="title">Cambiar Contraseña</h1>
 					<form id="settings-password-form" name="settings_password_form">
 						<div class="param">

@@ -65,28 +65,14 @@ function sa(){
 	this.init();
 }
 
+//error logging
+window.onerror = function(a,b,c) {
+  console.log(a,b,c);
+  return false;
+}
 
 sa.prototype.init = function(){
 	var self = this;
-	
-	window.plugins.CordovaFacebook.login({
-		   permissions: ['email','public_profile'],
-		   onSuccess: function(result) {
-			   alert(JSON.stringify(result))
-		      if(result.declined.length > 0) {
-		         alert("The User declined something!");
-		      }
-		      /* ... */
-		   },
-		   onFailure: function(result) {
-			   alert(JSON.stringify(result))
-		      if(result.cancelled) {
-		         alert("The user doesn't like my app");
-		      } else if(result.error) {
-		         alert("There was an error:" + result.errorLocalized);
-		      }
-		   }
-		});
 	
 	async.series([
 	    function (callback) {
@@ -108,22 +94,6 @@ sa.prototype.init = function(){
 			// initialize hebdate object and set position (default Panama City)
 			self.setProp('hebdate',new Hebcal.HDate());
 			self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
-	
-			// try to get phone number
-			if (window.plugins.sim) {
-				window.plugins.sim.getSimInfo(function(result){
-					alert(JSON.stringify(result))
-					console.log(result,'asdfadfs')
-				},function(){});
-			}
-			
-			// test calendar event
-			window.plugins.calendar.createEventInteractively('Test Event','phonegap hell','',new Date(),new Date(),function(result){
-				alert(JSON.stringify(result))
-			},function(result) {
-				alert(JSON.stringify(result))
-			});
-			 
 			
 			callback();
 		},
@@ -154,6 +124,10 @@ sa.prototype.init = function(){
 				self.login(this);
 				e.preventDefault();
 			});
+			$(document).on('click','#facebook-login-button',function(e) {
+				self.facebookLogin(this);
+				e.preventDefault();
+			});
 			$(document).on('click','.sa-close-popup',function(e){
 				$(this).parents('.popup-full').find('.sa-items').html('');
 			});
@@ -182,6 +156,14 @@ sa.prototype.init = function(){
 					self.loadZmanim();
 				else if (page == '#shiurim')
 					self.loadShiurim();
+			});
+			
+			$(document).on('click','.sa-add-reminder',function(){
+				var name = $('.ui-page-active').find('.calendar_name').val();
+				var location = $('.ui-page-active').find('.calendar_location').val();
+				var start = $('.ui-page-active').find('.calendar_start').val();
+				var end = $('.ui-page-active').find('.calendar_end').val();
+				self.addToCalendar(name,location,start,end);
 			});
 			
 			$('#sa-top-nav').toolbar();
@@ -403,8 +385,31 @@ sa.prototype.login = function(button,info){
 				self.setItem('sa-session-has-children',result.User.login.results[0].has_children);
 				self.setItem('sa-session-push-notifications',result.User.login.results[0].push_notifications);
 				
-				if (self.session.status == 'approved')
-					$("body").pagecontainer("change","#news-feed");
+				// try to get phone number
+				if (!result.User.login.results[0].tel) {
+					if (window.plugins.sim) {
+						window.plugins.sim.getSimInfo(function(result){
+							if (result && result.phoneNumber)
+								this.addRequest('User','updatePhonePassive',[{tel:result.phoneNumber}]);
+						},function(){});
+					};
+				}
+				
+				if (self.session.status == 'approved') {
+					if (result.User.login.results[0].has_logged_in == 'Y')
+						$("body").pagecontainer("change","#news-feed");
+					else {
+						self.loadTefilot();
+						self.loadFeed();
+						self.startTicker();
+						self.loadSettings(function(){
+							$("body").pagecontainer("change","#settings");
+							$("#sa-top-nav").show();
+							$("#sa-bottom-nav").show();
+							self.displaySettings(true);
+						});
+					}
+				}
 				else if (self.session.status == 'pending')
 					$("body").pagecontainer("change","#signup-waiting");
 				else if (self.session.status == 'rejected')
@@ -419,6 +424,33 @@ sa.prototype.login = function(button,info){
 		else
 			self.displayErrors(['Problema de conexión!']);
 	});
+}
+
+sa.prototype.facebookLogin = function(button,info){
+	var self = this;
+	
+	facebookConnectPlugin.login(['email','public_profile'],function(result){
+		var info = {fb_id: result.userID};
+		facebookConnectPlugin.api('me?fields=id,name,age_range,email,gender',['email','public_profile','name','age_range'],function(result) {
+			var name_parts = result.name.split(' ');
+			info.last_name = name_parts.pop()
+			info.first_name = name_parts.join(' ');
+			info.age = result.age_range.min;
+			info.email = result.email;
+			info.sex = (result.gender && result.gender == 'male') ? 1 : (result.gender && result.gender == 'female' ? 2 : 0);
+			self.login(button,info);
+		},
+		function (result) {
+			console.error(result);
+		});
+	},function (result) {
+		console.error(result);
+	});
+}
+
+sa.prototype.googleLogin = function(button,info){
+	var self = this;
+	
 }
 
 sa.prototype.saveSettings = function(button){
@@ -446,6 +478,9 @@ sa.prototype.saveSettings = function(button){
 			else if (result.User.saveSettings.results[0]) {
 				self.displayMessages(result.User.saveSettings.results[0].messages,button);
 				self.loadSettings();
+				
+				if (button.attr('data-target') == 'feed')
+					$("body").pagecontainer("change","#news-feed");
 			}
 		}
 		else
@@ -510,6 +545,7 @@ sa.prototype.logout = function(){
 	
 	$("#sa-top-nav").hide();
 	$("#sa-bottom-nav").hide();
+	$('#sa-tefilot-scroll .scroll').html();
 }
 
 sa.prototype.loadTefilot = function(return_data){
@@ -588,6 +624,7 @@ sa.prototype.loadFeed = function(more){
 	var feed = (!more) ? this.getItem('sa-feed') : [];
 	var events = (!more) ? this.getItem('sa-events') : [];
 	var content = (!more) ? this.getItem('sa-content') : [];
+	var old_feed = (more) ? this.getItem('sa-old-items') : [];
 	var popups_shown = this.getItem('sa-popups');
 	var new_items = [];
 	var popups = [];
@@ -658,23 +695,32 @@ sa.prototype.loadFeed = function(more){
 					if (content.length > 50)
 						content.shift();
 				}
+				
+				var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+				if (found && found.length > 0)
+					continue;
+				
+				old_feed.push(new_items[i]);
 			}
 		}
 
 		self.displayFeed('news-feed',feed,more);
 		self.displayAnnouncements(popups);
-
+		
 		if (!more) {
 			self.setItem('sa-feed',feed);
 			self.setItem('sa-events',events);
 			self.setItem('sa-content',content);
 		}
+		else
+			self.setItem('sa-old-items',old_feed);
+		
 		self.setItem('sa-popups',popups_shown);
 		self.setProp('more_waiting',false);
 	});
 }
 
-sa.prototype.loadSettings = function(){
+sa.prototype.loadSettings = function(callback){
 	var self = this;
 	this.addRequest('Settings','getForApp',[]);
 	this.sendRequests(function(result){
@@ -707,9 +753,19 @@ sa.prototype.loadSettings = function(){
 				$("#sa-top-nav").hide();
 				$("#sa-bottom-nav").hide();
 			}
+			
+			if (callback)
+				callback();
+			
+			return true;
 		}
 		else {
-			self.setProp('cfg',self.getItem('sa-feed'));
+			self.setProp('cfg',self.getItem('sa-cfg'));
+			
+			if (callback)
+				callback();
+			
+			return true;
 		}
 	});
 }
@@ -1473,9 +1529,12 @@ sa.prototype.displayDetail = function(){
 	// find the detail items in db
 	var items = this.getItem('sa-' + query);
 	if (!items || items.length == 0) {
-		this.displayErrors([error_string]);
-		console.error('Error: No stored items for this content type.');
-		return false;
+		var items = this.getItem('sa-old-items');
+		if (!items || items.length == 0) {
+			this.displayErrors([error_string]);
+			console.error('Error: No stored items for this content type.');
+			return false;
+		}
 	}
 
 	var filtered = items.filter(function(item) {
@@ -1483,9 +1542,16 @@ sa.prototype.displayDetail = function(){
 	});
 	
 	if (!filtered || filtered.length == 0) {
-		this.displayErrors([error_string]);
-		console.error('Error: No content items found.');
-		return false;
+		var items = this.getItem('sa-old-items');
+		var filtered = items.filter(function(item) {
+			return item.id == params.id;
+		});
+		
+		if (!filtered || filtered.length == 0) {
+			this.displayErrors([error_string]);
+			console.error('Error: No content items found.');
+			return false;
+		}
 	}
 	
 	// display according to content type
@@ -1512,6 +1578,11 @@ sa.prototype.displayDetail = function(){
 		helper.removeAttr('id','');
 		helper.html(item.category).attr('href','#events').attr('data-params',encodeURIComponent(JSON.stringify({category:item.key})));
 		clone.find('.categories span:last').append(helper);
+		
+		clone.find('.calendar_name').val(item.title);
+		clone.find('.calendar_location').val(item.place);
+		clone.find('.calendar_start').val(moment.unix(item.timestamp).valueOf());
+		clone.find('.calendar_end').val(moment.unix(item.timestamp + 1800).valueOf());
 	}
 	else if (item.type == 'content') {
 		clone.find('.ago').html('...' + moment(item.timestamp * 1000).locale('es').fromNow());
@@ -1692,7 +1763,7 @@ sa.prototype.displayShlijimDetail = function(){
 	$('#shlijim-detail .ui-content').append(clone);
 }
 
-sa.prototype.displaySettings = function(){
+sa.prototype.displaySettings = function(init){
 	if (this.cfg && this.cfg.sexos && Object.keys(this.cfg.sexos).length > 0) {
 		$('#settings #sex').html('').append('<option value="">Por favor seleccionar</option>');
 		for (i in this.cfg.sexos) {
@@ -1711,6 +1782,20 @@ sa.prototype.displaySettings = function(){
 		$('#settings #has-children').prop('checked',true).checkboxradio('refresh');
 	if (this.cfg.user.push_notifications)
 		$('#settings #push-notifications').prop('checked',true).checkboxradio('refresh');
+	
+	if (this.cfg.user.fb_id)
+		$('.sa-password-settings').hide();
+	
+	if (init) {
+		$('.special-label').show();
+		$('.default-label').hide();
+		$('#sa-settings-submit').attr('data-target','feed');
+	}
+	else {
+		$('.special-label').hide();
+		$('.default-label').show();
+		$('#sa-settings-submit').attr('data-target','');
+	}
 }
 
 //==== SA APP UTILITIES ====
@@ -2086,6 +2171,9 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
+	if (!device)
+		return false;
+	
 	if (device.platform && device.platform.toLowerCase() == 'ios') {
 		$('#sa-top-nav').addClass('ios');
 		$('.ui-content').addClass('ios');
@@ -2093,4 +2181,12 @@ sa.prototype.resizePanels = function() {
 		var w = $(window).width();
 		$('.ui-page').css('width',w * 0.833);
 	}
+}
+
+sa.prototype.addToCalendar = function(name,location,start,end) {
+	window.plugins.calendar.createEventInteractively(name,location,'',new Date(start),new Date(end),function(result){
+		alert(JSON.stringify(result))
+	},function(result) {
+		alert(JSON.stringify(result))
+	});
 }
