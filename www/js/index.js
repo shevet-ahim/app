@@ -27,7 +27,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+	this.app_url = 'http://app.shevetahim.com/api.php';
 	
 	// user
 	this.session = {};
@@ -401,7 +401,6 @@ sa.prototype.login = function(button,info){
 					else {
 						self.loadTefilot();
 						self.loadFeed();
-						self.startTicker();
 						self.loadSettings(function(){
 							$("body").pagecontainer("change","#settings");
 							$("#sa-top-nav").show();
@@ -431,7 +430,7 @@ sa.prototype.facebookLogin = function(button,info){
 	
 	facebookConnectPlugin.login(['email','public_profile'],function(result){
 		var info = {fb_id: result.userID};
-		facebookConnectPlugin.api('me?fields=id,name,age_range,email,gender',['email','public_profile','name','age_range'],function(result) {
+		facebookConnectPlugin.api(result.userID + '?fields=id,name,age_range,email,gender',['email','public_profile','name','age_range'],function(result) {
 			var name_parts = result.name.split(' ');
 			info.last_name = name_parts.pop()
 			info.first_name = name_parts.join(' ');
@@ -479,7 +478,7 @@ sa.prototype.saveSettings = function(button){
 				self.displayMessages(result.User.saveSettings.results[0].messages,button);
 				self.loadSettings();
 				
-				if (button.attr('data-target') == 'feed')
+				if ($(button).attr('data-target') == 'feed')
 					$("body").pagecontainer("change","#news-feed");
 			}
 		}
@@ -1247,7 +1246,7 @@ sa.prototype.displaySchedule = function(page,events){
 	var title = '';
 	
 	if (page == 'zmanim')
-		title = 'Horarios diarios';
+		title = 'Zmanim diarios';
 	else if (page == 'shiurim')
 		title = 'Shiurim diarios';
 	
