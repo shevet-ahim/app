@@ -72,8 +72,8 @@
     <access origin="*" launch-external="yes" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <plugin name="phonegap-facebook-plugin" spec="0.12.0">
-        <variable name="APP_ID" value="992706037443927" />
-        <variable name="APP_NAME" value="ShevetApp - Test1" />
+        <variable name="APP_ID" value="990881847626346" />
+        <variable name="APP_NAME" value="ShevetApp" />
     </plugin>
     <plugin name="cordova-plugin-sim" source="npm" version="1.2.1" />
     <plugin name="cordova-plugin-calendar" source="npm" version="4.4.7" />
@@ -90,7 +90,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <allow-navigation href="http://45.79.131.79/*" />
+    <allow-navigation href="http://app.shevetahim.com/*" />
     <access origin="tel:*" launch-external="yes"/>
 	<access origin="geo:*" launch-external="yes"/>
 	<access origin="mailto:*" launch-external="yes"/>
