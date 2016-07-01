@@ -1,11 +1,12 @@
-
+window.onerror = function (errorMsg, url, lineNumber) {
+    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+}
 
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        
         
         
     },
@@ -27,7 +28,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://app.shevetahim.com/api.php';
+	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';//'http://app.shevetahim.com/api.php';
 	
 	// user
 	this.session = {};
@@ -65,12 +66,6 @@ function sa(){
 	this.init();
 }
 
-//error logging
-window.onerror = function(a,b,c) {
-  console.log(a,b,c);
-  return false;
-}
-
 sa.prototype.init = function(){
 	var self = this;
 	
@@ -85,11 +80,13 @@ sa.prototype.init = function(){
 	    	});
 	    	
 	    	// get current position
-			navigator.geolocation.getCurrentPosition(function(position){
-				self.setProp('position',position);
-			},function(error){
-				console.log(error);
-			},{ enableHighAccuracy: true });
+	    	if (navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition) {
+				navigator.geolocation.getCurrentPosition(function(position){
+					self.setProp('position',position);
+				},function(error){
+					console.log(error);
+				},{ enableHighAccuracy: true });
+	    	}
 			
 			// initialize hebdate object and set position (default Panama City)
 			self.setProp('hebdate',new Hebcal.HDate());
@@ -358,9 +355,14 @@ sa.prototype.login = function(button,info){
 		info = this.condenseForm($(button).parents('form').serializeArray());
 	else
 		button = $('#sa-login');
-	
+
+    i = JSON.stringify(info);
+
 	this.addRequest('User','login',[info]);
+
 	this.sendRequests(function(result){
+
+        var rr = JSON.stringify(result);
 		if (typeof result.User.login.results[0] != 'undefined') {
 			if (typeof result.User.login.results[0].errors != 'undefined') {
 				var errors = result.User.login.results[0].errors;
@@ -385,7 +387,10 @@ sa.prototype.login = function(button,info){
 				self.setItem('sa-session-has-children',result.User.login.results[0].has_children);
 				self.setItem('sa-session-push-notifications',result.User.login.results[0].push_notifications);
 				
+                // parece que comentar esto rompió algo por algún motivo                
+
 				// try to get phone number
+                /*
 				if (!result.User.login.results[0].tel) {
 					if (window.plugins.sim) {
 						window.plugins.sim.getSimInfo(function(result){
@@ -394,6 +399,7 @@ sa.prototype.login = function(button,info){
 						},function(){});
 					};
 				}
+                */
 				
 				if (self.session.status == 'approved') {
 					if (result.User.login.results[0].has_logged_in == 'Y')
@@ -425,27 +431,50 @@ sa.prototype.login = function(button,info){
 	});
 }
 
+
+// https://developers.facebook.com/docs/reference/javascript/FB.login/v2.1
+// https://developers.facebook.com/docs/facebook-login/permissions
 sa.prototype.facebookLogin = function(button,info){
 	var self = this;
-	
-	facebookConnectPlugin.login(['email','public_profile'],function(result){
-		var info = {fb_id: result.userID};
-		facebookConnectPlugin.api(result.userID + '?fields=id,name,age_range,email,gender',['email','public_profile','name','age_range'],function(result) {
-			var name_parts = result.name.split(' ');
-			info.last_name = name_parts.pop()
-			info.first_name = name_parts.join(' ');
-			info.age = result.age_range.min;
-			info.email = result.email;
-			info.sex = (result.gender && result.gender == 'male') ? 1 : (result.gender && result.gender == 'female' ? 2 : 0);
-			self.login(button,info);
-		},
-		function (result) {
-			console.error(result);
-		});
-	},function (result) {
-		console.error(result);
-	});
+
+    facebookConnectPlugin.login(["email",'public_profile','user_about_me','user_birthday'], function(response) {
+
+         perfil = JSON.stringify(response);
+         if (response.authResponse) {
+
+            var userID = response.authResponse.userID;
+
+            facebookConnectPlugin.api(response.authResponse.userID +"/?fields=id,name,email,gender,age_range" , ["user_birthday"],function(result) {
+                var name_parts = result.name.split(' ');
+
+                info = {};
+                info.last_name  = name_parts[1];
+                info.first_name = name_parts[0];
+                info.age = result.age_range.min;
+                info.email = result.email;
+                info.sex = (result.gender && result.gender == 'male') ? 1 : (result.gender && result.gender == 'female' ? 2 : 0);
+                info.fb_id = userID;
+
+                perfil = JSON.stringify(response);
+
+                self.login(button,info);
+                
+              }, function(error) {
+                console.error("Failed: ", error);
+              }
+            );
+
+         } else {
+               console.error("ln478: no hay authResponse",response);
+         }
+     },
+     function (result) {
+        perfil = JSON.stringify(result);
+		console.error("\n\n ln483 \n"+perfil);
+	 }); 
+    
 }
+ 
 
 sa.prototype.googleLogin = function(button,info){
 	var self = this;
@@ -846,6 +875,7 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,more){
 }
 
 sa.prototype.loadShiurim = function(){
+
 	var params = this.params;
 	var self = this;
 	var new_items = [];
@@ -2170,7 +2200,7 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-	if (!device)
+	if (typeof device == 'undefined')
 		return false;
 	
 	if (device.platform && device.platform.toLowerCase() == 'ios') {
