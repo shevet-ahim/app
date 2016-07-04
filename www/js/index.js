@@ -2170,16 +2170,18 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-	if (!device)
-		return false;
-	
-	if (device.platform && device.platform.toLowerCase() == 'ios') {
-		$('#sa-top-nav').addClass('ios');
-		$('.ui-content').addClass('ios');
+    if (typeof device === 'undefined' || device === null) {
+        return false;
+	} else {
+        alert(typeof device);
+	    if (device.platform && device.platform.toLowerCase() == 'ios') {
+		    $('#sa-top-nav').addClass('ios');
+		    $('.ui-content').addClass('ios');
 		
-		var w = $(window).width();
-		$('.ui-page').css('width',w * 0.833);
-	}
+		    var w = $(window).width();
+		    $('.ui-page').css('width',w * 0.833);
+	    }
+    }
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
