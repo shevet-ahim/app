@@ -1399,7 +1399,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 		key = 'arbit';
 		
 	current = tefilot[key];
-	if (Object.keys(current) == 0)
+	if (Object.keys(current) == 0 || !cats)
 		return false;
 	
 	$('#sa-tefilot-event').html(cats[key] + ':');
@@ -1999,8 +1999,8 @@ sa.prototype.updateHdate = function () {
 
 sa.prototype.getEventTimestamp = function(event) {
 	if (event.recurrence == 'specific_heb') {
-		var y = self.hebdate.getFullYear();
-		var m = self.hebdate.getMonthName();
+		var y = this.hebdate.getFullYear();
+		var m = this.hebdate.getMonthName();
 		if (event.month_he == 'tishrei')
 			y++;
 		
