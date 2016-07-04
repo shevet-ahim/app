@@ -2207,9 +2207,8 @@ sa.prototype.resizePanels = function() {
 		$('#sa-top-nav').addClass('ios');
 		$('.ui-content').addClass('ios');
 		
-		    var w = $(window).width();
-		    $('.ui-page').css('width',w * 0.833);
-	    }
+	    var w = $(window).width();
+	    $('.ui-page').css('width',w * 0.833);
     }
 }
 
