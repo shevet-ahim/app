@@ -2173,7 +2173,6 @@ sa.prototype.resizePanels = function() {
     if (typeof device === 'undefined' || device === null) {
         return false;
 	} else {
-        alert(typeof device);
 	    if (device.platform && device.platform.toLowerCase() == 'ios') {
 		    $('#sa-top-nav').addClass('ios');
 		    $('.ui-content').addClass('ios');
