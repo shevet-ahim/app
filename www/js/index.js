@@ -1780,11 +1780,10 @@ sa.prototype.displayShlijimDetail = function(){
 	}
 	
 	if (item.warn != 'Y' && item.status == 'approved') {
-		clone.find('.sa-icon').addClass('ti-check-box');
+		clone.find('.overlay').hide();
 	}
 	else {
-		clone.addClass('sa-warn');
-		clone.find('.sa-icon').addClass('ti-na');
+		clone.find('.overlay').show();
 	}
 	
 	if (item.img) {
@@ -2081,7 +2080,7 @@ sa.prototype.startTicker = function() {
 		offset = elem_sub_l.offset();
 		if (elem_sub_l && offset) {
 			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 3) {
-				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',(offset.left + elem_sub_l_w)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
+				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),(window_w + 50))+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
 				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = true;
 			}

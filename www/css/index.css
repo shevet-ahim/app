@@ -456,7 +456,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 
 
 #sa-menu{
-	overflow: hidden;
+	overflow: visible;
     background-color: #15758D;
     border: none !important;
     margin: 0 !important;
