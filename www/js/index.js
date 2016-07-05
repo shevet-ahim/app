@@ -1,7 +1,8 @@
+/*
 window.onerror = function (errorMsg, url, lineNumber) {
     alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
-
+*/
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
     // Application Constructor
