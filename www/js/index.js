@@ -28,7 +28,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';//'http://app.shevetahim.com/api.php';
+	this.app_url = 'http://app.shevetahim.com/api.php';//'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -193,7 +193,6 @@ sa.prototype.init = function(){
 					self.loadTefilot();
 					self.loadFeed();
 					self.loadSettings();
-					self.startTicker();
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -243,6 +242,13 @@ sa.prototype.init = function(){
 				self.setProp('more_attempts',0);
 				$('#sa-menu').height($(document).height());
 				self.resizePanels();
+				
+				var page = ui.toPage.prop("id");
+				if (page == 'news-feed') {
+					setTimeout(function(){
+						self.startTicker();
+					},1000);
+				}
 			});
 			
 			// tabs load events
@@ -929,6 +935,7 @@ sa.prototype.loadZmanim = function(){
 	
 	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,timestamp,timestamp]);
 	this.sendRequests(function(result){
+		console.log(result)
 		// get zmanim
 		var hdate = new Hebcal.HDate().setLocation(self.position.coords.latitude,self.position.coords.longitude);
 		var zmanim = hdate.getZemanim();
@@ -2046,19 +2053,22 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
+	if ($('#sa-tefilot-scroll .scrolling').length > 0)
+		return false;
+	
 	var self = this;
 	var elem = $('#sa-tefilot-scroll .scroll');
 	var elem_f = $('#sa-tefilot-scroll .scroll');
-	var elem_sub_l = $('#sa-tefilot-scroll .scroll a:last');
+	var elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 	var elem_sub_l_w = elem_sub_l.outerWidth();
 	var elem_w = elem.outerWidth();
 	var window_w = $('#sa-tefilot-scroll').width();
 	var cloned = false;
-	
+
 	if (elem_sub_l.length == 0) {
 		setTimeout(function(){
 			self.startTicker();
-		},200);
+		},1000);
 		return false;
 	}
 
@@ -2066,21 +2076,22 @@ sa.prototype.startTicker = function() {
 		return false;
 
 	var properties = {duration:400,easing:'linear',complete:function(){
-		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties);
+		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties).addClass('scrolling');
 	},progress: function(){
 		offset = elem_sub_l.offset();
 		if (elem_sub_l && offset) {
-			if ((window_w + 500) - offset.left > 0) {
+			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 3) {
 				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',(offset.left + elem_sub_l_w)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
-				elem_sub_l = elem.find('a:last');
+				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = true;
 			}
 		}
 		
 		if (elem_f && elem_f.offset()) {
-			if ((elem_f.offset().left * -1) >= elem_f.outerWidth() && cloned) {
+			if (elem_f.offset().left < (elem_f.width() * -1)) {
 				elem_f.remove();
 				elem_f = $('#sa-tefilot-scroll .scroll:first');
+				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = false;
 			}
 		}
