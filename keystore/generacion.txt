@@ -1,0 +1,7 @@
+keytool -genkey -v -keystore myAppKey.keystore -alias myAppKey -keyalg RSA -validity 10000 
+
+clave 123456
+
+path:
+
+/var/www/shevet_ahim/app/keystore/myAppKey.keystore

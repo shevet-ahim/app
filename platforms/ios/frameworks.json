@@ -1,0 +1,10 @@
+{
+    "CoreLocation.framework": 2,
+    "CoreTelephony.framework": 1,
+    "libsqlite3.dylib": 2,
+    "Social.framework": 2,
+    "Accounts.framework": 2,
+    "Security.framework": 2,
+    "EventKit.framework": 2,
+    "EventKitUI.framework": 2
+}
