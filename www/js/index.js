@@ -2080,7 +2080,7 @@ sa.prototype.startTicker = function() {
 	},progress: function(){
 		offset = elem_sub_l.offset();
 		if (elem_sub_l && offset) {
-			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 3) {
+			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 2) {
 				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),(window_w + 50))+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
 				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = true;
