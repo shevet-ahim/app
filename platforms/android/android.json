@@ -97,11 +97,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<string name=\"fb_app_id\">992706037443927</string>",
+                            "xml": "<string name=\"fb_app_id\">148235158916239</string>",
                             "count": 1
                         },
                         {
-                            "xml": "<string name=\"fb_app_name\">ShevetApp - Test1</string>",
+                            "xml": "<string name=\"fb_app_name\">ShevetApp</string>",
                             "count": 1
                         }
                     ]
@@ -129,8 +129,8 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "phonegap-facebook-plugin": {
-            "APP_ID": "992706037443927",
-            "APP_NAME": "ShevetApp - Test1",
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },

@@ -3,6 +3,13 @@ window.onerror = function (errorMsg, url, lineNumber) {
     alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 */
+
+window.onerror = function(err,fn,ln) {
+    var error = "ERROR:" + err + ", " + fn + ":" + ln;
+    alert(error);
+   // console.error(error);
+};
+
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
     // Application Constructor
