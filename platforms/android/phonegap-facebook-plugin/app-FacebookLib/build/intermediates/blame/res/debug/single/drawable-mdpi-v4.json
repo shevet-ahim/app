@@ -8,40 +8,40 @@
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_xout.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_picker_magnifier.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_picker_magnifier.png"
-    },
-    {
         "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_bottomnub.png",
         "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_bottomnub.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_background.9.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png"
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_picker_magnifier.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_picker_magnifier.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_bottomnub.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_bottomnub.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_inverse_icon.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_inverse_icon.png"
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_background.9.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_xout.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png"
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_inverse_icon.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_inverse_icon.png"
     },
     {
         "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_topnub.png",
         "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_normal.9.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_normal.9.png"
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_xout.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_background.9.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png"
+    },
+    {
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_normal.9.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_normal.9.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_background.9.png",
@@ -56,32 +56,32 @@
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_picker_magnifier.png"
     },
     {
-        "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_topnub.png",
-        "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png"
-    },
-    {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_bottomnub.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_bottomnub.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_xout.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_xout.png"
+        "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_topnub.png",
+        "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_xout.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png"
     },
     {
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_black_xout.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_black_xout.png"
+    },
+    {
         "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_focused.9.png",
         "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_focused.9.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_topnub.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_topnub.png"
-    },
-    {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_focused.9.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_focused.9.png"
+    },
+    {
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_topnub.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_tooltip_blue_topnub.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_normal.9.png",
@@ -92,12 +92,12 @@
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_pressed.9.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png"
-    },
-    {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_inverse_icon.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_inverse_icon.png"
+    },
+    {
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_button_blue_pressed.9.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/debug/drawable-mdpi-v4/com_facebook_tooltip_blue_topnub.png",

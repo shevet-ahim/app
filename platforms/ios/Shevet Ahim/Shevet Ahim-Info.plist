@@ -66,15 +66,15 @@
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
     <key>FacebookAppID</key>
-    <string>992706037443927</string>
+    <string>148235158916239</string>
     <key>FacebookDisplayName</key>
-    <string>ShevetApp - Test1</string>
+    <string>ShevetApp</string>
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb992706037443927</string>
+          <string>fb148235158916239</string>
         </array>
       </dict>
     </array>

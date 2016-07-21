@@ -1,6 +1,14 @@
+/*
 window.onerror = function (errorMsg, url, lineNumber) {
     alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
+*/
+
+window.onerror = function(err,fn,ln) {
+    var error = "ERROR:" + err + ", " + fn + ":" + ln;
+    alert(error);
+   // console.error(error);
+};
 
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
@@ -28,7 +36,7 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';//'http://app.shevetahim.com/api.php';
+	this.app_url = 'http://app.shevetahim.com/api.php';//'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -193,7 +201,6 @@ sa.prototype.init = function(){
 					self.loadTefilot();
 					self.loadFeed();
 					self.loadSettings();
-					self.startTicker();
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -243,6 +250,13 @@ sa.prototype.init = function(){
 				self.setProp('more_attempts',0);
 				$('#sa-menu').height($(document).height());
 				self.resizePanels();
+				
+				var page = ui.toPage.prop("id");
+				if (page == 'news-feed') {
+					setTimeout(function(){
+						self.startTicker();
+					},1000);
+				}
 			});
 			
 			// tabs load events
@@ -929,6 +943,7 @@ sa.prototype.loadZmanim = function(){
 	
 	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,timestamp,timestamp]);
 	this.sendRequests(function(result){
+		console.log(result)
 		// get zmanim
 		var hdate = new Hebcal.HDate().setLocation(self.position.coords.latitude,self.position.coords.longitude);
 		var zmanim = hdate.getZemanim();
@@ -1773,11 +1788,10 @@ sa.prototype.displayShlijimDetail = function(){
 	}
 	
 	if (item.warn != 'Y' && item.status == 'approved') {
-		clone.find('.sa-icon').addClass('ti-check-box');
+		clone.find('.overlay').hide();
 	}
 	else {
-		clone.addClass('sa-warn');
-		clone.find('.sa-icon').addClass('ti-na');
+		clone.find('.overlay').show();
 	}
 	
 	if (item.img) {
@@ -2046,19 +2060,22 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
+	if ($('#sa-tefilot-scroll .scrolling').length > 0)
+		return false;
+	
 	var self = this;
 	var elem = $('#sa-tefilot-scroll .scroll');
 	var elem_f = $('#sa-tefilot-scroll .scroll');
-	var elem_sub_l = $('#sa-tefilot-scroll .scroll a:last');
+	var elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 	var elem_sub_l_w = elem_sub_l.outerWidth();
 	var elem_w = elem.outerWidth();
 	var window_w = $('#sa-tefilot-scroll').width();
 	var cloned = false;
-	
+
 	if (elem_sub_l.length == 0) {
 		setTimeout(function(){
 			self.startTicker();
-		},200);
+		},1000);
 		return false;
 	}
 
@@ -2066,21 +2083,22 @@ sa.prototype.startTicker = function() {
 		return false;
 
 	var properties = {duration:400,easing:'linear',complete:function(){
-		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties);
+		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties).addClass('scrolling');
 	},progress: function(){
 		offset = elem_sub_l.offset();
 		if (elem_sub_l && offset) {
-			if ((window_w + 500) - offset.left > 0) {
-				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',(offset.left + elem_sub_l_w)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
-				elem_sub_l = elem.find('a:last');
+			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 3) {
+				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),(window_w + 50))+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
+				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = true;
 			}
 		}
 		
 		if (elem_f && elem_f.offset()) {
-			if ((elem_f.offset().left * -1) >= elem_f.outerWidth() && cloned) {
+			if (elem_f.offset().left < (elem_f.width() * -1)) {
 				elem_f.remove();
 				elem_f = $('#sa-tefilot-scroll .scroll:first');
+				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = false;
 			}
 		}
@@ -2207,9 +2225,8 @@ sa.prototype.resizePanels = function() {
 		$('#sa-top-nav').addClass('ios');
 		$('.ui-content').addClass('ios');
 		
-		    var w = $(window).width();
-		    $('.ui-page').css('width',w * 0.833);
-	    }
+	    var w = $(window).width();
+	    $('.ui-page').css('width',w * 0.833);
     }
 }
 

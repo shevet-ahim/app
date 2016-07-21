@@ -20,12 +20,12 @@
         "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-xxhdpi/com_facebook_button_like_background.png"
     },
     {
-        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_facebook_button_like_icon_selected.png",
-        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-xxhdpi/com_facebook_button_like_icon_selected.png"
-    },
-    {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_facebook_button_like_pressed.png",
         "source": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-xxhdpi/com_facebook_button_like_pressed.png"
+    },
+    {
+        "merged": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_facebook_button_like_icon_selected.png",
+        "source": "/home/devel/apps/shebet_ahim/platforms/android/phonegap-facebook-plugin/app-FacebookLib/res/drawable-xxhdpi/com_facebook_button_like_icon_selected.png"
     },
     {
         "merged": "/var/www/shevet_ahim/app/platforms/android/phonegap-facebook-plugin/app-FacebookLib/build/intermediates/res/merged/release/drawable-xxhdpi-v4/com_facebook_button_like_icon_selected.png",

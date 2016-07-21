@@ -55,8 +55,8 @@
         },
         "is_top_level": true,
         "variables": {
-            "APP_ID": "992706037443927",
-            "APP_NAME": "ShevetApp - Test1"
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp"
         }
     },
     "cordova-plugin-calendar": {

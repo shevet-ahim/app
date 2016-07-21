@@ -61,19 +61,19 @@
                     ],
                     "FacebookAppID": [
                         {
-                            "xml": "<string>992706037443927</string>",
+                            "xml": "<string>148235158916239</string>",
                             "count": 1
                         }
                     ],
                     "FacebookDisplayName": [
                         {
-                            "xml": "<string>ShevetApp - Test1</string>",
+                            "xml": "<string>ShevetApp</string>",
                             "count": 1
                         }
                     ],
                     "CFBundleURLTypes": [
                         {
-                            "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb992706037443927</string></array></dict></array>",
+                            "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb148235158916239</string></array></dict></array>",
                             "count": 1
                         }
                     ],
@@ -100,8 +100,8 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "phonegap-facebook-plugin": {
-            "APP_ID": "992706037443927",
-            "APP_NAME": "ShevetApp - Test1",
+            "APP_ID": 148235158916239",
+            "APP_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-calendar": {
