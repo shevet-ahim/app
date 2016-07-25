@@ -5,6 +5,6 @@
     "Social.framework": 2,
     "Accounts.framework": 2,
     "Security.framework": 2,
-    "EventKit.framework": 2,
-    "EventKitUI.framework": 2
+    "EventKit.framework": 1,
+    "EventKitUI.framework": 1
 }

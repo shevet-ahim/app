@@ -23,9 +23,6 @@
             "APP_ID": "148235158916239",
             "APP_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "cordova-plugin-calendar": {
-            "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {

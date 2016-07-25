@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Calendar\"><param name=\"android-package\" value=\"nl.xservices.plugins.Calendar\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
                         },
@@ -60,14 +56,6 @@
                     "/manifest": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_CALENDAR\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_CALENDAR\" />",
                             "count": 1
                         }
                     ],
@@ -113,9 +101,6 @@
         "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
-        "cordova-plugin-calendar": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
@@ -142,17 +127,6 @@
             "clobbers": [
                 "phonenumber"
             ]
-        },
-        {
-            "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
-            "id": "cordova-plugin-calendar.Calendar",
-            "clobbers": [
-                "Calendar"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-calendar/test/tests.js",
-            "id": "cordova-plugin-calendar.tests"
         },
         {
             "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
@@ -189,7 +163,6 @@
     ],
     "plugin_metadata": {
         "at.oneminutedistraction.phonenumber": "0.0.1",
-        "cordova-plugin-calendar": "4.4.2",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.0",
         "cordova-plugin-inappbrowser": "1.4.0",

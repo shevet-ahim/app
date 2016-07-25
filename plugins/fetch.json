@@ -58,13 +58,5 @@
             "APP_ID": "148235158916239",
             "APP_NAME": "ShevetApp"
         }
-    },
-    "cordova-plugin-calendar": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-calendar@4.4.2"
-        },
-        "is_top_level": true,
-        "variables": {}
     }
 }

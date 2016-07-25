@@ -1216,9 +1216,22 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 			
 			if (feed[i].type == 'event') {
 				url = 'events';
-				clone.find('.time .t span:last').html(moment.unix(feed[i].timestamp).format('dddd h:mm A'));
-				clone.find('.time .p span:last').html(feed[i].place);
-				clone.find('.author').remove();
+				if (feed[i].timestamp >= moment().endOf('day').unix()) {
+					var format = (feed[i].timestamp >= moment().endOf('week').unix()) ? 'dddd, MMM D, h:mm A' : 'dddd h:mm A';
+					clone.find('.time .t span:last').html(moment(feed[i].timestamp * 1000).locale('es').format(format));
+					clone.find('.time .p span:last').html(feed[i].place);
+					clone.find('.author').remove();
+				}
+				else if (feed[i].timestamp >= moment().startOf('day').unix() && feed[i].timestamp <= moment().endOf('day').unix()) {
+					clone.find('.time .t span:last').html('Hoy ' + moment(feed[i].timestamp * 1000).locale('es').format('h:mm A'));
+					clone.find('.time .p span:last').html(feed[i].place);
+					clone.find('.author').remove();
+				}
+				else {
+					clone.find('.time .t span:last').html(moment(feed[i].timestamp * 1000).locale('es').fromNow());
+					clone.find('.time .p span:last').html(feed[i].place);
+					clone.find('.author').remove();
+				}
 			}
 			
 			if (feed[i].type == 'content') {
@@ -1612,6 +1625,18 @@ sa.prototype.displayDetail = function(){
 			clone.find('.content').remove();
 		
 		clone.find('.time .t span:last').html(moment.unix(item.timestamp).format('dddd h:mm A'));
+		
+		if (item.timestamp >= moment().endOf('day').unix()) {
+			var format = (item.timestamp >= moment().endOf('week').unix()) ? 'dddd, MMM D, h:mm A' : 'dddd h:mm A';
+			clone.find('.time .t span:last').html(moment(item.timestamp * 1000).locale('es').format(format));
+		}
+		else if (item.timestamp >= moment().startOf('day').unix() && item.timestamp <= moment().endOf('day').unix()) {
+			clone.find('.time .t span:last').html('Hoy ' + moment(item.timestamp * 1000).locale('es').format('h:mm A'));
+		}
+		else {
+			clone.find('.time .t span:last').html(moment(item.timestamp * 1000).locale('es').fromNow());
+		}
+		
 		clone.find('.time .p span:last').html(item.place);
 		clone.find('.author').remove();
 		clone.find('.ago').remove();
@@ -2087,7 +2112,7 @@ sa.prototype.startTicker = function() {
 	},progress: function(){
 		offset = elem_sub_l.offset();
 		if (elem_sub_l && offset) {
-			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 3) {
+			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 2) {
 				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),(window_w + 50))+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
 				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 				cloned = true;

@@ -27,7 +27,6 @@
 		1DF6CF7367DE4583A654C7EF /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBE39C0F6454B70A2008411 /* EventKitUI.framework */; };
 		3B73356F4955488EA29FA96B /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 421563A2779242A89609C944 /* FacebookConnectPlugin.m */; };
 		4AD993609059493C81290A7C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3383D7BC254357AB2C1216 /* FacebookSDK.framework */; };
-		E1D6EC50DAE34B2EA8528B30 /* Calendar.m in Sources */ = {isa = PBXBuildFile; fileRef = E40D294CF51A47A1AE576E3D /* Calendar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,8 +81,6 @@
 		421563A2779242A89609C944 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.m"; path = "phonegap-facebook-plugin/FacebookConnectPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		5030757A9E4E40CF98674A28 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.h"; path = "phonegap-facebook-plugin/FacebookConnectPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		9A3383D7BC254357AB2C1216 /* FacebookSDK.framework */ = {isa = PBXFileReference; name = "FacebookSDK.framework"; path = "Shevet Ahim/Plugins/phonegap-facebook-plugin/FacebookSDK.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
-		E40D294CF51A47A1AE576E3D /* Calendar.m */ = {isa = PBXFileReference; name = "Calendar.m"; path = "cordova-plugin-calendar/Calendar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		BC7BF71C335B4075B06A5518 /* Calendar.h */ = {isa = PBXFileReference; name = "Calendar.h"; path = "cordova-plugin-calendar/Calendar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,8 +207,6 @@
 				27D9515012424DBD89045F3B /* CDVInAppBrowser.h */,
 				421563A2779242A89609C944 /* FacebookConnectPlugin.m */,
 				5030757A9E4E40CF98674A28 /* FacebookConnectPlugin.h */,
-				E40D294CF51A47A1AE576E3D /* Calendar.m */,
-				BC7BF71C335B4075B06A5518 /* Calendar.h */,
 			);
 			name = Plugins;
 			path = "Shevet Ahim/Plugins";
@@ -329,7 +324,6 @@
 				83619B6705C146E2BE4E0969 /* CDVLocation.m in Sources */,
 				3169107874CE4509A6422389 /* CDVInAppBrowser.m in Sources */,
 				3B73356F4955488EA29FA96B /* FacebookConnectPlugin.m in Sources */,
-				E1D6EC50DAE34B2EA8528B30 /* Calendar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

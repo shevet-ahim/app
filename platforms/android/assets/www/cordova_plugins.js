@@ -8,17 +8,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
-        "id": "cordova-plugin-calendar.Calendar",
-        "clobbers": [
-            "Calendar"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-calendar/test/tests.js",
-        "id": "cordova-plugin-calendar.tests"
-    },
-    {
         "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
         "id": "cordova-plugin-geolocation.geolocation",
         "clobbers": [
@@ -55,7 +44,6 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "at.oneminutedistraction.phonenumber": "0.0.1",
-    "cordova-plugin-calendar": "4.4.2",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
