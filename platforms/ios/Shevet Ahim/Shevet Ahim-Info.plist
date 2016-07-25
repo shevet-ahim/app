@@ -43,41 +43,12 @@
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
           <true/>
         </dict>
-        <key>m.facebook.com</key>
-        <dict/>
-        <key>graph.facebook.com</key>
-        <dict/>
-        <key>api.facebook.com</key>
-        <dict/>
-        <key>fbcdn.net</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
-        <key>akamaihd.net</key>
-        <dict>
-          <key>NSIncludesSubdomains</key>
-          <true/>
-        </dict>
       </dict>
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
-    <key>FacebookAppID</key>
-    <string>148235158916239</string>
-    <key>FacebookDisplayName</key>
-    <string>ShevetApp</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>fb148235158916239</string>
-        </array>
-      </dict>
-    </array>
     <key>CFBundleLocalizations</key>
     <array/>
   </dict>

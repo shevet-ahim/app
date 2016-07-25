@@ -48,14 +48,6 @@ module.exports = [
         "clobbers": [
             "phonenumber"
         ]
-    },
-    {
-        "file": "plugins/phonegap-facebook-plugin/facebookConnectPlugin.js",
-        "id": "phonegap-facebook-plugin.FacebookConnectPlugin",
-        "pluginId": "phonegap-facebook-plugin",
-        "clobbers": [
-            "facebookConnectPlugin"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -64,8 +56,7 @@ module.exports.metadata =
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
-    "at.oneminutedistraction.phonenumber": "0.0.1",
-    "phonegap-facebook-plugin": "0.12.0"
+    "at.oneminutedistraction.phonenumber": "0.0.1"
 }
 // BOTTOM OF METADATA
 });

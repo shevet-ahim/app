@@ -18,11 +18,6 @@
         },
         "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "phonegap-facebook-plugin": {
-            "APP_ID": "148235158916239",
-            "APP_NAME": "ShevetApp",
-            "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {

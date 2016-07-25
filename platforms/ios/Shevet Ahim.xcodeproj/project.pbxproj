@@ -25,8 +25,6 @@
 		9B5E29B2CAF84BDAB7EB1538 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2135F8081C84687AAC0E09D /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CA24501A4EAC4C13926A8404 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4479A677DAE4E54A5A088E7 /* EventKit.framework */; };
 		1DF6CF7367DE4583A654C7EF /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBE39C0F6454B70A2008411 /* EventKitUI.framework */; };
-		3B73356F4955488EA29FA96B /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 421563A2779242A89609C944 /* FacebookConnectPlugin.m */; };
-		4AD993609059493C81290A7C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A3383D7BC254357AB2C1216 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,9 +76,6 @@
 		B2135F8081C84687AAC0E09D /* Security.framework */ = {isa = PBXFileReference; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		A4479A677DAE4E54A5A088E7 /* EventKit.framework */ = {isa = PBXFileReference; name = "EventKit.framework"; path = "System/Library/Frameworks/EventKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		4FBE39C0F6454B70A2008411 /* EventKitUI.framework */ = {isa = PBXFileReference; name = "EventKitUI.framework"; path = "System/Library/Frameworks/EventKitUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
-		421563A2779242A89609C944 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.m"; path = "phonegap-facebook-plugin/FacebookConnectPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		5030757A9E4E40CF98674A28 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.h"; path = "phonegap-facebook-plugin/FacebookConnectPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		9A3383D7BC254357AB2C1216 /* FacebookSDK.framework */ = {isa = PBXFileReference; name = "FacebookSDK.framework"; path = "Shevet Ahim/Plugins/phonegap-facebook-plugin/FacebookSDK.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,7 +92,6 @@
 				9B5E29B2CAF84BDAB7EB1538 /* Security.framework in Frameworks */,
 				CA24501A4EAC4C13926A8404 /* EventKit.framework in Frameworks */,
 				1DF6CF7367DE4583A654C7EF /* EventKitUI.framework in Frameworks */,
-				4AD993609059493C81290A7C /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +169,6 @@
 				B2135F8081C84687AAC0E09D /* Security.framework */,
 				A4479A677DAE4E54A5A088E7 /* EventKit.framework */,
 				4FBE39C0F6454B70A2008411 /* EventKitUI.framework */,
-				9A3383D7BC254357AB2C1216 /* FacebookSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -205,8 +198,6 @@
 				31334A27A2944F1CB90C1F6D /* CDVLocation.h */,
 				2308340519B041248A986937 /* CDVInAppBrowser.m */,
 				27D9515012424DBD89045F3B /* CDVInAppBrowser.h */,
-				421563A2779242A89609C944 /* FacebookConnectPlugin.m */,
-				5030757A9E4E40CF98674A28 /* FacebookConnectPlugin.h */,
 			);
 			name = Plugins;
 			path = "Shevet Ahim/Plugins";
@@ -323,7 +314,6 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				83619B6705C146E2BE4E0969 /* CDVLocation.m in Sources */,
 				3169107874CE4509A6422389 /* CDVInAppBrowser.m in Sources */,
-				3B73356F4955488EA29FA96B /* FacebookConnectPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

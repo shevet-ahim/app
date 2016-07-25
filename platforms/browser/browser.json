@@ -7,36 +7,7 @@
         "files": {
             "config.xml": {
                 "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"browser-package\" value=\"FacebookConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<plugin name=\"FacebookConnectPlugin\" value=\"FacebookConnectPlugin\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://m.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://graph.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://api.facebook.com\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
-                            "count": 1
-                        }
-                    ]
+                    "/*": []
                 }
             }
         }
@@ -55,11 +26,6 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "at.oneminutedistraction.phonenumber": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "phonegap-facebook-plugin": {
-            "APP_ID": "148235158916239",
-            "APP_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
@@ -89,14 +55,6 @@
             "clobbers": [
                 "phonenumber"
             ]
-        },
-        {
-            "file": "plugins/phonegap-facebook-plugin/facebookConnectPlugin.js",
-            "id": "phonegap-facebook-plugin.FacebookConnectPlugin",
-            "pluginId": "phonegap-facebook-plugin",
-            "clobbers": [
-                "facebookConnectPlugin"
-            ]
         }
     ],
     "plugin_metadata": {
@@ -104,7 +62,6 @@
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.0",
         "cordova-plugin-inappbrowser": "1.4.0",
-        "at.oneminutedistraction.phonenumber": "0.0.1",
-        "phonegap-facebook-plugin": "0.12.0"
+        "at.oneminutedistraction.phonenumber": "0.0.1"
     }
 }
