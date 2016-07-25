@@ -24,7 +24,7 @@
     <preference name="disable-cursor" value="false" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="android-installLocation" value="auto" />
-    <preference name="StatusBarOverlaysWebView" value="true" /> 
+    <preference name="StatusBarOverlaysWebView" value="true" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media-capture" />
@@ -69,7 +69,7 @@
     <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
-    <access origin="*" launch-external="yes" />
+    <access launch-external="yes" origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <plugin name="phonegap-facebook-plugin" spec="0.12.0">
         <variable name="APP_ID" value="148235158916239" />
@@ -89,11 +89,14 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-
     <allow-navigation href="http://app.shevetahim.com/*" />
-    <access origin="tel:*" launch-external="yes"/>
-	<access origin="geo:*" launch-external="yes"/>
-	<access origin="mailto:*" launch-external="yes"/>
-	<access origin="sms:*" launch-external="yes"/>
-	<access origin="market:*" launch-external="yes"/>
+    <access launch-external="yes" origin="tel:*" />
+    <access launch-external="yes" origin="geo:*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <access launch-external="yes" origin="sms:*" />
+    <access launch-external="yes" origin="market:*" />
+    <plugin name="com.phonegap.plugins.facebookconnect" spec="https://github.com/Telerik-Verified-Plugins/Facebook.git">
+        <variable name="APP_ID" value="1482351589116239" />
+        <variable name="APP_NAME" value="ShevetApp" />
+    </plugin>
 </widget>

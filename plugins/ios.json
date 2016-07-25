@@ -18,6 +18,14 @@
         },
         "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "nl.x-services.plugins.calendar": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "com.phonegap.plugins.facebookconnect": {
+            "APP_ID": "1482351589116239",
+            "APP_NAME": "ShevetApp",
+            "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {

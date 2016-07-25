@@ -1,15 +1,3 @@
-/*
-window.onerror = function (errorMsg, url, lineNumber) {
-    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
-}
-*/
-
-window.onerror = function(err,fn,ln) {
-    var error = "ERROR:" + err + ", " + fn + ":" + ln;
-    alert(error);
-   // console.error(error);
-};
-
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
     // Application Constructor
@@ -92,7 +80,6 @@ sa.prototype.init = function(){
 				navigator.geolocation.getCurrentPosition(function(position){
 					self.setProp('position',position);
 				},function(error){
-					console.log(error);
 				},{ enableHighAccuracy: true });
 	    	}
 			
@@ -943,7 +930,6 @@ sa.prototype.loadZmanim = function(){
 	
 	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,timestamp,timestamp]);
 	this.sendRequests(function(result){
-		console.log(result)
 		// get zmanim
 		var hdate = new Hebcal.HDate().setLocation(self.position.coords.latitude,self.position.coords.longitude);
 		var zmanim = hdate.getZemanim();
@@ -2243,15 +2229,15 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-	    var w = $(window).width();
-	    $('.ui-page').css('width',w * 0.833);
-        $("body").css('width',w * 0.833);
+    var w = $(window).width();
+    $('.ui-page').css('width',w * 0.833);
+    $('body').css('width',w * 0.833);
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
 	window.plugins.calendar.createEventInteractively(name,location,'',new Date(start),new Date(end),function(result){
-		alert(JSON.stringify(result))
+		
 	},function(result) {
-		alert(JSON.stringify(result))
+		
 	});
 }
