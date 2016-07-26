@@ -2243,16 +2243,7 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-    if (typeof device === 'undefined' || device === null)
-		return false;
-	
-	if (device.platform && device.platform.toLowerCase() == 'ios') {
-		$('#sa-top-nav').addClass('ios');
-		$('.ui-content').addClass('ios');
-		
-	    var w = $(window).width();
-	    $('.ui-page').css('width',w * 0.833);
-    }
+	$('.ui-content').addClass('ios');
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
