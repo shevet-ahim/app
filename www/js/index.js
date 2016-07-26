@@ -6,8 +6,8 @@ window.onerror = function (errorMsg, url, lineNumber) {
 
 window.onerror = function(err,fn,ln) {
     var error = "ERROR:" + err + ", " + fn + ":" + ln;
-    alert(error);
-   // console.error(error);
+    //alert(error);
+    console.error(error);
 };
 
 //==== PHONEGAP FUNCTIONALITY ====
@@ -36,7 +36,9 @@ var app = {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://app.shevetahim.com/api.php';//'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+	this.app_url = 'http://app.shevetahim.com/api.php';
+
+    //this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
 	
 	// user
 	this.session = {};
@@ -376,6 +378,9 @@ sa.prototype.login = function(button,info){
 
 	this.sendRequests(function(result){
 
+        console.log('379 result = ');
+        console.log(result);
+
         var rr = JSON.stringify(result);
 		if (typeof result.User.login.results[0] != 'undefined') {
 			if (typeof result.User.login.results[0].errors != 'undefined') {
@@ -384,6 +389,10 @@ sa.prototype.login = function(button,info){
 				self.displayErrors(errors,error_fields,button);
 			}
 			else if (result.User.login.results[0]) {
+
+                console.log('391 tiene results y el dump es');
+                console.log(result.User.login.results[0]);    
+    
 				self.setProp(['session','id'],result.User.login.results[0].session_id);
 				self.setProp(['session','key'],result.User.login.results[0].session_key);
 				self.setProp(['session','status'],result.User.login.results[0].status);
@@ -414,7 +423,10 @@ sa.prototype.login = function(button,info){
 					};
 				}
                 */
-				
+
+                console.log('421 reviso si esta aprovado');
+				console.log(self.session.status);
+
 				if (self.session.status == 'approved') {
 					if (result.User.login.results[0].has_logged_in == 'Y')
 						$("body").pagecontainer("change","#news-feed");
@@ -468,8 +480,6 @@ sa.prototype.facebookLogin = function(button,info){
                 info.email = result.email;
                 info.sex = (result.gender && result.gender == 'male') ? 1 : (result.gender && result.gender == 'female' ? 2 : 0);
                 info.fb_id = userID;
-
-                perfil = JSON.stringify(response);
 
                 self.login(button,info);
                 

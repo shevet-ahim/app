@@ -9,6 +9,8 @@ $u =trim(shell_exec("whoami"));
 if( $u!='root')
     fatal("you must to be root to restart adb server, modify config files, etc");
 
+$argv[1] = empty($argv[1]) ? 'lg' : $argv[1];
+
 if(empty($argv[1]))
     fatal("debug.php <device> ERROR: device is empty.");
 
