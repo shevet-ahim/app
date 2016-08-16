@@ -69,6 +69,22 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+        "pluginId": "cordova-plugin-facebook4",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-keyboard/www/keyboard.js",
+        "id": "cordova-plugin-keyboard.keyboard",
+        "pluginId": "cordova-plugin-keyboard",
+        "clobbers": [
+            "window.Keyboard"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -79,7 +95,9 @@ module.exports.metadata =
     "cordova-plugin-inappbrowser": "1.4.0",
     "at.oneminutedistraction.phonenumber": "0.0.1",
     "cordova-plugin-calendar": "4.4.2",
-    "com.phonegap.plugins.facebookconnect": "1.7.1.3"
+    "com.phonegap.plugins.facebookconnect": "1.7.1.3",
+    "cordova-plugin-facebook4": "1.7.1",
+    "cordova-plugin-keyboard": "1.1.4"
 }
 // BOTTOM OF METADATA
 });

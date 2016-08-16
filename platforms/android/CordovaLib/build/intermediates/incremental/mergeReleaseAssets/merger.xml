@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/devel/apps/shebet_ahim/platforms/android/CordovaLib/assets"/></dataSet><dataSet config="release"><source path="/home/devel/apps/shebet_ahim/platforms/android/CordovaLib/src/release/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\projects\new-app-12-Aug\app-master\platforms\android\CordovaLib\assets"/></dataSet><dataSet config="release"><source path="D:\projects\new-app-12-Aug\app-master\platforms\android\CordovaLib\src\release\assets"/></dataSet></merger>
