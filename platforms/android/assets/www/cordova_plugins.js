@@ -8,6 +8,17 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
+        "id": "cordova-plugin-calendar.Calendar",
+        "clobbers": [
+            "Calendar"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-calendar/test/tests.js",
+        "id": "cordova-plugin-calendar.tests"
+    },
+    {
         "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
         "id": "cordova-plugin-geolocation.geolocation",
         "clobbers": [
@@ -33,19 +44,8 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
-        "id": "cordova-plugin-calendar.Calendar",
-        "clobbers": [
-            "Calendar"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-calendar/test/tests.js",
-        "id": "cordova-plugin-calendar.tests"
-    },
-    {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/facebook-native.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
         "clobbers": [
             "facebookConnectPlugin"
         ]
@@ -55,12 +55,12 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "at.oneminutedistraction.phonenumber": "0.0.1",
+    "cordova-plugin-calendar": "4.4.2",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
     "cordova-plugin-whitelist": "1.0.0",
-    "cordova-plugin-calendar": "4.4.2",
-    "com.phonegap.plugins.facebookconnect": "1.7.1.3"
+    "cordova-plugin-facebook4": "1.7.1"
 };
 // BOTTOM OF METADATA
 });
