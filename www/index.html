@@ -15,7 +15,7 @@
     </head>
     <body>
     	<!-- PANELS -->
-    	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav" class="ios">
+    	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
     		<div class="o0">
            		<div class="bg"></div>
 			</div>
@@ -91,7 +91,7 @@
 			        				<div class="bg"></div>
 			        			</div>
 		        			</div>
-		        			<div class="menu-item">Torah</div>
+		        			<div class="menu-item">Contenido</div>
 		        		</a>
 		        		<div class="line"></div>
 		        		<a href="#shiurim">
@@ -212,6 +212,9 @@
 			<input id="close-ann" data-rel="back" type="submit" class="ui-btn submit-button ti-close" name="close" value="OK" />
 			<div class="clear"></div>
 		</div>
+		<div data-role="popup" id="sa-lightbox">
+			<img class="img" src="img/placeholder.png">
+		</div>
 		
 		<!-- DUMMIES -->
 		<a id="sa-tefila-dummy" class="dummy sa-tefila">
@@ -230,7 +233,9 @@
 				<div class="clear"></div>
 			</div>
 			<h3 class="title"><a href="#" data-params=""></a></h3>
-			<img class="img" src="">
+			<a href="#sa-lightbox" data-rel="popup" data-position-to="window" data-transition="fade" class="sa-show-lightbox">
+				<img class="img" src="">
+			</a>
 			<div class="time">
 				<span class="t">
 					<span class="ti-calendar sa-icon"></span>
