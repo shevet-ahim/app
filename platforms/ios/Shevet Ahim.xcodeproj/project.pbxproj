@@ -25,6 +25,12 @@
 		9B5E29B2CAF84BDAB7EB1538 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2135F8081C84687AAC0E09D /* Security.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CA24501A4EAC4C13926A8404 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4479A677DAE4E54A5A088E7 /* EventKit.framework */; };
 		1DF6CF7367DE4583A654C7EF /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FBE39C0F6454B70A2008411 /* EventKitUI.framework */; };
+		00676E93E0F64AF0AF7692CD /* Calendar.m in Sources */ = {isa = PBXBuildFile; fileRef = AC2D87B3A0474ADC9A3DD9D4 /* Calendar.m */; };
+		CAD69E2FA1C8498FB29A7AC4 /* FacebookConnectPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F517D92B3DA645FD99997BB6 /* FacebookConnectPlugin.m */; };
+		DE0569B439784ADD9B81E1DE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8F8A346F3674DE7A74A816C /* Bolts.framework */; };
+		764CB00512264A9E99ABC698 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 361314DE216C4F07849792B9 /* FBSDKCoreKit.framework */; };
+		F708B88F2E1F4A3D81F7C31E /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6647F8BB3D4042C8B5C3D849 /* FBSDKLoginKit.framework */; };
+		61A1D5D4EAEB45C394BAA0CD /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4B90737E924BEBAC2E4889 /* FBSDKShareKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +82,14 @@
 		B2135F8081C84687AAC0E09D /* Security.framework */ = {isa = PBXFileReference; name = "Security.framework"; path = "System/Library/Frameworks/Security.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		A4479A677DAE4E54A5A088E7 /* EventKit.framework */ = {isa = PBXFileReference; name = "EventKit.framework"; path = "System/Library/Frameworks/EventKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		4FBE39C0F6454B70A2008411 /* EventKitUI.framework */ = {isa = PBXFileReference; name = "EventKitUI.framework"; path = "System/Library/Frameworks/EventKitUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		AC2D87B3A0474ADC9A3DD9D4 /* Calendar.m */ = {isa = PBXFileReference; name = "Calendar.m"; path = "cordova-plugin-calendar/Calendar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		DAB6A33534B342EFAAE3B67C /* Calendar.h */ = {isa = PBXFileReference; name = "Calendar.h"; path = "cordova-plugin-calendar/Calendar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		F517D92B3DA645FD99997BB6 /* FacebookConnectPlugin.m */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.m"; path = "com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		7C30D5AF4AD84DDB8ED901B7 /* FacebookConnectPlugin.h */ = {isa = PBXFileReference; name = "FacebookConnectPlugin.h"; path = "com.phonegap.plugins.facebookconnect/FacebookConnectPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		D8F8A346F3674DE7A74A816C /* Bolts.framework */ = {isa = PBXFileReference; name = "Bolts.framework"; path = "Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect/Bolts.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		361314DE216C4F07849792B9 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; name = "FBSDKCoreKit.framework"; path = "Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect/FBSDKCoreKit.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		6647F8BB3D4042C8B5C3D849 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; name = "FBSDKLoginKit.framework"; path = "Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect/FBSDKLoginKit.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		0D4B90737E924BEBAC2E4889 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; name = "FBSDKShareKit.framework"; path = "Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect/FBSDKShareKit.framework"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +106,10 @@
 				9B5E29B2CAF84BDAB7EB1538 /* Security.framework in Frameworks */,
 				CA24501A4EAC4C13926A8404 /* EventKit.framework in Frameworks */,
 				1DF6CF7367DE4583A654C7EF /* EventKitUI.framework in Frameworks */,
+				DE0569B439784ADD9B81E1DE /* Bolts.framework in Frameworks */,
+				764CB00512264A9E99ABC698 /* FBSDKCoreKit.framework in Frameworks */,
+				F708B88F2E1F4A3D81F7C31E /* FBSDKLoginKit.framework in Frameworks */,
+				61A1D5D4EAEB45C394BAA0CD /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +187,10 @@
 				B2135F8081C84687AAC0E09D /* Security.framework */,
 				A4479A677DAE4E54A5A088E7 /* EventKit.framework */,
 				4FBE39C0F6454B70A2008411 /* EventKitUI.framework */,
+				D8F8A346F3674DE7A74A816C /* Bolts.framework */,
+				361314DE216C4F07849792B9 /* FBSDKCoreKit.framework */,
+				6647F8BB3D4042C8B5C3D849 /* FBSDKLoginKit.framework */,
+				0D4B90737E924BEBAC2E4889 /* FBSDKShareKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,6 +220,10 @@
 				31334A27A2944F1CB90C1F6D /* CDVLocation.h */,
 				2308340519B041248A986937 /* CDVInAppBrowser.m */,
 				27D9515012424DBD89045F3B /* CDVInAppBrowser.h */,
+				AC2D87B3A0474ADC9A3DD9D4 /* Calendar.m */,
+				DAB6A33534B342EFAAE3B67C /* Calendar.h */,
+				F517D92B3DA645FD99997BB6 /* FacebookConnectPlugin.m */,
+				7C30D5AF4AD84DDB8ED901B7 /* FacebookConnectPlugin.h */,
 			);
 			name = Plugins;
 			path = "Shevet Ahim/Plugins";
@@ -314,6 +340,8 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				83619B6705C146E2BE4E0969 /* CDVLocation.m in Sources */,
 				3169107874CE4509A6422389 /* CDVInAppBrowser.m in Sources */,
+				00676E93E0F64AF0AF7692CD /* Calendar.m in Sources */,
+				CAD69E2FA1C8498FB29A7AC4 /* FacebookConnectPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +385,10 @@
 					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
 					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
 					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 				);
 			};
 			name = Debug;
@@ -387,6 +419,10 @@
 					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
 					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
 					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
+					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 				);
 			};
 			name = Release;
