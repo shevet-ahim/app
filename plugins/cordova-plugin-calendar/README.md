@@ -35,7 +35,8 @@ This plugin allows you to add events to the Calendar of the mobile device.
 ### iOS specifics
 * Supported methods: `find`, `create`, `modify`, `delete`, ..
 * All methods work without showing the native calendar. Your app never loses control.
-* Tested on iOS 6 and 7.
+* Tested on iOS 6+.
+* On iOS 10+ you need to provide a reason to the user for Calendar access. This plugin adds an empty `NSCalendarsUsageDescription` key to the /platforms/ios/*-Info.plist file which you can override with your custom string [per Apple's guideline](https://developer.apple.com/library/prerelease/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW15).
 
 ### Android specifics
 * Supported methods on Android 4: `find`, `create` (silent and interactive), `delete`, ..
@@ -111,9 +112,13 @@ use one function of this plugin: `createEventInteractively`.
 
 Add the following xml to your `config.xml` to always use the latest npm version of this plugin:
 ```xml
-<gap:plugin name="cordova-plugin-calendar" source="npm" />
+<plugin name="cordova-plugin-calendar" />
 ```
 
+Also, make sure you're building with Gradle by adding this to your `config.xml` file:
+```xml
+<preference name="android-build-tool" value="gradle" />
+```
 
 ## 3. Usage
 
@@ -139,8 +144,7 @@ deleteEventFromNamedCalendar        |             | yes |
 openCalendar                        |             | yes | yes
 
 Basic operations, you'll want to copy-paste this for testing purposes:
-
-```javascript
+```js
   // prep some variables
   var startDate = new Date(2015,2,15,18,30,0,0,0); // beware: month 0 = january, 11 = december
   var endDate = new Date(2015,2,15,19,30,0,0,0);
@@ -242,21 +246,96 @@ Basic operations, you'll want to copy-paste this for testing purposes:
 ```
 
 Creating an all day event:
-
-```javascript
+```js
   // set the startdate to midnight and set the enddate to midnight the next day
   var startDate = new Date(2014,2,15,0,0,0,0,0);
   var endDate = new Date(2014,2,16,0,0,0,0,0);
 ```
 
 Creating an event for 3 full days
-
-```javascript
+```js
   // set the startdate to midnight and set the enddate to midnight 3 days later
   var startDate = new Date(2014,2,24,0,0,0,0,0);
   var endDate = new Date(2014,2,27,0,0,0,0,0);
 ```
 
+Example Response IOS getCalendarOptions
+```js
+{
+calendarId: null,
+calendarName: "calendar",
+firstReminderMinutes: 60,
+recurrence: null,
+recurrenceEndDate: null,
+recurrenceInterval: 1,
+secondReminderMinutes: null,
+url: null
+}
+```
+
+Exmaple Response IOS Calendars
+```js
+{
+id: "258B0D99-394C-4189-9250-9488F75B399D",
+name: "standard calendar",
+type: "Local"
+}
+```
+
+Exmaple Response IOS Event
+```js
+{
+calendar: "Kalender",
+endDate: "2016-06-10 23:59:59",
+id: "0F9990EB-05A7-40DB-B082-424A85B59F90",
+lastModifiedDate: "2016-06-13 09:14:02",
+location: "",
+message: "my description",
+startDate: "2016-06-10 00:00:00",
+title: "myEvent"
+}
+```
+
+### Android 6 (M) Permissions
+On Android 6 you need to request permission to use the Calendar at runtime when targeting API level 23+.
+Even if the `uses-permission` tags for the Calendar are present in `AndroidManifest.xml`.
+
+Since plugin version 4.5.0 we transparently handle this for you in a just-in-time manner.
+So if you call `createEvent` we will pop up the permission dialog. After the user granted access
+to his calendar the event will be created.
+
+You can also manually manage and check permissions if that's your thing.
+Note that the hasPermission functions will return true when:
+
+- You're running this on iOS, or
+- You're targeting an API level lower than 23, or
+- You're using Android < 6, or
+- You've already granted permission.
+
+```js
+  // again, this is no longer needed with plugin version 4.5.0 and up
+  function hasReadWritePermission() {
+    window.plugins.calendar.hasReadWritePermission(
+      function(result) {
+        // if this is 'false' you probably want to call 'requestReadWritePermission' now
+        alert(result);
+      }
+    )
+  }
+
+  function requestReadWritePermission() {
+    // no callbacks required as this opens a popup which returns async
+    window.plugins.calendar.requestReadWritePermission();
+  }
+```
+
+There are similar methods for Read and Write access only (`hasReadPermission`, etc),
+although it looks like that if you request read permission you can write as well,
+so you might as well stick with the example above.
+
+Note that backward compatibility was added by checking for read or write permission in the relevant plugins functions.
+If permission is needed the plugin will now show the permission request popup.
+The user will then need to allow access and invoke the same method again after doing so.
 
 ## 4. CREDITS ##
 

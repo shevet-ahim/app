@@ -9,6 +9,34 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"ios-package\" value=\"FacebookConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<plugin name=\"FacebookConnectPlugin\" value=\"FacebookConnectPlugin\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://m.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://graph.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://api.facebook.com\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
                             "count": 1
                         },
@@ -19,79 +47,58 @@
                         {
                             "xml": "<feature name=\"Calendar\"><param name=\"ios-package\" value=\"Calendar\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"ios-package\" value=\"FacebookConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<plugin name=\"FacebookConnectPlugin\" value=\"FacebookConnectPlugin\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<access origin=\"https://m.facebook.com\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<access origin=\"https://graph.facebook.com\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<access origin=\"https://api.facebook.com\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.fbcdn.net\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<access origin=\"https://*.akamaihd.net\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"CDVKeyboard\" /></feature>",
-                            "count": 1
                         }
                     ]
                 }
             },
             "*-Info.plist": {
                 "parents": {
+                    "FacebookAppID": [
+                        {
+                            "xml": "<string>148235158916239</string>",
+                            "count": 1
+                        }
+                    ],
+                    "FacebookDisplayName": [
+                        {
+                            "xml": "<string>ShevetApp</string>",
+                            "count": 1
+                        }
+                    ],
+                    "CFBundleURLTypes": [
+                        {
+                            "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb148235158916239</string></array></dict></array>",
+                            "count": 1
+                        }
+                    ],
+                    "NSAppTransportSecurity": [
+                        {
+                            "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
+                            "count": 1
+                        }
+                    ],
+                    "LSApplicationQueriesSchemes": [
+                        {
+                            "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
+                            "count": 1
+                        }
+                    ],
                     "NSLocationWhenInUseUsageDescription": [
                         {
                             "xml": "<string />",
                             "count": 1
                         }
                     ],
-                    "FacebookAppID": [
+                    "CFBundleLocalizations": [
                         {
-                            "xml": "<string>148235158916239</string>",
-                            "count": 2
+                            "xml": "<array><string>en</string><string>de</string><string>nl</string><string>fr</string><string>it</string></array>",
+                            "count": 1
                         }
                     ],
-                    "FacebookDisplayName": [
+                    "NSCalendarsUsageDescription": [
                         {
-                            "xml": "<string>ShevetApp</string>",
-                            "count": 2
-                        }
-                    ],
-                    "CFBundleURLTypes": [
-                        {
-                            "xml": "<array><dict><key>CFBundleURLSchemes</key><array><string>fb148235158916239</string></array></dict></array>",
-                            "count": 2
-                        }
-                    ],
-                    "LSApplicationQueriesSchemes": [
-                        {
-                            "xml": "<array><string>fbapi</string><string>fb-messenger-api</string><string>fbauth2</string><string>fbshareextension</string></array>",
-                            "count": 2
-                        }
-                    ],
-                    "CFBundleLocalizations": [],
-                    "NSAppTransportSecurity": [
-                        {
-                            "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
-                            "count": 2
+                            "xml": "<string />",
+                            "count": 1
                         }
                     ]
                 }
@@ -99,10 +106,15 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
+        "at.oneminutedistraction.phonenumber": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp",
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-geolocation": {
@@ -111,28 +123,31 @@
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
-        "at.oneminutedistraction.phonenumber": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-calendar": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "com.phonegap.plugins.facebookconnect": {
-            "APP_ID": "148235158916239",
-            "APP_NAME": "ShevetApp",
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "cordova-plugin-facebook4": {
-            "APP_ID": "148235158916239",
-            "APP_NAME": "ShevetApp",
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "cordova-plugin-keyboard": {
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {},
     "modules": [
+        {
+            "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
+            "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
+            "pluginId": "at.oneminutedistraction.phonenumber",
+            "clobbers": [
+                "phonenumber"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+            "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+            "pluginId": "cordova-plugin-facebook4",
+            "clobbers": [
+                "facebookConnectPlugin"
+            ]
+        },
         {
             "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
             "id": "cordova-plugin-geolocation.Coordinates",
@@ -175,14 +190,6 @@
             ]
         },
         {
-            "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
-            "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
-            "pluginId": "at.oneminutedistraction.phonenumber",
-            "clobbers": [
-                "phonenumber"
-            ]
-        },
-        {
             "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
             "id": "cordova-plugin-calendar.Calendar",
             "pluginId": "cordova-plugin-calendar",
@@ -194,40 +201,15 @@
             "file": "plugins/cordova-plugin-calendar/test/tests.js",
             "id": "cordova-plugin-calendar.tests",
             "pluginId": "cordova-plugin-calendar"
-        },
-        {
-            "file": "plugins/com.phonegap.plugins.facebookconnect/www/facebook-native.js",
-            "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-            "pluginId": "com.phonegap.plugins.facebookconnect",
-            "clobbers": [
-                "facebookConnectPlugin"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
-            "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
-            "pluginId": "cordova-plugin-facebook4",
-            "clobbers": [
-                "facebookConnectPlugin"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-keyboard/www/keyboard.js",
-            "id": "cordova-plugin-keyboard.keyboard",
-            "pluginId": "cordova-plugin-keyboard",
-            "clobbers": [
-                "window.Keyboard"
-            ]
         }
     ],
     "plugin_metadata": {
+        "at.oneminutedistraction.phonenumber": "0.0.1",
         "cordova-plugin-compat": "1.0.0",
+        "cordova-plugin-facebook4": "1.7.1",
         "cordova-plugin-geolocation": "2.2.0",
         "cordova-plugin-inappbrowser": "1.4.0",
-        "at.oneminutedistraction.phonenumber": "0.0.1",
-        "cordova-plugin-calendar": "4.4.2",
-        "com.phonegap.plugins.facebookconnect": "1.7.1.3",
-        "cordova-plugin-facebook4": "1.7.1",
-        "cordova-plugin-keyboard": "1.1.4"
+        "cordova-plugin-whitelist": "1.0.0",
+        "cordova-plugin-calendar": "4.5.1"
     }
 }

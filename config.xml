@@ -42,7 +42,7 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-    <gap:plugin name="cordova-plugin-calendar" source="npm" version="4.4.6" />
+    <!-- <gap:plugin name="cordova-plugin-calendar" source="npm" version="4.4.6" /> -->
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
     <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/icon-72-hdpi.png" />
@@ -69,7 +69,7 @@
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access launch-external="yes" origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="cordova-plugin-calendar" source="npm" version="4.4.2" />
+    <!-- <plugin name="cordova-plugin-calendar" source="npm" version="4.4.2" /> -->
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

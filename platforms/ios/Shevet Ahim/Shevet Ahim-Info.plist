@@ -63,10 +63,6 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string/>
-    <key>CFBundleLocalizations</key>
-    <array/>
     <key>FacebookAppID</key>
     <string>148235158916239</string>
     <key>FacebookDisplayName</key>
@@ -87,5 +83,17 @@
       <string>fbauth2</string>
       <string>fbshareextension</string>
     </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string/>
+    <key>CFBundleLocalizations</key>
+    <array>
+      <string>en</string>
+      <string>de</string>
+      <string>nl</string>
+      <string>fr</string>
+      <string>it</string>
+    </array>
+    <key>NSCalendarsUsageDescription</key>
+    <string/>
   </dict>
 </plist>

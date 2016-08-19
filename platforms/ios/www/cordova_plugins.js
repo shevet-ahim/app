@@ -1,6 +1,22 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
+        "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
+        "pluginId": "at.oneminutedistraction.phonenumber",
+        "clobbers": [
+            "phonenumber"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
+        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
+        "pluginId": "cordova-plugin-facebook4",
+        "clobbers": [
+            "facebookConnectPlugin"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
         "id": "cordova-plugin-geolocation.Coordinates",
         "pluginId": "cordova-plugin-geolocation",
@@ -42,14 +58,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/at.oneminutedistraction.phonenumber/www/phonenumber.js",
-        "id": "at.oneminutedistraction.phonenumber.PhoneNumber",
-        "pluginId": "at.oneminutedistraction.phonenumber",
-        "clobbers": [
-            "phonenumber"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
         "id": "cordova-plugin-calendar.Calendar",
         "pluginId": "cordova-plugin-calendar",
@@ -61,43 +69,18 @@ module.exports = [
         "file": "plugins/cordova-plugin-calendar/test/tests.js",
         "id": "cordova-plugin-calendar.tests",
         "pluginId": "cordova-plugin-calendar"
-    },
-    {
-        "file": "plugins/com.phonegap.plugins.facebookconnect/www/facebook-native.js",
-        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
-        "pluginId": "com.phonegap.plugins.facebookconnect",
-        "clobbers": [
-            "facebookConnectPlugin"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-facebook4/www/facebook-native.js",
-        "id": "cordova-plugin-facebook4.FacebookConnectPlugin",
-        "pluginId": "cordova-plugin-facebook4",
-        "clobbers": [
-            "facebookConnectPlugin"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-keyboard/www/keyboard.js",
-        "id": "cordova-plugin-keyboard.keyboard",
-        "pluginId": "cordova-plugin-keyboard",
-        "clobbers": [
-            "window.Keyboard"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "at.oneminutedistraction.phonenumber": "0.0.1",
     "cordova-plugin-compat": "1.0.0",
+    "cordova-plugin-facebook4": "1.7.1",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
-    "at.oneminutedistraction.phonenumber": "0.0.1",
-    "cordova-plugin-calendar": "4.4.2",
-    "com.phonegap.plugins.facebookconnect": "1.7.1.3",
-    "cordova-plugin-facebook4": "1.7.1",
-    "cordova-plugin-keyboard": "1.1.4"
+    "cordova-plugin-whitelist": "1.0.0",
+    "cordova-plugin-calendar": "4.5.1"
 }
 // BOTTOM OF METADATA
 });

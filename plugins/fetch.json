@@ -51,7 +51,7 @@
     "cordova-plugin-calendar": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-calendar@4.4.2"
+            "id": "cordova-plugin-calendar"
         },
         "is_top_level": true,
         "variables": {}
