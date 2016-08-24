@@ -43,7 +43,6 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-    <gap:plugin name="phonegap-facebook-plugin" source="npm" spec="0.12.0" />
     <gap:plugin name="cordova-plugin-calendar" source="npm" version="4.4.6" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
@@ -82,10 +81,6 @@
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access launch-external="yes" origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
-    <plugin name="phonegap-facebook-plugin" spec="0.12.0">
-        <variable name="APP_ID" value="148235158916239" />
-        <variable name="APP_NAME" value="ShevetApp" />
-    </plugin>
     <plugin name="cordova-plugin-calendar" source="npm" version="4.4.2" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

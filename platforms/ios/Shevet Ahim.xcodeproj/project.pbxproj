@@ -379,16 +379,6 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -398,7 +388,9 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Shevet Ahim/Shevet Ahim-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Shevet Ahim";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -419,16 +411,6 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/cordova-plugin-facebook\"",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/phonegap-facebook-plugin\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
-					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 					"\"Shevet Ahim/Plugins/com.phonegap.plugins.facebookconnect\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -436,6 +418,8 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Shevet Ahim/Shevet Ahim-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Shevet Ahim";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -491,6 +475,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
