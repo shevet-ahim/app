@@ -1,46 +1,26 @@
-/*
 window.onerror = function (errorMsg, url, lineNumber) {
-    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+	//return true;
+    //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
-*/
 
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
-    // Application Constructor
     initialize: function() {
         this.bindEvents();
-
-
     },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
     	window.sa = new sa();
-    	/*if(Keyboard){
-    		console.log('Keyboard is available');
-    		if(Keyboard.isVisible){
-	    		console.log('this is working');
-	    		Keyboard.shrinkView(true);
-	    	}
-    	}*/
     }
 };
 
 // ==== SA APP INSTANCE ====
 function sa(){
-	this.app_url = 'http://app.shevetahim.com/api.php';
-
-    //this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
-
+	//this.app_url = 'http://app.shevetahim.com/api.php';
+	this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+	
 	// user
 	this.session = {};
 	this.session.signed_up = null;
@@ -82,6 +62,9 @@ sa.prototype.init = function(){
 
 	async.series([
 	    function (callback) {
+	    	// remove loading overlay
+	    	$('#sa-startup-mask').hide();
+	    	
 	    	// top bar for iOS
 	    	self.resizePanels();
 
@@ -95,7 +78,6 @@ sa.prototype.init = function(){
 				navigator.geolocation.getCurrentPosition(function(position){
 					self.setProp('position',position);
 				},function(error){
-					console.log(error);
 				},{ enableHighAccuracy: true });
 	    	}
 
@@ -123,7 +105,7 @@ sa.prototype.init = function(){
 			});
 
 			// ui functionality
-			$('#sa-hebdate-date').html(self.hebdate.toString());
+			$('#sa-hebdate-date').html(self.headerDate());
 			$(document).on('click','#sa-signup',function(e) {
 				self.signup(this);
 				e.preventDefault();
@@ -152,10 +134,11 @@ sa.prototype.init = function(){
 				$("body").pagecontainer("change","#logout");
 			});
 			$(document).on('click','.ui-input-btn',function(){
-				$(this).append($('#sa-loading-helper').clone().css('display','block').attr('id',''));
+				$.mobile.loading('show');
 			});
 
 			$(document).on('click','.arrow',function(){
+				$.mobile.loading('show');
 				$('.ui-page-active').append($('#sa-loading-mask').clone().removeClass('dummy').css('display','block').attr('id',''));
 
 				var page = $(this).attr('href');
@@ -180,15 +163,21 @@ sa.prototype.init = function(){
 			$("#sa-form-errors .errors").listview();
 			$('#sa-form-errors .submit-button').button().click(function(){
 				$('#sa-form-errors').popup('close');
+				$.mobile.loading('hide');
+				$('.ui-page-active .sa-loading-mask').remove();
 			});
 			$('#sa-form-messages').popup();
 			$("#sa-form-messages .messages").listview();
 			$('#sa-form-messages .submit-button').button().click(function(){
 				$('#sa-form-messages').popup('close');
+				$.mobile.loading('hide');
+				$('.ui-page-active .sa-loading-mask').remove();
 			});
 			$('#sa-form-announcements').popup();
 			$('#sa-form-announcements #close-ann').button().click(function(){
 				$('#sa-form-announcements').popup('close');
+				$.mobile.loading('hide');
+				$('.ui-page-active .sa-loading-mask').remove();
 			});
 			$('#sa-form-announcements #next').button().click(function(){
 				self.displayAnnouncements();
@@ -238,12 +227,24 @@ sa.prototype.init = function(){
 					self.displayDetail();
 				else if (page == 'settings')
 					self.displaySettings();
+				else if (page == 'links')
+					self.loadLinks();
 				else if (page == 'logout')
 					self.logout();
 
 				// set last url for back button
 				self.setProp('last_url',ui.prevPage.prop("id"));
 				ui.toPage.find('.sa-back-button').attr('href','#' + ui.prevPage.prop("id"));
+			});
+			
+			$(document).on("pagebeforechange",function(event,ui) {
+				if (ui && ui.toPage && ui.toPage.prop) {
+					var page = ui.toPage.prop("id");
+					if ((page == 'signup' || page == 'signup-waiting' || page == 'signup-rejected' || page == 'login') && self.session.id > 0) {
+						event.preventDefault();
+			            event.stopPropagation();
+					}
+				}
 			});
 
 			// resize external panel
@@ -253,6 +254,7 @@ sa.prototype.init = function(){
 				self.setProp('more_attempts',0);
 				$('#sa-menu').height($(document).height());
 				self.resizePanels();
+				self.externalLinks();
 
 				var page = ui.toPage.prop("id");
 				if (page == 'news-feed') {
@@ -260,6 +262,7 @@ sa.prototype.init = function(){
 						self.startTicker();
 					},1000);
 				}
+				$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
 			});
 
 			// lightbox
@@ -316,6 +319,8 @@ sa.prototype.init = function(){
 			// initialize appropriate state
 			if (this.session.id && this.session.key && this.session.status == 'approved') {
 				$("body").pagecontainer("change","#news-feed");
+				$("#sa-top-nav").show();
+				$("#sa-bottom-nav").show();
 				if (!this.preloaded) {
 					this.loadTefilot();
 					this.loadFeed();
@@ -332,20 +337,20 @@ sa.prototype.init = function(){
 				$("#sa-bottom-nav").hide();
 			}
 			else if (this.session.signed_up) {
-				$("body").pagecontainer("change","#signup");
+				$("body").pagecontainer("change","#login");
 				$("#sa-top-nav").hide();
 				$("#sa-bottom-nav").hide();
 			}
 			else {
-				$("body").pagecontainer("change","#login");
+				$("body").pagecontainer("change","#signup");
 				$("#sa-top-nav").hide();
 				$("#sa-bottom-nav").hide();
 			}
 
 			if (this.session.has_children == 'Y')
-				$('#sa-menu-kids').css('display','').prev('.line').css('display','');
+				$('#sa-menu-kids').show().prev('.line').show();
 			else
-				$('#sa-menu-kids').css('display','none').prev('.line').css('display','none');
+				$('#sa-menu-kids').hide().prev('.line').hide();
 
 			callback();
 		}.bind(this)
@@ -359,13 +364,13 @@ sa.prototype.signup = function(button){
 
 	this.addRequest('User','signup',[info]);
 	this.sendRequests(function(result){
-		if (typeof result.User.signup.results[0] != 'undefined') {
-			if (typeof result.User.signup.results[0].errors != 'undefined') {
+		if (result) {
+			if (result && typeof result.User.signup.results[0].errors != 'undefined') {
 				var errors = result.User.signup.results[0].errors;
 				var error_fields = result.User.signup.results[0].error_fields;
 				self.displayErrors(errors,error_fields,button);
 			}
-			else if (result.User.signup.results[0]) {
+			else if (result && result.User.signup.results[0]) {
 				if (result.User.signup.results[0] == 'pending')
 					$("body").pagecontainer("change","#signup-waiting");
 				if (result.User.signup.results[0] == 'approved')
@@ -375,7 +380,7 @@ sa.prototype.signup = function(button){
 			}
 		}
 		else
-			self.displayErrors(['Problema de conexión!']);
+			self.displayErrors(['Su teléfono no tiene conexión al internet.']);
 	});
 }
 
@@ -386,27 +391,16 @@ sa.prototype.login = function(button,info){
 	else
 		button = $('#sa-login');
 
-    i = JSON.stringify(info);
-
 	this.addRequest('User','login',[info]);
-
 	this.sendRequests(function(result){
-
-        console.log('379 result = ');
-        console.log(result);
-
         var rr = JSON.stringify(result);
-		if (typeof result.User.login.results[0] != 'undefined') {
-			if (typeof result.User.login.results[0].errors != 'undefined') {
+		if (result) {
+			if (result && typeof result.User.login.results[0].errors != 'undefined') {
 				var errors = result.User.login.results[0].errors;
 				var error_fields = result.User.login.results[0].error_fields;
 				self.displayErrors(errors,error_fields,button);
 			}
-			else if (result.User.login.results[0]) {
-
-                console.log('391 tiene results y el dump es');
-                console.log(result.User.login.results[0]);
-
+			else if (result && result.User.login.results[0]) {
 				self.setProp(['session','id'],result.User.login.results[0].session_id);
 				self.setProp(['session','key'],result.User.login.results[0].session_key);
 				self.setProp(['session','status'],result.User.login.results[0].status);
@@ -424,26 +418,12 @@ sa.prototype.login = function(button,info){
 				self.setItem('sa-session-has-children',result.User.login.results[0].has_children);
 				self.setItem('sa-session-push-notifications',result.User.login.results[0].push_notifications);
 
-                // parece que comentar esto rompió algo por algún motivo
-
-				// try to get phone number
-                /*
-				if (!result.User.login.results[0].tel) {
-					if (window.plugins.sim) {
-						window.plugins.sim.getSimInfo(function(result){
-							if (result && result.phoneNumber)
-								this.addRequest('User','updatePhonePassive',[{tel:result.phoneNumber}]);
-						},function(){});
-					};
-				}
-                */
-
-                console.log('421 reviso si esta aprovado');
-				console.log(self.session.status);
-
 				if (self.session.status == 'approved') {
-					if (result.User.login.results[0].has_logged_in == 'Y')
+					if (result.User.login.results[0].has_logged_in == 'Y') {
 						$("body").pagecontainer("change","#news-feed");
+						$("#sa-top-nav").show();
+						$("#sa-bottom-nav").show();
+					}
 					else {
 						self.loadTefilot();
 						self.loadFeed();
@@ -467,7 +447,7 @@ sa.prototype.login = function(button,info){
 			}
 		}
 		else
-			self.displayErrors(['Problema de conexión!']);
+			self.displayErrors(['Su teléfono no tiene conexión al internet.']);
 	});
 }
 
@@ -478,12 +458,9 @@ sa.prototype.facebookLogin = function(button,info){
 	var self = this;
 
     facebookConnectPlugin.login(["email",'public_profile','user_about_me','user_birthday'], function(response) {
-
          perfil = JSON.stringify(response);
          if (response.authResponse) {
-
             var userID = response.authResponse.userID;
-
             facebookConnectPlugin.api(response.authResponse.userID +"/?fields=id,name,email,gender,age_range" , ["user_birthday"],function(result) {
                 var name_parts = result.name.split(' ');
 
@@ -497,20 +474,9 @@ sa.prototype.facebookLogin = function(button,info){
 
                 self.login(button,info);
 
-              }, function(error) {
-                console.error("Failed: ", error);
-              }
-            );
-
-         } else {
-               console.error("ln478: no hay authResponse",response);
+            });
          }
-     },
-     function (result) {
-        perfil = JSON.stringify(result);
-		console.error("\n\n ln483 \n"+perfil);
-	 });
-
+     });
 }
 
 
@@ -535,13 +501,13 @@ sa.prototype.saveSettings = function(button){
 
 	this.addRequest('User','saveSettings',[info]);
 	this.sendRequests(function(result){
-		if (typeof result.User.saveSettings.results[0] != 'undefined') {
-			if (typeof result.User.saveSettings.results[0].errors != 'undefined') {
+		if (result) {
+			if (result && typeof result.User.saveSettings.results[0].errors != 'undefined') {
 				var errors = result.User.saveSettings.results[0].errors;
 				var error_fields = result.User.saveSettings.results[0].error_fields;
 				self.displayErrors(errors,error_fields,button);
 			}
-			else if (result.User.saveSettings.results[0]) {
+			else if (result && result.User.saveSettings.results[0]) {
 				self.displayMessages(result.User.saveSettings.results[0].messages,button);
 				self.loadSettings();
 
@@ -550,7 +516,7 @@ sa.prototype.saveSettings = function(button){
 			}
 		}
 		else
-			self.displayErrors(['Problema de conexión!']);
+			self.displayErrors(['Su teléfono no tiene conexión al internet.']);
 	});
 }
 
@@ -560,18 +526,18 @@ sa.prototype.savePassword = function(button){
 
 	this.addRequest('User','savePassword',[info]);
 	this.sendRequests(function(result){
-		if (typeof result.User.savePassword.results[0] != 'undefined') {
-			if (typeof result.User.savePassword.results[0].errors != 'undefined') {
+		if (result) {
+			if (result && typeof result.User.savePassword.results[0].errors != 'undefined') {
 				var errors = result.User.savePassword.results[0].errors;
 				var error_fields = result.User.savePassword.results[0].error_fields;
 				self.displayErrors(errors,error_fields,button);
 			}
-			else if (result.User.savePassword.results[0]) {
+			else if (result && result.User.savePassword.results[0]) {
 				self.displayMessages(result.User.savePassword.results[0].messages,button);
 			}
 		}
 		else
-			self.displayErrors(['Problema de conexión!']);
+			self.displayErrors(['Su teléfono no tiene conexión al internet.']);
 	});
 }
 
@@ -611,7 +577,7 @@ sa.prototype.logout = function(){
 
 	$("#sa-top-nav").hide();
 	$("#sa-bottom-nav").hide();
-	$('#sa-tefilot-scroll .scroll').html();
+	this.stopTicker();
 }
 
 sa.prototype.loadTefilot = function(return_data){
@@ -625,9 +591,13 @@ sa.prototype.loadTefilot = function(return_data){
 
 	this.addRequest('Events','get',[false,'rezos',false,false,false,false,false,moment().unix(),(moment().add(1,'days').unix())]);
 	this.sendRequests(function(result){
-		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
+		if (result && typeof result.Events.get.results[0] != 'undefined') {
 			var results = result.Events.get.results[0];
 			for (i in results) {
+				if (!results[i].place)
+					continue;
+					
+				results[i].place_abbr = results[i].place.replace('Sinagoga ','');
 				if (!tefilot[results[i].key])
 					tefilot[results[i].key] = {};
 				if (!tefilot[results[i].key][results[i].place_abbr])
@@ -656,7 +626,7 @@ sa.prototype.loadTefilot = function(return_data){
 					continue;
 				else if (parseInt(results[i].weekday) != parseInt(d) && results[i].key != 'shajarit')
 					continue;
-*/
+		 		*/
 				var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm');
 				tefilot[results[i].key][results[i].place_abbr].push(time);
 				tefilot_cats[results[i].key] = results[i].category;
@@ -677,6 +647,8 @@ sa.prototype.loadTefilot = function(return_data){
 }
 
 sa.prototype.loadFeed = function(more){
+	$.mobile.loading('show');
+	
 	var start = null;
 	var end = null;
 
@@ -699,8 +671,27 @@ sa.prototype.loadFeed = function(more){
 	this.addRequest('Events','get',[true,null,null,null,this.session.age,this.session.sex,null,start,end]);
 	this.addRequest('Content','get',[null,null,this.session.age,this.session.sex,null,start,end]);
 	this.sendRequests(function(result){
+		// check for upcoming holidays
+		for (i = 0;i <= 7; i++) {
+			var hdate = new Hebcal.HDate(moment().add(i,'days').toDate()).setLocation(self.position.coords.latitude,self.position.coords.longitude);
+			var holidays = hdate.holidays();
+			var candles = hdate.candleLighting();
+			
+			var title = null;
+			if (holidays[0] && holidays[0].desc) {
+				title = holidays[0].desc[0].replace(/[0-9]/g,'');
+			}
+			if (candles)
+				timestamp = moment(candles).unix();
+			
+			if (title) {
+				new_items.push({title: title, type: 'event', id: title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'), timestamp: timestamp, category: 'Fiestas Religiosas', content: 'Recordatorio para fecha religiosa.', is_zman:true});
+				break;
+			}
+		}
+		
 		// receive and parse events
-		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
+		if (result) {
 			var results = result.Events.get.results[0];
 			for (i in results) {
 				results[i].timestamp = self.getEventTimestamp(results[i]);
@@ -709,7 +700,7 @@ sa.prototype.loadFeed = function(more){
 		}
 
 		// receive and parse content items
-		if (typeof result.Content.get.results[0] != 'undefined' && result.Content.get.results[0]) {
+		if (result && result.Content.get.results[0]) {
 			var results = result.Content.get.results[0];
 			for (i in results) {
 				results[i].timestamp = self.getEventTimestamp(results[i]);
@@ -790,7 +781,7 @@ sa.prototype.loadSettings = function(callback){
 	var self = this;
 	this.addRequest('Settings','getForApp',[]);
 	this.sendRequests(function(result){
-		if (typeof result.Settings.getForApp.results[0] != 'undefined' && result.Settings.getForApp.results[0]) {
+		if (result) {
 			var results = result.Settings.getForApp.results[0];
 			var initial_status = results.user.status;
 			self.setProp('cfg',results);
@@ -820,6 +811,11 @@ sa.prototype.loadSettings = function(callback){
 				$("#sa-bottom-nav").hide();
 			}
 
+			if (results.user.has_children == 'Y')
+				$('#sa-menu-kids').show().prev('.line').show();
+			else
+				$('#sa-menu-kids').hide().prev('.line').hide();
+			
 			if (callback)
 				callback();
 
@@ -837,6 +833,8 @@ sa.prototype.loadSettings = function(callback){
 }
 
 sa.prototype.loadEvents = function(in_feed,category,for_kids,more){
+	$.mobile.loading('show');
+	
 	var params = this.params;
 	var start = null;
 	var end = null;
@@ -871,7 +869,7 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,more){
 	this.addRequest('Events','get',[in_feed,category,null,null,age,sex,null,start,end]);
 	this.sendRequests(function(result){
 		// receive and parse events
-		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
+		if (result) {
 			var results = result.Events.get.results[0];
 			for (i in results) {
 				results[i].timestamp = self.getEventTimestamp(results[i]);
@@ -913,7 +911,8 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,more){
 }
 
 sa.prototype.loadShiurim = function(){
-
+	$.mobile.loading('show');
+	
 	var params = this.params;
 	var self = this;
 	var new_items = [];
@@ -925,7 +924,7 @@ sa.prototype.loadShiurim = function(){
 	this.addRequest('Events','get',[null,'shiurim',null,null,this.session.age,this.session.sex,false,timestamp,timestamp]);
 	this.sendRequests(function(result){
 		// receive and parse events
-		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
+		if (result) {
 			var results = result.Events.get.results[0];
 			for (i in results) {
 				results[i].timestamp = self.getEventTimestamp(results[i]);
@@ -959,6 +958,8 @@ sa.prototype.loadShiurim = function(){
 }
 
 sa.prototype.loadZmanim = function(){
+	$.mobile.loading('show');
+	
 	var params = this.params;
 	var self = this;
 	var new_items = [];
@@ -967,32 +968,52 @@ sa.prototype.loadZmanim = function(){
 
 	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,timestamp,timestamp]);
 	this.sendRequests(function(result){
-		console.log(result)
 		// get zmanim
-		var hdate = new Hebcal.HDate().setLocation(self.position.coords.latitude,self.position.coords.longitude);
+		var hdate = new Hebcal.HDate(new Date(timestamp * 1000)).setLocation(self.position.coords.latitude,self.position.coords.longitude);
 		var zmanim = hdate.getZemanim();
 		var sedra = hdate.getSedra();
-		var holidays = hdate.holidays();
+		var daf = hdate.dafyomi();
+		var holidays = hdate.holidays(true);
 		var candles = hdate.candleLighting();
+		var omer = hdate.omer();
 		var havdalah = hdate.next().havdalah();
+		
+		var day_info = {holidays:null, omer:null, candles:null, havdalah:null, sedra:null, daf:null};
+		if (holidays[0] && holidays[0].desc) {
+			var h_arr = [];
+			for (i in holidays) {
+				h_arr.push(holidays[i].desc[0]);
+			}
+			day_info.holidays = h_arr.join(' / ');
+		}
+		if (omer && omer > 0)
+			day_info.omer = 'Día <b>' + omer + '</b> del Omer.';
+		if (candles)
+			day_info.candles = moment(candles).format('h:mm A');
+		if (havdalah)
+			day_info.havdalah = moment(havdalah).format('h:mm A');
+		if (sedra)
+			day_info.sedra = sedra.join(' / ');
+		if (daf)
+			day_info.daf = daf;
 
 		if (zmanim && Object.keys(zmanim).length > 0) {
 			var lookup = {neitz_hachama: 'Netz',sof_zman_shma: 'Final tiempo de Shema',sof_zman_tfilla:'Final tiempo de Tefilá',mincha_gedola:'Minjá Guedolá',mincha_ketana:'Minjá Ketaná',shkiah:'Shekiá',tzeit:'Salida de las estrellas'};
 			for (i in zmanim) {
 				if (typeof lookup[i] == 'undefined')
 					continue;
-
+				
 				new_items.push({type: 'zman', title: lookup[i], id: i,timestamp: moment(zmanim[i]).unix()});
 			}
 		}
 
 		if (candles)
-			new_items.push({type: 'zman', title: 'Encendido de las velas', id: 'candles', timestamp: moment(candles).unix()});
+			new_items.push({type: 'zman', title: 'Encendido de las velas', id: 'candles', timestamp: moment(candles).subtract(1,'days').unix()});
 		if (havdalah)
 			new_items.push({type: 'zman', title: 'Havdalah', id: 'havdalah' ,timestamp: moment(havdalah).unix()});
 
 		// receive and parse events
-		if (typeof result.Events.get.results[0] != 'undefined' && result.Events.get.results[0]) {
+		if (result) {
 			var tefilot_cats = self.getItem('sa-tefilot-cats');
 			var tefilot_places = self.getItem('sa-tefilot-places');
 
@@ -1001,6 +1022,7 @@ sa.prototype.loadZmanim = function(){
 			for (i in results) {
 				// sort tefilot seperately
 				if (typeof results[i].p_key != 'undefined' && results[i].p_key == 'rezos') {
+					results[i].place_abbr = results[i].place.replace('Sinagoga ','');
 					if (!tefilot[results[i].key])
 						tefilot[results[i].key] = {};
 					if (!tefilot[results[i].key][results[i].place_abbr])
@@ -1051,23 +1073,24 @@ sa.prototype.loadZmanim = function(){
 			events = [];
 
 			// add to cache and remove oldest items
+			
 			for (i in new_items) {
 				var found = $.grep(events,function(item1){ return item1.type == new_items[i].type && item1.id == new_items[i].id; });
 				if (found && found.length > 0)
 					continue;
-
+				
 				events.push(new_items[i]);
 				if (events.length > 50)
 					events.shift();
 			}
-
+			
 			// sorting oldest first
 			events.sort(function(a,b) {
 				return b.timestamp - a.timestamp;
 			});
 		}
 
-		self.displaySchedule('zmanim',events);
+		self.displaySchedule('zmanim',events,day_info);
 		if (!params || !params.timestamp || !moment().isSame(params.timestamp * 1000,'day')) {
 			self.setItem('sa-zmanim',events);
 			self.setItem('sa-tefilot-cats',tefilot_cats);
@@ -1076,6 +1099,8 @@ sa.prototype.loadZmanim = function(){
 }
 
 sa.prototype.loadContent = function(more,category){
+	$.mobile.loading('show');
+	
 	var params = this.params;
 	var start = null;
 	var end = null;
@@ -1093,10 +1118,10 @@ sa.prototype.loadContent = function(more,category){
 	category = (category == 'all') ? null : category;
 	var content = this.getItem('sa-content' + (category ? '-' + category : ''));
 
-	this.addRequest('Content','get',[null,category,this.session.age,this.session.sex,null,start,end]);
+	this.addRequest('Content','get',['torah',category,this.session.age,this.session.sex,null,start,end]);
 	this.sendRequests(function(result){
 		// receive and parse content
-		if (typeof result.Content.get.results[0] != 'undefined' && result.Content.get.results[0]) {
+		if (result) {
 			var results = result.Content.get.results[0];
 			for (i in results) {
 				results[i].timestamp = moment(results[i].date).unix();
@@ -1137,6 +1162,8 @@ sa.prototype.loadContent = function(more,category){
 }
 
 sa.prototype.loadDirectory = function(category){
+	$.mobile.loading('show');
+	
 	var params = this.params;
 	var self = this;
 	var directory = this.getItem('sa-directory-' + category);
@@ -1144,7 +1171,7 @@ sa.prototype.loadDirectory = function(category){
 
 	this.addRequest('Dir','get',[category]);
 	this.sendRequests(function(result){
-		if (typeof result.Dir.get.results[0] != 'undefined' && result.Dir.get.results[0]) {
+		if (result) {
 			var results = result.Dir.get.results[0];
 			directory = [];
 
@@ -1159,12 +1186,14 @@ sa.prototype.loadDirectory = function(category){
 }
 
 sa.prototype.loadProducts = function(){
+	$.mobile.loading('show');
+	
 	var self = this;
 	var products = this.getItem('sa-products');
 
 	this.addRequest('Products','get',[]);
 	this.sendRequests(function(result){
-		if (typeof result.Products.get.results[0] != 'undefined' && result.Products.get.results[0]) {
+		if (result) {
 			var results = result.Products.get.results[0];
 			products = [];
 
@@ -1179,12 +1208,14 @@ sa.prototype.loadProducts = function(){
 }
 
 sa.prototype.loadShlijim = function(){
+	$.mobile.loading('show');
+	
 	var self = this;
 	var shlijim = this.getItem('sa-shlijim');
 
 	this.addRequest('Shlijim','get',[]);
 	this.sendRequests(function(result){
-		if (typeof result.Shlijim.get.results[0] != 'undefined' && result.Shlijim.get.results[0]) {
+		if (result) {
 			var results = result.Shlijim.get.results[0];
 			shlijim = [];
 
@@ -1194,6 +1225,28 @@ sa.prototype.loadShlijim = function(){
 
 			self.displayShlijim('#shlijim',shlijim);
 			self.setItem('sa-shlijim',shlijim);
+		}
+	});
+}
+
+sa.prototype.loadLinks = function(){
+	$.mobile.loading('show');
+	
+	var self = this;
+	var links = this.getItem('sa-links');
+
+	this.addRequest('Links','get',[]);
+	this.sendRequests(function(result){
+		if (result) {
+			var results = result.Links.get.results[0];
+			links = [];
+
+			for (i in results) {
+				links.push(results[i]);
+			}
+
+			self.displayLinks('#links',links);
+			self.setItem('sa-links',links);
 		}
 	});
 }
@@ -1208,7 +1261,7 @@ sa.prototype.contactEmergency = function(){
 
 	this.addRequest('User','emergencyEmail',[org,lat,long]);
 	this.sendRequests(function(result){
-		if (typeof result.User.emergencyEmail.results[0] != 'undefined' && result.User.emergencyEmail.results[0]) {
+		if (result) {
 			alert('La organización ha sido contactada. Puede llamar de nuevo o esperar respuesta.');
 		}
 	});
@@ -1243,16 +1296,18 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 				if (feed[i].timestamp >= moment().endOf('day').unix()) {
 					var format = (feed[i].timestamp >= moment().endOf('week').unix()) ? 'dddd, MMM D, h:mm A' : 'dddd h:mm A';
 					clone.find('.time .t span:last').html(moment(feed[i].timestamp * 1000).locale('es').format(format));
-					clone.find('.time .p span:last').html(feed[i].place);
 				}
 				else if (feed[i].timestamp >= moment().startOf('day').unix() && feed[i].timestamp <= moment().endOf('day').unix()) {
 					clone.find('.time .t span:last').html('Hoy ' + moment(feed[i].timestamp * 1000).locale('es').format('h:mm A'));
-					clone.find('.time .p span:last').html(feed[i].place);
 				}
 				else {
 					clone.find('.time .t span:last').html(moment(feed[i].timestamp * 1000).locale('es').fromNow());
-					clone.find('.time .p span:last').html(feed[i].place);
 				}
+				
+				if (feed[i].place)
+					clone.find('.time .p span:last').html(feed[i].place);
+				else
+					clone.find('.time .p').remove();
 			}
 
 			if (feed[i].type == 'content') {
@@ -1316,17 +1371,15 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 	}
 
 	$('#sa-menu').height($(document).height());
-	$("#sa-top-nav").show();
-	$("#sa-bottom-nav").show();
 }
 
-sa.prototype.displaySchedule = function(page,events){
+sa.prototype.displaySchedule = function(page,events,day_info){
 	var params = this.params;
 	var self = this;
 	var title = '';
 
 	if (page == 'zmanim')
-		title = 'Zmanim diarios';
+		title = 'Rezos y zmanim diarios';
 	else if (page == 'shiurim')
 		title = 'Shiurim diarios';
 
@@ -1337,6 +1390,17 @@ sa.prototype.displaySchedule = function(page,events){
 	$('#' + page + ' .ui-content').append(title_clone);
 	$(title_clone).trigger('create');
 	this.activateHeader(title_clone,page);
+	
+	var i_clone = $('#sa-day-info-dummy').clone().removeClass('dummy').attr('id','');
+	if (day_info) {
+		for (k in day_info) {
+			if (day_info[k])
+				$(i_clone).find('.' + k + ' .item-value').html(day_info[k]);
+			else
+				$(i_clone).find('.' + k).remove();
+		}
+	}
+	$('#' + page + ' .ui-content .sa-calendar-nav').after(i_clone);
 
 	var dummy = $('#sa-schedule-dummy');
 	if (events && events.length > 0) {
@@ -1360,6 +1424,12 @@ sa.prototype.displaySchedule = function(page,events){
 			}
 			else if (events[i].type == 'tefilah') {
 				for (place in events[i].places) {
+					events[i].places[place].times.sort(function (a, b) {
+						var a1 = a.split(':');
+						var b1 = b.split(':');
+						return moment().hour(a1[0]).minute(a1[1].replace(/\D/g,'')).unix() - moment().hour(b1[0]).minute(b1[1].replace(/\D/g,'')).unix();
+					});
+					
 					var h_clone = helper.clone();
 					h_clone.find('.p').html(place);
 					h_clone.find('.t span:last').html(events[i].places[place].times.join(', '));
@@ -1427,6 +1497,36 @@ sa.prototype.displayProducts = function(container,products){
 	}
 }
 
+sa.prototype.displayLinks = function(container,links){
+	var title_clone = this.displayHeader('links','Vínculos de interés',{});
+	$(container + ' .ui-content').find('.sa-schedule-title').remove();
+	$(container + ' .ui-content').prepend(title_clone);
+	$(title_clone).trigger('create');
+	this.activateHeader(title_clone,'links');
+	
+	$(container + ' .sa-listview').find('li').remove();
+	if (links && links.length > 0) {
+		for (i in links) {
+			var clone = $('#sa-link-dummy').clone();
+			clone.find('h2').html(links[i].name);
+			clone.find('.sa-search-text').html(links[i].name);
+			clone.find('.description p').html(links[i].description);
+			clone.find('.url a').attr('href','http://' +  (links[i].url).replace('http://','').replace('https://','')).html((links[i].url).replace('http://','').replace('https://',''));
+
+			clone.attr('id','link-' + links[i].id);
+			clone.removeClass('dummy');
+			$(container + ' .ui-listview-outer').append(clone);
+			clone.collapsible({refresh:true});
+		}
+		$(container + ' .ui-listview-outer').find('.sa-no-results').remove();
+	}
+	else {
+		var clone = $('#sa-no-results-helper').clone().removeClass('dummy');
+		$(container + ' .ui-listview-outer').find('.sa-no-results').remove();
+		$(container + ' .ui-listview-outer').append(clone);
+	}
+}
+
 sa.prototype.displayShlijim = function(container,shlijim){
 	$(container + ' .sa-listview').find('li').remove();
 	if (shlijim && shlijim.length > 0) {
@@ -1467,6 +1567,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 	if (!tefilot || Object.keys(tefilot).length == 0)
 		return false;
 
+	var self = this;
 	var h = moment().hour();
 	var current = {};
 	var key = null;
@@ -1479,7 +1580,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 		key = 'arbit';
 
 	current = tefilot[key];
-	if (Object.keys(current) == 0 || !cats)
+	if (!current || Object.keys(current) == 0 || !cats)
 		return false;
 
 	$('#sa-tefilot-event').html(cats[key] + ':');
@@ -1493,7 +1594,7 @@ sa.prototype.displayTefilot = function(tefilot,cats) {
 		});
 
 		var clone = dummy.clone();
-		clone.find('.p').html(i);
+		clone.find('.p').html(self.smartTruncate(i,6));
 		clone.find('.t').html(current[i].join('/'));
 		clone.attr('id','');
 		clone.removeClass('dummy');
@@ -1510,7 +1611,7 @@ sa.prototype.displayDirectory = function(directory,category){
 	if (category == 'restaurants') {
 		url = '#karshrut-restaurants';
 		url1 = '#kashrut-detail';
-		title = 'Kashrut';
+		title = 'Restaurantes';
 	}
 	else if (category == 'community') {
 		url = '#directory .ui-content';
@@ -1523,10 +1624,11 @@ sa.prototype.displayDirectory = function(directory,category){
 		for (i in directory) {
 			var clone = $('#sa-directory-dummy').clone();
 			var restaurant_categories = (typeof directory[i].restaurant_categories == 'string') ? directory[i].restaurant_categories.split(',') : [];
+			
+			/*
 			var times = (typeof directory[i].times == 'string') ? directory[i].times.split(',') : [];
 			var times1 = [];
 
-			clone.find('.title a').attr('href',url1).html(directory[i].name).attr('data-params',encodeURIComponent(JSON.stringify({id:directory[i].id, category: directory[i].key, type: directory[i].type})));
 			clone.find('.more').attr('href',url1).attr('data-params',encodeURIComponent(JSON.stringify({id:directory[i].id, category: directory[i].key, type: directory[i].type})))
 
 			if (times.length > 0) {
@@ -1539,7 +1641,14 @@ sa.prototype.displayDirectory = function(directory,category){
 			}
 			else
 				clone.find('.times .t span:last').html('No disponible.');
-
+				*/
+			
+			clone.find('.title a').attr('href',url1).html(directory[i].name).attr('data-params',encodeURIComponent(JSON.stringify({id:directory[i].id, category: directory[i].key, type: directory[i].type})));
+			clone.find('.tel .item-value').html(directory[i].tel);
+			clone.find('.website .item-value a').attr('href','http://' +  (directory[i].website).replace('http://','').replace('https://','')).html((directory[i].website).replace('http://','').replace('https://',''));
+			clone.find('.email .item-value a').attr('href','mailto:' +  directory[i].email).html(directory[i].email);
+			clone.find('.address .item-value a').attr('href','geo:' + directory[i].lat + ',' + directory[i].long).html(directory[i].address);
+			
 			if (category == 'restaurants') {
 				if (directory[i].warn != 'Y')
 					clone.find('.ti-alert').remove();
@@ -1658,8 +1767,12 @@ sa.prototype.displayDetail = function(){
 		else {
 			clone.find('.time .t span:last').html(moment(item.timestamp * 1000).locale('es').fromNow());
 		}
+		
+		if (item.place)
+			clone.find('.time .p span:last').html(item.place);
+		else
+			clone.find('.time .p').remove();
 
-		clone.find('.time .p span:last').html(item.place);
 		clone.find('.author').remove();
 		clone.find('.ago').remove();
 		clone.find('.times').remove();
@@ -1860,20 +1973,21 @@ sa.prototype.displaySettings = function(init){
 			$('#settings #sex').append('<option value="' + i + '">' + this.cfg.sexos[i] + '</option>');
 		}
 	}
-
+	
 	$('#settings #first_name').val(this.cfg.user.first_name);
 	$('#settings #last_name').val(this.cfg.user.last_name);
 	$('#settings #email').val(this.cfg.user.email);
 	$('#settings #age').val(this.cfg.user.age);
 	$('#settings #sex').val(this.cfg.user.sex).selectmenu("refresh");
 	$('#settings #tel').val(this.cfg.user.tel);
+	$('#settings #blood_type').val(this.cfg.user.blood_type);
 
 	if (this.cfg.user.has_children)
 		$('#settings #has-children').prop('checked',true).checkboxradio('refresh');
 	if (this.cfg.user.push_notifications)
 		$('#settings #push-notifications').prop('checked',true).checkboxradio('refresh');
 
-	if (this.cfg.user.fb_id)
+	if (this.cfg.user.fb_id && this.cfg.user.fb_id != 0)
 		$('.sa-password-settings').hide();
 
 	if (init) {
@@ -1908,15 +2022,18 @@ sa.prototype.sendRequests = function (callback) {
 		params.nonce = moment().utc().unix();
 		params.signature = CryptoJS.HmacSHA256(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(params.commands)),this.session.key).toString();
 	}
-
+	
 	$.post(this.app_url,params,function(data) {
-		$('.ui-input-btn .sa-loading').remove();
+		$.mobile.loading('hide');
 		$('.ui-page-active .sa-loading-mask').remove();
 
 		if (!self.isJSON(data))
 			callback({});
 		else
 			callback(JSON.parse(data));
+	}).fail(function() {
+		$.mobile.loading('hide');
+		callback(undefined);
 	});
 
 	this.requests = {};
@@ -2111,8 +2228,8 @@ sa.prototype.startTicker = function() {
 		return false;
 
 	var self = this;
-	var elem = $('#sa-tefilot-scroll .scroll');
-	var elem_f = $('#sa-tefilot-scroll .scroll');
+	var elem = $('#sa-tefilot-scroll .scroll:first');
+	var elem_f = $('#sa-tefilot-scroll .scroll:first');
 	var elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
 	var elem_sub_l_w = elem_sub_l.outerWidth();
 	var elem_w = elem.outerWidth();
@@ -2152,6 +2269,11 @@ sa.prototype.startTicker = function() {
 
 	}};
 	elem.stop().animate({left:'-=50px'},properties);
+}
+
+sa.prototype.stopTicker = function() {
+	$('#sa-tefilot-scroll .scroll').stop().removeClass('scrolling').css('left','0');
+	$('#sa-tefilot-scroll .scroll:not(:first)').remove();
 }
 
 sa.prototype.displayHeader = function(mode,title,params) {
@@ -2227,7 +2349,7 @@ sa.prototype.displayHeader = function(mode,title,params) {
 		title_clone.find('.filters').remove();
 	}
 
-	if (mode == 'shlijim' || mode == 'products') {
+	if (mode == 'shlijim' || mode == 'products' || mode == 'links') {
 		title_clone.find('.filter-category').remove();
 	}
 
@@ -2251,7 +2373,7 @@ sa.prototype.activateHeader = function(elem,page) {
 				self.loadEvents(true,$(this).val());
 		});
 	}
-	else if (['shlijim','products'].indexOf(page) >= 0) {
+	else if (['shlijim','products','links'].indexOf(page) >= 0) {
 		$(elem).find('#filter-search').bind("keyup", function(){
 			var search_text = $(this).val().toLowerCase();
 			$('.ui-page-active .sa-search-text').each(function(){
@@ -2270,8 +2392,50 @@ sa.prototype.resizePanels = function() {
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
 	window.plugins.calendar.createEventInteractively(name,location,'',new Date(start),new Date(end),function(result){
-		alert(JSON.stringify(result))
+		//alert(JSON.stringify(result))
 	},function(result) {
-		alert(JSON.stringify(result))
+		//alert(JSON.stringify(result))
 	});
+}
+
+sa.prototype.externalLinks = function() {
+	$(document).on('click','.ui-page-active a',function(){
+		if ($(this).attr('href').indexOf("#") < 0) {
+			e.preventDefault();
+			window.open($(this).attr('href'), '_system');
+			return false;
+		}
+	});
+}
+
+sa.prototype.smartTruncate = function(s,l) {
+	if (!s || !l || typeof s != 'string')
+		return s;
+	
+	var sub_s = s.replace(/ /g,'');
+	var c_spaces = s.split(' ').length - 1;
+	sub_s = sub_s.substring(0,l);
+	/*
+	for (i = 0; i <= sub_s.length; i++) {
+		if (s[i]==" ")
+			sub_s = sub_s.slice(0,i) + s[i] + sub_s.slice(i);
+	}
+	*/
+	return sub_s + '.';
+
+}
+
+sa.prototype.headerDate = function() {
+	if (!this.hebdate)
+		return '';
+	
+	var holidays = this.hebdate.holidays();
+	if (holidays[0] && holidays[0].desc)
+		return holidays[0].desc[0];
+	
+	var omer = '';
+	if (this.hebdate.omer() > 0)
+		omer = ' (Omer ' + this.hebdate.omer() + ')';
+	
+	return this.hebdate.toString() + omer;
 }
