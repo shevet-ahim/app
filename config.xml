@@ -89,6 +89,8 @@
     <access launch-external="yes" origin="mailto:*" />
     <access launch-external="yes" origin="sms:*" />
     <access launch-external="yes" origin="market:*" />
+    <access launch-external="yes" origin="http:*" />
+    <access launch-external="yes" origin="https:*" />
     <plugin name="cordova-plugin-facebook4" spec="~1.7.1">
         <variable name="APP_ID" value="148235158916239" />
         <variable name="APP_NAME" value="ShevetApp" />
