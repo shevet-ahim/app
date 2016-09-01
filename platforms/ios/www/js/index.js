@@ -456,11 +456,11 @@ sa.prototype.login = function(button,info){
 // https://developers.facebook.com/docs/facebook-login/permissions
 sa.prototype.facebookLogin = function(button,info){
     var self = this;
-    
-    facebookConnectPlugin.login(["email",'public_profile','user_about_me','user_birthday'], function(response) {
-                                perfil = JSON.stringify(response);
+    facebookConnectPlugin.logout(function(test) {
+                facebookConnectPlugin.login(["email",'public_profile','user_about_me','user_birthday'], function(response) {
                                 if (response.authResponse) {
                                 var userID = response.authResponse.userID;
+                                
                                 facebookConnectPlugin.api(response.authResponse.userID +"/?fields=id,name,email,gender,age_range" , ["user_birthday"],function(result) {
                                                           var name_parts = result.name.split(' ');
                                                           
@@ -476,7 +476,12 @@ sa.prototype.facebookLogin = function(button,info){
                                                           
                                                           });
                                 }
-                                });
+                                            },function(error){
+                                            alert(error)
+                                            });
+                                 },function(error){
+                                    alert(error)
+                                 });
 }
 
 
@@ -2389,7 +2394,14 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-    $('body').width($(window).width());
+    $('body').width($(window).width() * (10/12));
+    $('html').width($(window).width() * (10/12));
+    
+    $(document).on('scroll',function(){
+        if ($(document).scrollLeft() !== 0) {
+                   $(document).scrollLeft(0);
+        }
+    });
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {

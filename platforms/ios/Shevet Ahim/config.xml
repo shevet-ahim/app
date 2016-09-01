@@ -128,4 +128,5 @@
     <preference name="android-minSdkVersion" value="15" />
     <preference name="android-installLocation" value="auto" />
     <preference name="StatusBarOverlaysWebView" value="true" />
+    
 </widget>
