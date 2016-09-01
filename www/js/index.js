@@ -1391,16 +1391,18 @@ sa.prototype.displaySchedule = function(page,events,day_info){
 	$(title_clone).trigger('create');
 	this.activateHeader(title_clone,page);
 	
-	var i_clone = $('#sa-day-info-dummy').clone().removeClass('dummy').attr('id','');
-	if (day_info) {
-		for (k in day_info) {
-			if (day_info[k])
-				$(i_clone).find('.' + k + ' .item-value').html(day_info[k]);
-			else
-				$(i_clone).find('.' + k).remove();
+	if (page == 'zmanim') {
+		var i_clone = $('#sa-day-info-dummy').clone().removeClass('dummy').attr('id','');
+		if (day_info) {
+			for (k in day_info) {
+				if (day_info[k])
+					$(i_clone).find('.' + k + ' .item-value').html(day_info[k]);
+				else
+					$(i_clone).find('.' + k).remove();
+			}
 		}
+		$('#' + page + ' .ui-content .sa-calendar-nav').after(i_clone);
 	}
-	$('#' + page + ' .ui-content .sa-calendar-nav').after(i_clone);
 
 	var dummy = $('#sa-schedule-dummy');
 	if (events && events.length > 0) {
