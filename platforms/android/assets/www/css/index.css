@@ -258,6 +258,31 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	display: none !important;
 }
 
+#sa-startup-mask{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background-color: #FFF;
+}
+
+#sa-startup-mask .ui-icon-loading{
+	height:41px;
+	width:41px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity=20);
+	-moz-opacity: 0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+	display: block;
+	left: 50%;
+    position: relative;
+    margin-left: -21.5px;
+    margin-top: 10px;
+}
+
 #sa-top-nav {
 	height: 81px;
     background-color:transparent;
@@ -627,7 +652,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	margin-right:0;
 }
 #sa-tefilot-scroll .p{
-	
+	color:#00586F;
 }
 #sa-tefilot-scroll .t{
 	
@@ -694,7 +719,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 .sa-schedule .time .t .sa-icon,.sa-schedule .time .p .sa-icon, .sa-schedule .times .t .sa-icon,.sa-schedule .times .p .sa-icon{
 	margin: 0 5px 0 0;
     font-size: 15px;
-    top: 1px;
+    top: 2px;
     position: relative;
     float: left;
 }
@@ -722,6 +747,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 .sa-calendar-nav{
 	position: relative;
+	margin-bottom: 10px;
 }
 .sa-calendar-nav .arrow{
 	position: absolute;
@@ -854,6 +880,29 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     top: 9px;
     left: 10px;
     z-index: 1;
+}
+.sa-property {
+	border-top:none;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+    display: block;
+	color:#444;
+}
+.sa-property .sa-icon{
+	margin: 0 7px 0 0;
+    font-size: 15px;
+    float: left;
+    display: inline-block;
+    padding-top: 1px;
+}
+.sa-property .item-name{
+	display: inline-block;
+    margin: 0 5px 0 0;
+	text-decoration: underline;
+    font-weight: 600;
+}
+.sa-property .item-value{
+	
 }
 
 form {
@@ -1042,7 +1091,7 @@ a.more:active{
 .popup-full ul li{
 	white-space: normal !important;
 }
-.ui-popup-container {
+#sa-form-errors-popup,#sa-form-messages-popup,#sa-form-announcements-popup {
 	width: 80%;
     left: 50% !important;
     max-width: 100% !important;
@@ -1130,7 +1179,14 @@ a.more:active{
 	margin-bottom: 10px;
 }
 .sa-feed-post .time{
-	padding: 0 10px 10px;
+	border: 1px solid #B9F2FF;
+    padding: 7px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #eafbff;
+    width: auto;
+    margin: 10px;
+	color:#059;
 }
 .sa-feed-post .time .t{
 	display: block;
@@ -1229,6 +1285,7 @@ a.more:active{
 }
 .sa-detail .img-contain{
 	position: relative;
+	margin-top: 10px;
 }
 .sa-detail .img{
 	width: 100%;
@@ -1251,7 +1308,14 @@ a.more:active{
 	opacity: 0.3;
 }
 .sa-detail .time{
-	padding: 15px 10px 10px;
+	border: 1px solid #B9F2FF;
+    padding: 7px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #eafbff;
+    width: auto;
+    margin: 10px;
+	color:#059;
 }
 .sa-detail .time .t{
 	display: block;
@@ -1278,6 +1342,8 @@ a.more:active{
 .sa-detail .content p{
 	margin-top: 0;
     margin-bottom: 1em;	
+	margin-top:10px;
+	clear:left;
 }
 .sa-detail a.remind{
 	padding: 10px;
@@ -1306,10 +1372,13 @@ a.more:active{
     display: block;
     border-top: 1px solid #ddd;
     color: #444;
+	text-align:right;
+	min-height:18px;
 }
 .sa-detail .status u{
 	text-decoration: underline;
 	font-weight: 600;
+	float:left;
 }
 .sa-detail .status .sa-icon{
 	margin: 0 4px 0 0;
@@ -1368,6 +1437,12 @@ a.more:active{
     display: inline-block;
     padding-top: 1px;
 }
+.sa-product ul li.url a{
+	
+}
+.sa-product ul li.description p{
+	font-size: 14px;
+}
 
 .sa-shlijim a{
 	font-family: Lato, Helvetica, Arial, sans-serif;
@@ -1418,9 +1493,16 @@ a.more:active{
 	-khtml-opacity: 0.3;
 	opacity: 0.3;
 }
-.outside .logo{
+.logo{
 	width: 90%;
     margin-left: 5%;
+}
+.sa-form-question{
+	border: 1px solid #B9F2FF;
+    padding: 7px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #eafbff;
 }
 
 .ui-tabs-nav{
@@ -1504,9 +1586,12 @@ a.token:active{
     -moz-border-radius: 50%;
     border-radius: 50%;
     font-weight: 900;
-    border: 1px solid #333;
+    border:2px solid #FFF;
     margin: 0 5px;
 	font-size:16px;
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
 }
 .alert.message {
 	background-color: #dff0d8;
