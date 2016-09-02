@@ -18,43 +18,43 @@ onDeviceReady: function() {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-    this.app_url = 'http://app.shevetahim.com/api.php';
-    //this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
-    
-    // user
-    this.session = {};
-    this.session.signed_up = null;
-    this.session.id = null;
-    this.session.key = null;
-    this.session.status = null;
-    this.session.age = null;
-    this.session.sex = null;
-    this.session.has_children = null;
-    this.session.push_notifications = null;
-    
-    // app properties
-    this.hebdate = null;
-    this.position = {coords:{latitude: 8.97,longitude:-79.51}};
-    this.requests = {};
-    this.params = {};
-    this.cfg = {};
-    this.last_url = null;
-    this.hatzalah_phone = null;
-    this.dsi_phone = null;
-    
-    // lazy loading
-    this.more_waiting = null;
-    this.more_last_timestamp = null;
-    this.more_interval_days = 30;
-    this.more_last_load = moment().unix();
-    this.more_attempts = 0;
-    
-    // feed cache
-    this.feed = [];
-    this.preloaded = false;
-    
-    // init
-    this.init();
+	this.app_url = 'http://app.shevetahim.com/api.php';
+	//this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+	
+	// user
+	this.session = {};
+	this.session.signed_up = null;
+	this.session.id = null;
+	this.session.key = null;
+	this.session.status = null;
+	this.session.age = null;
+	this.session.sex = null;
+	this.session.has_children = null;
+	this.session.push_notifications = null;
+
+	// app properties
+	this.hebdate = null;
+	this.position = {coords:{latitude: 8.97,longitude:-79.51}};
+	this.requests = {};
+	this.params = {};
+	this.cfg = {};
+	this.last_url = null;
+	this.hatzalah_phone = null;
+	this.dsi_phone = null;
+
+	// lazy loading
+	this.more_waiting = null;
+	this.more_last_timestamp = null;
+	this.more_interval_days = 30;
+	this.more_last_load = moment().unix();
+	this.more_attempts = 0;
+
+	// feed cache
+	this.feed = [];
+	this.preloaded = false;
+
+	// init
+	this.init();
 }
 
 sa.prototype.init = function(){
