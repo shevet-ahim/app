@@ -623,6 +623,8 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 #sa-tefilot {
 	padding: 0 0 0 10px;
 	display: table;
+	position:relative;
+	overflow:hidden;
 }
 #sa-tefilot div {
 	display:table-cell;
