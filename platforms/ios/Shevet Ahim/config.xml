@@ -92,6 +92,10 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-navigation href="http://app.shevetahim.com/*" />
+    <allow-navigation href="tel:*" />
+    <allow-navigation href="sms:*" />
+    <allow-navigation href="mailto:*" />
+    <allow-navigation href="geo:*" />
     <access launch-external="yes" origin="tel:*" />
     <access launch-external="yes" origin="geo:*" />
     <access launch-external="yes" origin="mailto:*" />
@@ -128,4 +132,5 @@
     <preference name="android-minSdkVersion" value="15" />
     <preference name="android-installLocation" value="auto" />
     <preference name="StatusBarOverlaysWebView" value="true" />
+    
 </widget>
