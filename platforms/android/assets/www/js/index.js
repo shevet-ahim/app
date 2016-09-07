@@ -1,5 +1,5 @@
 window.onerror = function (errorMsg, url, lineNumber) {
-	//return true;
+	return true;
     //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 
@@ -628,7 +628,9 @@ sa.prototype.loadTefilot = function(return_data){
 					continue;
 		 		*/
 				var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm');
-				tefilot[results[i].key][results[i].place_abbr].push(time);
+				if (tefilot[results[i].key][results[i].place_abbr].indexOf(time) < 0)
+					tefilot[results[i].key][results[i].place_abbr].push(time);
+				
 				tefilot_cats[results[i].key] = results[i].category;
 				tefilot_places[results[i].place_abbr] = results[i].place;
 			}
@@ -748,9 +750,11 @@ sa.prototype.loadFeed = function(more){
 					if (found && found.length > 0)
 						continue;
 
-					content.push(new_items[i]);
-					if (content.length > 50)
-						content.shift();
+					if (new_items[i].key != 'anuncios') {
+						content.push(new_items[i]);
+						if (content.length > 50)
+							content.shift();
+					}
 				}
 
 				var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
@@ -982,7 +986,7 @@ sa.prototype.loadZmanim = function(){
 		if (holidays[0] && holidays[0].desc) {
 			var h_arr = [];
 			for (i in holidays) {
-				h_arr.push(holidays[i].desc[0]);
+				h_arr.push(holidays[i].desc[0].replace('Ch','J').replace('ch','j'));
 			}
 			day_info.holidays = h_arr.join(' / ');
 		}
@@ -1030,7 +1034,11 @@ sa.prototype.loadZmanim = function(){
 
 					var t = results[i].time.split(' ');
 					var t1 = t[1].split(':');
-					tefilot[results[i].key][results[i].place_abbr].times.push(moment().hour(t1[0]).minute(t1[1]).format('h:mm A'));
+					
+					var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm A');
+					if (tefilot[results[i].key][results[i].place_abbr].times.indexOf(time) < 0)
+						tefilot[results[i].key][results[i].place_abbr].times.push(time);
+					
 					tefilot[results[i].key][results[i].place_abbr].name = tefilot_places[results[i].place_abbr];
 					tefilot_cats[results[i].key] = results[i].category;
 				}
@@ -1395,8 +1403,19 @@ sa.prototype.displaySchedule = function(page,events,day_info){
 		var i_clone = $('#sa-day-info-dummy').clone().removeClass('dummy').attr('id','');
 		if (day_info) {
 			for (k in day_info) {
-				if (day_info[k])
+				if (day_info[k]) {
 					$(i_clone).find('.' + k + ' .item-value').html(day_info[k]);
+					if (k == 'havdalah') {
+						if (moment.unix(timestamp).format('d') == 5) {
+							$(i_clone).find('.item-name:not(.alt)').removeClass('dummy');
+							$(i_clone).find('.item-name.alt').addClass('dummy');
+						}
+						else {
+							$(i_clone).find('.item-name:not(.alt)').addClass('dummy');
+							$(i_clone).find('.item-name.alt').removeClass('dummy');
+						}
+					}
+				}
 				else
 					$(i_clone).find('.' + k).remove();
 			}
@@ -1649,7 +1668,13 @@ sa.prototype.displayDirectory = function(directory,category){
 			clone.find('.tel .item-value').html(directory[i].tel);
 			clone.find('.website .item-value a').attr('href','http://' +  (directory[i].website).replace('http://','').replace('https://','')).html((directory[i].website).replace('http://','').replace('https://',''));
 			clone.find('.email .item-value a').attr('href','mailto:' +  directory[i].email).html(directory[i].email);
-			clone.find('.address .item-value a').attr('href','geo:' + directory[i].lat + ',' + directory[i].long).html(directory[i].address);
+			
+			if (directory[i].lat && directory[i].long)
+				clone.find('.address .item-value a').attr('href','http://maps.google.com/maps?ll=' + directory[i].lat + ',' + directory[i].long).html(directory[i].address);
+			else if (directory[i].address)
+				clone.find('.address .item-value a').attr('href','http://maps.google.com/?q=Panama,' + directory[i].address + ',' + directory[i].name).html(directory[i].address);
+			else
+				clone.find('.address').remove();
 			
 			if (category == 'restaurants') {
 				if (directory[i].warn != 'Y')
@@ -2433,11 +2458,11 @@ sa.prototype.headerDate = function() {
 	
 	var holidays = this.hebdate.holidays();
 	if (holidays[0] && holidays[0].desc)
-		return holidays[0].desc[0];
+		return holidays[0].desc[0].replace('Ch','J').replace('ch','j');
 	
 	var omer = '';
 	if (this.hebdate.omer() > 0)
 		omer = ' (Omer ' + this.hebdate.omer() + ')';
 	
-	return this.hebdate.toString() + omer;
+	return this.hebdate.toString().replace('Ch','J').replace('ch','j') + omer;
 }
