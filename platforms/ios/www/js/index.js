@@ -18,8 +18,8 @@ onDeviceReady: function() {
 
 // ==== SA APP INSTANCE ====
 function sa(){
-    //this.app_url = 'http://app.shevetahim.com/api.php';
-    this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
+    this.app_url = 'http://app.shevetahim.com/api.php';
+    //this.app_url = 'http://45.79.131.79/shevet_ahim/backend/htdocs/api.php';
     
     // user
     this.session = {};
