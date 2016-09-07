@@ -15,7 +15,7 @@
     </head>
     <body>
     	<!-- PANELS -->
-    	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav" class="ios">
+    	<div data-role="header" data-id="top-nav" data-position="fixed" id="sa-top-nav">
     		<div class="o0">
            		<div class="bg"></div>
 			</div>
@@ -71,7 +71,7 @@
 			        				<div class="bg"></div>
 			        			</div>
 		        			</div>
-		        			<div class="menu-item">Zmanim</div>
+		        			<div class="menu-item">Rezos y zmanim</div>
 		        		</a>
 		        		<div class="line"></div>
 		        		<a href="#events">
@@ -154,6 +154,26 @@
 		        			<div class="menu-item">Configuración</div>
 		        		</a>
 		        		<div class="line"></div>
+		        		<a href="#links">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+		        					<span class="ti-link sa-icon"></span>
+		        					<div class="bg"></div>
+		        				</div>
+		        			</div>
+		        			<div class="menu-item">Vínculos</div>
+		        		</a>
+		        		<div class="line"></div>
+		        		<a href="#about">
+		        			<div class="menu-icon">
+		        				<div class="contain">
+		        					<span class="ti-info-alt sa-icon"></span>
+		        					<div class="bg"></div>
+		        				</div>
+		        			</div>
+		        			<div class="menu-item">Acerca de...</div>
+		        		</a>
+		        		<div class="line"></div>
 		        		<a href="#logout">
 		        			<div class="menu-icon">
 		        				<div class="contain">
@@ -212,6 +232,9 @@
 			<input id="close-ann" data-rel="back" type="submit" class="ui-btn submit-button ti-close" name="close" value="OK" />
 			<div class="clear"></div>
 		</div>
+		<div data-role="popup" id="sa-lightbox">
+			<img class="img" src="img/placeholder.png">
+		</div>
 		
 		<!-- DUMMIES -->
 		<a id="sa-tefila-dummy" class="dummy sa-tefila">
@@ -230,7 +253,9 @@
 				<div class="clear"></div>
 			</div>
 			<h3 class="title"><a href="#" data-params=""></a></h3>
-			<img class="img" src="">
+			<a href="#sa-lightbox" data-rel="popup" data-position-to="window" data-transition="fade" class="sa-show-lightbox">
+				<img class="img" src="">
+			</a>
 			<div class="time">
 				<span class="t">
 					<span class="ti-calendar sa-icon"></span>
@@ -273,7 +298,7 @@
 			<img class="img" src="" />
 			<span class="status"><span class="sa-icon ti-alert"></span><span></span></span>
 			<div class="times">
-				<span class="p">Horario:</span>
+				<span class="p">Horario</span>
 				<span class="t">
 					<span class="ti-time sa-icon"></span>
 					<span></span>
@@ -281,24 +306,28 @@
 			</div>
 			<div class="content"></div>
 			<a href="#" class="remind sa-add-reminder"><span class="ti-calendar sa-icon"></span> Agregar a mi calendario.</a>
-			<div class="categories"><span class="ti-tag sa-icon"></span> Categorías: <span class="tokens"></span></div>
+			<div class="categories"><span class="ti-tag sa-icon"></span> Categorías <span class="tokens"></span></div>
 		</div>
 		<li id="sa-shlijim-dummy" class="dummy sa-shlijim">
-			<a href="#shlijim-detail" data-params=""><span class="sa-icon"></span><span class="sa-search-text"></span></a>
+			<a href="#shlijim-detail" data-params="">
+				<span class="sa-icon"></span>
+				Rav.
+				<span class="sa-search-text"></span>
+			</a>
 		</li>
 		<div id="sa-shlijim-detail-dummy" class="dummy sa-detail">
-			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left" data-rel="back"></a><span></span></h1>
+			<h1 class="name"><a href="#" class="sa-icon ti-arrow-left" data-rel="back"></a>Rav. <span></span></h1>
 			<div class="img-contain">
 				<img class="img" src="" />
 				<div class="overlay">
 					<img src="img/x-overlay.png" />
 				</div>
 			</div>
-			<div class="status"><u>Estatus:</u> <span class="sa-icon"></span><span></span></div>
-			<div class="country status"><u>País:</u> <span></span></div>
-			<div class="motivo status"><u>Motivo:</u> <span></span></div>
-			<div class="num_estudiantes status"><u>Num. Estudiantes:</u> <span></span></div>
-			<div class="comentarios status"><u>Comentarios:</u></div>
+			<div class="status"><u>Estatus</u> <span></span></div>
+			<div class="country status"><u>País</u> <span></span></div>
+			<div class="motivo status"><u>Motivo</u> <span></span></div>
+			<div class="num_estudiantes status"><u>Num. Estudiantes</u> <span></span></div>
+			<div class="comentarios status"><u>Comentarios</u></div>
 			<div class="content"></div>
 		</div>
 		<div id="sa-schedule-dummy" class="dummy sa-schedule">
@@ -355,22 +384,82 @@
 				<a href="#" data-params=""></a>
 				<div class="bg"></div>
 			</h3>
-			<div class="categories"><span class="ti-calendar sa-icon"></span> Categorías: <span class="tokens"></span></div>
-			<div class="times">
-				<span class="p">Horario:</span>
+			<div class="categories"><span class="ti-calendar sa-icon"></span> Categorías <span class="tokens"></span></div>
+			<!-- div class="times">
+				<span class="p">Horario</span>
 				<span class="t">
 					<span class="ti-time sa-icon"></span>
 					<span></span>
 				</span>
+			</div -->
+			<div class="sa-property tel">
+				<span class="sa-icon ti-help-alt"></span>
+				<span class="item-name">Tel.</span>
+				<span class="item-value"></span>
 			</div>
-			<a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a>
+			<div class="sa-property website">
+				<span class="sa-icon ti-link"></span>
+				<span class="item-name">Página</span>
+				<span class="item-value"><a href=""></a></span>
+			</div>
+			<div class="sa-property email">
+				<span class="sa-icon ti-email"></span>
+				<span class="item-name">Email</span>
+				<span class="item-value"><a href=""></a></span>
+			</div>
+			<div class="sa-property address">
+				<span class="sa-icon ti-location-pin"></span>
+				<span class="item-name">Dirección</span>
+				<span class="item-value"><a href=""></a></span>
+			</div>
+			<!-- a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a -->
+		</div>
+		<div id="sa-day-info-dummy" class="dummy sa-directory">
+			<div class="sa-property holidays">
+				<span class="sa-icon ti-star"></span>
+				<span class="item-value"></span>
+			</div>
+			<div class="sa-property omer">
+				<span class="sa-icon ti-calendar"></span>
+				<span class="item-value"></span>
+			</div>
+			<div class="sa-property candles">
+				<span class="sa-icon ti-light-bulb"></span>
+				<span class="item-name">Velas</span>
+				<span class="item-value"></span>
+			</div>
+			<div class="sa-property havdalah">
+				<span class="sa-icon ti-light-bulb"></span>
+				<span class="item-name">Sale Shabat</span>
+				<span class="item-name alt dummy">Sale la fiesta</span>
+				<span class="item-value"></span>
+			</div>
+			<div class="sa-property sedra">
+				<span class="sa-icon ti-book"></span>
+				<span class="item-name">Perashá</span>
+				<span class="item-value"></span>
+			</div>
+			<div class="sa-property daf">
+				<span class="sa-icon ti-book"></span>
+				<span class="item-name">Daf Yomí</span>
+				<span class="item-value"></span>
+			</div>
+			<!-- a href="#" data-params="" class="more"><span class="ti-eye sa-icon"></span> Leer más</a -->
 		</div>
 		<li id="sa-product-dummy" class="dummy sa-product tablist-right" data-role="collapsible" data-iconpos="right" data-shadow="false" data-corners="false">
 		    <h2></h2>
 		    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
 				<li class="status"><span class="sa-icon ti-alert"></span><span></span></li>
-				<li class="supervision"><u>Supervision:</u> <span></span></li>
-				<li class="updated"><u>Actualizado:</u> <span></span></li>
+				<li class="supervision"><u>Supervision</u> <span></span></li>
+				<li class="updated"><u>Actualizado</u> <span></span></li>
+				<div class="sa-search-text invisible"></div>
+		    </ul>
+		</li>
+		<li id="sa-link-dummy" class="dummy sa-product tablist-right" data-role="collapsible" data-iconpos="right" data-shadow="false" data-corners="false">
+		    <h2></h2>
+		    <ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">
+				<li class="url"><a href=""></a></li>
+				<li class="description"><p></p></li>
 				<div class="sa-search-text invisible"></div>
 		    </ul>
 		</li>
@@ -378,20 +467,24 @@
 		<!-- HELPERS -->
 		<a id="sa-token-helper" href="#" class="token" data-params=""></a>
 		<img id="sa-loading-helper" class="sa-loading" src="img/ajax-loader.gif">
-		<div id="sa-loading-mask" class="dummy sa-loading-mask">
-			<img class="sa-loading" src="img/ajax-loader.gif">
-		</div>
+		<div id="sa-loading-mask" class="dummy sa-loading-mask"></div>
 		<div id="sa-no-results-helper" class="dummy sa-no-results">No hay contenido para mostrar en esta página.</div>
+		
+		<!-- MASK FOR STARTUP -->
+		<div id="sa-startup-mask">
+			<img class="logo" src="img/logo_white.png">
+			<span class="ui-icon-loading"></span>
+		</div>
 		
     	<!-- APP PAGES -->
     	<div data-role="page" id="signup" class="outside">
 	 		<div class="ui-content">
 	 			<img class="logo" src="img/logo_white.png" />
             	<form id="signup-form" name="signup_form">
-            		<p><a href="#login">Ya tienes cuenta?</a></p>
+            		<p class="sa-form-question"><a href="#login">Ya tienes cuenta? Haz click aquí.</a></p>
             		<div class="param">
             			<label for="email">Email</label>
-            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="direccion@email.com" />
+            			<input class="form-input" id="email" name="email" type="email" value="" placeholder="direccion@email.com" />
             			<div class="input-status ti-alert"></div>
             		</div>
             		<div class="param">
@@ -414,6 +507,41 @@
             			<input class="form-input" id="pass1" name="pass1" type="password" value="" placeholder="Contraseña" />
             			<div class="input-status ti-alert"></div>
             		</div>
+            		<div class="param">
+            			<label for="tel">Teléfono</label>
+            			<input class="form-input" id="tel" name="tel" type="tel" value="" placeholder="0000-0000" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="age">Edad</label>
+            			<input class="form-input form-number" id="age" name="age" type="number" value="" placeholder="0" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="sex">Sexo</label>
+            			<select class="form-input" id="sex" name="sex">
+            				<option value=""></option>
+            				<option value="1">Masculino</option>
+            				<option value="2">Femenino</option>
+            			</select>
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="blood_type">Tipo de sangre</label>
+            			<input class="form-input" id="blood_type" name="blood_type" type="text" value="" placeholder="A+" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="has_children">Tengo niños pequeños</label>
+            			<input class="form-input form-checkbox" id="has_children" name="has_children" type="checkbox" value="1" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<div class="param">
+            			<label for="push_notifications">Recibir notificaciones de contenido y eventos nuevos</label>
+            			<input class="form-input form-checkbox" id="push_notifications" name="push_notifications" type="checkbox" value="1" checked="checked" />
+            			<div class="input-status ti-alert"></div>
+            		</div>
+            		<p>Esta información es confidencial y no será compartida con terceros con la excepción de ser requerido por la ley.</p>
             		<div class="clear"></div>
             		<input id="sa-signup" type="submit" class="ui-btn submit-button" name="signup" value="Crear cuenta nueva" />
             		<div class="clear"></div>
@@ -455,10 +583,10 @@
 	 		<div class="ui-content">
 	 			<img class="logo" src="img/logo_white.png" />
             	<form id="login-form" name="login_form">
-            		<p><a href="#signup">Crear cuenta nueva.</a></p>
+            		<p class="sa-form-question"><a href="#signup">Para crear otra cuenta, hacer click aquí.</a></p>
             		<div class="param">
             			<label for="email">Email</label>
-            			<input class="form-input" id="email" name="email" type="text" value="" placeholder="Email" />
+            			<input class="form-input" id="email" name="email" type="email" value="" placeholder="Email" />
             			<div class="input-status ti-alert"></div>
             		</div>
             		<div class="param">
@@ -468,7 +596,7 @@
             		</div>
             		<div class="clear"></div>
             		<input id="sa-login" type="submit" class="ui-btn submit-button" name="login" value="Ingresar" />
-            		<a id="facebook-login-button" href="#" class="ui-btn facebook-button submit-button"><span class="sa-icon ti-facebook"></span> Facebook Login</a>
+            		<!-- id="facebook-login-button" href="#" class="ui-btn facebook-button submit-button"><span class="sa-icon ti-facebook"></span> Facebook Login</a -->
             		<div class="clear"></div>
             	</form>
 			</div>
@@ -536,9 +664,7 @@
 		<div data-role="page" id="shlijim" class="sa-feed">
 			<div class="bg"></div>
  			<div class="ui-content">
- 				<ul class="sa-listview" data-role="listview" data-inset="true">
- 				
- 				</ul>
+ 				<ul class="sa-listview" data-role="listview" data-inset="true"></ul>
  			</div>
 		</div>
 		<div data-role="page" id="shlijim-detail" class="sa-item-detail">
@@ -570,7 +696,7 @@
 	            		</div>
 	            		<div class="param">
 	            			<label for="tel">Teléfono</label>
-	            			<input class="form-input" id="tel" name="tel" type="text" value="" placeholder="0000-0000" />
+	            			<input class="form-input" id="tel" name="tel" type="tel" value="" placeholder="0000-0000" />
 	            			<div class="input-status ti-alert"></div>
 	            		</div>
 	            		<div class="param">
@@ -584,15 +710,21 @@
 	            			<div class="input-status ti-alert"></div>
 	            		</div>
 	            		<div class="param">
+	            			<label for="blood_type">Tipo de sangre</label>
+	            			<input class="form-input" id="blood_type" name="blood_type" type="text" value="" placeholder="A+" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+	            			<div class="input-status ti-alert"></div>
+	            		</div>
+	            		<div class="param">
 	            			<label for="has_children">Tengo niños pequeños</label>
-	            			<input class="form-input form-checkbox" id="has_children" name="has_children" type="checkbox" value="1" checked="" />
+	            			<input class="form-input form-checkbox" id="has_children" name="has_children" type="checkbox" value="1" />
 	            			<div class="input-status ti-alert"></div>
 	            		</div>
 	            		<div class="param">
 	            			<label for="push_notifications">Recibir notificaciones de contenido y eventos nuevos</label>
-	            			<input class="form-input form-checkbox" id="push_notifications" name="push_notifications" type="checkbox" value="1" checked="" />
+	            			<input class="form-input form-checkbox" id="push_notifications" name="push_notifications" type="checkbox" value="1" checked="checked" />
 	            			<div class="input-status ti-alert"></div>
 	            		</div>
+	            		<p>Esta información es confidencial y no será compartida con terceros con la excepción de ser requerido por la ley.</p>
 	            		<div class="clear"></div>
 	            		<input id="sa-settings-submit" type="submit" class="ui-btn submit-button" name="settings-submit" value="Guardar Configuración" data-target="" />
 		            	<div class="clear"></div>
@@ -632,8 +764,8 @@
 					</h2>
 				</div>
 				<p class="bigger">Su sesión ha sido cerrada.</p>
-				<a class="ui-btn submit-button" href="#login">Ingresar</a>
-				<a class="ui-btn submit-button" href="#signup">Registrar Cuenta</a>
+				<a class="ui-btn submit-button ui-input-btn ui-corner-all" href="#login">Ingresar</a>
+				<a class="ui-btn submit-button ui-input-btn ui-corner-all" href="#signup">Crear cuenta nueva</a>
 			</div>
 		</div>
 		<div data-role="page" id="hatzalah">
@@ -662,6 +794,31 @@
 				</div>
 				<p>Al presionar el botón, se iniciará una llamada y se le enviará una alerta a DSI automáticamente. Está seguro que desea proceder?</p>
 				<a class="ui-btn submit-button ui-emergency-btn" href="#" id="sa-contact-dsi">Contactar a DSI</a>
+			</div>
+		</div>
+		<div data-role="page" id="links">
+			<div class="bg"></div>
+ 			<div class="ui-content">
+ 				<ul class="sa-listview ui-listview-outer" data-role="listview" data-inset="true"></ul>
+ 			</div>
+		</div>
+		<div data-role="page" id="about">
+			<div class="ui-content">
+				<div class="sa-detail">
+					<h1 class="title">
+						<a href="#news-feed" class="sa-icon sa-back-button ti-arrow-left"></a>
+						<span>Acerca de ShevetApp</span>
+					</h1>
+					<div class="content">
+						<img class="logo" src="img/top_logo.png">
+						<p>
+							<b>ShevetApp</b> es una colaboración de <b>Top of Mind Panama</b> con <b>Moisés Bassan</b>.
+						</p>
+						<p>
+							Para soporte, por favor enviar correo a <a href="mailto:app@shevetahim.com">app@shevetahim.com</a>.
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div data-role="page" id="blank"></div>

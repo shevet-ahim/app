@@ -267,7 +267,9 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     z-index: 10000;
     background-color: #FFF;
 }
-
+#sa-startup-mask .logo{
+	margin-top: 40%;
+}
 #sa-startup-mask .ui-icon-loading{
 	height:41px;
 	width:41px;

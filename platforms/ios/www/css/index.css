@@ -290,6 +290,33 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     margin-top: 10px;
 }
 
+#sa-startup-mask{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    background-color: #FFF;
+}
+#sa-startup-mask .logo{
+	margin-top: 40%;
+}
+#sa-startup-mask .ui-icon-loading{
+	height:41px;
+	width:41px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity=20);
+	-moz-opacity: 0.2;
+	-khtml-opacity: 0.2;
+	opacity: 0.2;
+	display: block;
+	left: 50%;
+    position: relative;
+    margin-left: -21.5px;
+    margin-top: 10px;
+}
+
 #sa-top-nav {
     height: 81px;
     background-color:transparent;
@@ -628,9 +655,16 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 
 #sa-tefilot {
+<<<<<<< HEAD
     padding: 0 0 0 10px;
     display: table;
     overflow: hidden;
+=======
+	padding: 0 0 0 10px;
+	display: table;
+	position:relative;
+	overflow:hidden;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 #sa-tefilot div {
     display:table-cell;
@@ -660,7 +694,11 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     margin-right:0;
 }
 #sa-tefilot-scroll .p{
+<<<<<<< HEAD
     color:#00586F;
+=======
+	color:#00586F;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 #sa-tefilot-scroll .t{
     
@@ -754,8 +792,13 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     text-decoration:underline;
 }
 .sa-calendar-nav{
+<<<<<<< HEAD
     position: relative;
     margin-bottom: 10px;
+=======
+	position: relative;
+	margin-bottom: 10px;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-calendar-nav .arrow{
     position: absolute;
@@ -890,6 +933,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     z-index: 1;
 }
 .sa-property {
+<<<<<<< HEAD
     border-top:none;
     border-bottom: 1px solid #ddd;
     padding: 10px;
@@ -898,12 +942,23 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 .sa-property .sa-icon{
     margin: 0 7px 0 0;
+=======
+	border-top:none;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+    display: block;
+	color:#444;
+}
+.sa-property .sa-icon{
+	margin: 0 7px 0 0;
+>>>>>>> dc26734... Still trying to build this f**king thing.
     font-size: 15px;
     float: left;
     display: inline-block;
     padding-top: 1px;
 }
 .sa-property .item-name{
+<<<<<<< HEAD
     display: inline-block;
     margin: 0 5px 0 0;
     text-decoration: underline;
@@ -911,6 +966,15 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 .sa-property .item-value{
     
+=======
+	display: inline-block;
+    margin: 0 5px 0 0;
+	text-decoration: underline;
+    font-weight: 600;
+}
+.sa-property .item-value{
+	
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 
 form {
@@ -1100,7 +1164,11 @@ a.more:active{
     white-space: normal !important;
 }
 #sa-form-errors-popup,#sa-form-messages-popup,#sa-form-announcements-popup {
+<<<<<<< HEAD
     width: 80%;
+=======
+	width: 80%;
+>>>>>>> dc26734... Still trying to build this f**king thing.
     left: 50% !important;
     max-width: 100% !important;
 }
@@ -1187,14 +1255,22 @@ a.more:active{
     margin-bottom: 10px;
 }
 .sa-feed-post .time{
+<<<<<<< HEAD
     border: 1px solid #B9F2FF;
+=======
+	border: 1px solid #B9F2FF;
+>>>>>>> dc26734... Still trying to build this f**king thing.
     padding: 7px 8px;
     font-size: 14px;
     border-radius: 4px;
     background-color: #eafbff;
     width: auto;
     margin: 10px;
+<<<<<<< HEAD
     color:#059;
+=======
+	color:#059;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-feed-post .time .t{
     display: block;
@@ -1292,8 +1368,13 @@ a.more:active{
     font-weight: 700;
 }
 .sa-detail .img-contain{
+<<<<<<< HEAD
     position: relative;
     margin-top: 10px;
+=======
+	position: relative;
+	margin-top: 10px;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-detail .img{
     width: 100%;
@@ -1316,14 +1397,22 @@ a.more:active{
     opacity: 0.3;
 }
 .sa-detail .time{
+<<<<<<< HEAD
     border: 1px solid #B9F2FF;
+=======
+	border: 1px solid #B9F2FF;
+>>>>>>> dc26734... Still trying to build this f**king thing.
     padding: 7px 8px;
     font-size: 14px;
     border-radius: 4px;
     background-color: #eafbff;
     width: auto;
     margin: 10px;
+<<<<<<< HEAD
     color:#059;
+=======
+	color:#059;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-detail .time .t{
     display: block;
@@ -1348,10 +1437,17 @@ a.more:active{
     line-height: 21px;
 }
 .sa-detail .content p{
+<<<<<<< HEAD
     margin-top: 0;
     margin-bottom: 1em;
     margin-top:10px;
     clear:left;
+=======
+	margin-top: 0;
+    margin-bottom: 1em;	
+	margin-top:10px;
+	clear:left;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-detail a.remind{
     padding: 10px;
@@ -1380,6 +1476,7 @@ a.more:active{
     display: block;
     border-top: 1px solid #ddd;
     color: #444;
+<<<<<<< HEAD
     text-align:right;
     min-height:18px;
 }
@@ -1387,6 +1484,15 @@ a.more:active{
     text-decoration: underline;
     font-weight: 600;
     float:left;
+=======
+	text-align:right;
+	min-height:18px;
+}
+.sa-detail .status u{
+	text-decoration: underline;
+	font-weight: 600;
+	float:left;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 .sa-detail .status .sa-icon{
     margin: 0 4px 0 0;
@@ -1446,10 +1552,17 @@ a.more:active{
     padding-top: 1px;
 }
 .sa-product ul li.url a{
+<<<<<<< HEAD
     
 }
 .sa-product ul li.description p{
     font-size: 14px;
+=======
+	
+}
+.sa-product ul li.description p{
+	font-size: 14px;
+>>>>>>> dc26734... Still trying to build this f**king thing.
 }
 
 .sa-shlijim a{
@@ -1490,6 +1603,7 @@ a.more:active{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+<<<<<<< HEAD
     position:absolute;
     top:0;
     bottom:0;
@@ -1507,6 +1621,25 @@ a.more:active{
 }
 .sa-form-question{
     border: 1px solid #B9F2FF;
+=======
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	-moz-opacity: 0.3;
+	-khtml-opacity: 0.3;
+	opacity: 0.3;
+}
+.logo{
+	width: 90%;
+    margin-left: 5%;
+}
+.sa-form-question{
+	border: 1px solid #B9F2FF;
+>>>>>>> dc26734... Still trying to build this f**king thing.
     padding: 7px 8px;
     font-size: 14px;
     border-radius: 4px;
@@ -1596,8 +1729,13 @@ a.token:active{
     font-weight: 900;
     border:2px solid #FFF;
     margin: 0 5px;
+<<<<<<< HEAD
     font-size:16px;
     -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
+=======
+	font-size:16px;
+	-webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
+>>>>>>> dc26734... Still trying to build this f**king thing.
     -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.56);
 }
