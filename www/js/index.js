@@ -456,7 +456,7 @@ sa.prototype.login = function(button,info){
 // https://developers.facebook.com/docs/facebook-login/permissions
 sa.prototype.facebookLogin = function(button,info){
     var self = this;
-    facebookConnectPlugin.logout(function(test) {
+    // facebookConnectPlugin.logout(function(test) {
                 facebookConnectPlugin.login(["email",'public_profile','user_about_me','user_birthday'], function(response) {
                                 if (response.authResponse) {
                                 var userID = response.authResponse.userID;
@@ -479,9 +479,9 @@ sa.prototype.facebookLogin = function(button,info){
                                             },function(error){
                                             alert(error)
                                             });
-                                 },function(error){
+                                 /*},function(error){
                                     alert(error)
-                                 });
+                                 });*/
 }
 
 
