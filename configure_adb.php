@@ -35,9 +35,9 @@ foreach($devices as $k=>$d){
 if(!$dev_id)
     fatal("device not found.pleae run lsusb to show usb devices list");
 
-unlink('/home/moises/.android/adb_usb.ini');
+unlink('/root/.android/adb_usb.ini');
 //file_put_contents("~/.android/adb_usb.ini",$dev_id);
-file_put_contents("/home/moises/.android/adb_usb.ini",$dev_id);
+file_put_contents("/root/.android/adb_usb.ini",$dev_id);
 
 shell_exec("adb kill-server");
 shell_exec("adb start-server");
