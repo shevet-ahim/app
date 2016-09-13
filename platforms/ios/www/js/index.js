@@ -2421,6 +2421,7 @@ sa.prototype.activateHeader = function(elem,page) {
 sa.prototype.resizePanels = function() {
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
+    $('.ui-content').width($(window).width() * (10/12));
     
     $(document).on('scroll',function(){
         if ($(document).scrollLeft() !== 0) {
