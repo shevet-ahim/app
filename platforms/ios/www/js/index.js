@@ -2256,7 +2256,6 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
-	return false;
     if ($('#sa-tefilot-scroll .scrolling').length > 0)
         return false;
     
@@ -2420,16 +2419,14 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-    //$('body').width($(window).width() * (10/12));
-    //$('html').width($(window).width() * (10/12));
+    $('body').width($(window).width() * (10/12));
+    $('html').width($(window).width() * (10/12));
     
-    /*
     $(document).on('scroll',function(){
         if ($(document).scrollLeft() !== 0) {
                    $(document).scrollLeft(0);
         }
     });
-    */
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
