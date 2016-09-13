@@ -2421,20 +2421,21 @@ sa.prototype.activateHeader = function(elem,page) {
 sa.prototype.resizePanels = function() {
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
-    
+    /*
     $(document).on('scroll',function(){
         if ($(document).scrollLeft() !== 0) {
                    $(document).scrollLeft(0);
         }
     });
+    */
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
-    window.plugins.calendar.createEventInteractively(name,location,'',new Date(start),new Date(end),function(result){
-                                                     //alert(JSON.stringify(result))
-                                                     },function(result) {
-                                                     //alert(JSON.stringify(result))
-                                                     });
+    window.plugins.calendar.createEventInteractively(name,location,'',moment.unix(start/1000).toDate(),moment.unix(end/1000).toDate(),function(result){
+		//alert(JSON.stringify(result))
+	},function(result) {
+		//alert(JSON.stringify(result))
+	});
 }
 
 sa.prototype.externalLinks = function() {
