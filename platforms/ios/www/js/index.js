@@ -2422,7 +2422,7 @@ sa.prototype.resizePanels = function() {
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
     $('.ui-content').width($(window).width() * (10/12));
-    $('.ui-page-active').width($(window).width() * (10/12));
+    $('.outside').width($(window).width() * (10/12) - 15);
     
     $(document).on('scroll',function(){
         if ($(document).scrollLeft() !== 0) {
