@@ -2256,6 +2256,7 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
+	return false;
     if ($('#sa-tefilot-scroll .scrolling').length > 0)
         return false;
     
