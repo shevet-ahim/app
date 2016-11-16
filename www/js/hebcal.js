@@ -1502,9 +1502,8 @@ prototype.sunrise = function() {
 prototype.sunset = function() {
 	return suntime(this).sunset;
 };
-
 prototype[hour] = function() {
-	return (this.sunset() - this.sunrise()) / 12; // ms in hour
+	return (this.sunset().getTime() - this.sunrise().getTime()) / 12; // ms in hour
 };
 
 prototype[hourm] = function() {
@@ -2794,7 +2793,6 @@ Event.prototype.getDesc = function(o) {
 Event.prototype.candleLighting = function() {
 	var date = this.date.next();
 	if (this.LIGHT_CANDLES) {
-		console.log(date.sunset() - (Event.candleLighting * 60 * 1000))
 		return new Date(date.sunset() - (Event.candleLighting * 60 * 1000));
 	} else if (this.LIGHT_CANDLES_TZEIS) {
 		return date.getZemanim().tzeit;
