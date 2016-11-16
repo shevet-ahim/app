@@ -489,6 +489,7 @@ function calcSunriseSet(rise, JD, latitude, longitude, timezone, dst,dateobj) {
     var timeUTC = calcSunriseSetUTC(rise, JD, latitude, longitude);
     var newTimeUTC = calcSunriseSetUTC(rise, JD + timeUTC / 1440.0, latitude, longitude);
     var response = null
+    
     if (isNumber(newTimeUTC)) {
         var timeLocal = newTimeUTC + (timezone * 60.0)
         timeLocal += ((dst) ? 60.0 : 0.0);
@@ -501,7 +502,7 @@ function calcSunriseSet(rise, JD, latitude, longitude, timezone, dst,dateobj) {
                 timeLocal += increment * 1440.0
                 jday -= increment
             }
-            response = timeString(jday, timeLocal)
+            response = timeString(timeLocal, 2)
         }
     } 
     /*
