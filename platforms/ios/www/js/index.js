@@ -1,6 +1,6 @@
 window.onerror = function (errorMsg, url, lineNumber) {
-    //return true;
-    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+    return true;
+    //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 
 //==== PHONEGAP FUNCTIONALITY ====
@@ -1429,9 +1429,15 @@ sa.prototype.displaySchedule = function(page,results){
 	this.activateHeader(title_clone,page);
 	
 	if (page == 'zmanim') {
-		var overrides0 = (overrides && overrides[moment.unix(timestamp).format('YYYY-MM-DD')]) ? overrides[moment.unix(timestamp).format('YYYY-MM-DD')] : false;
-		var overrides1 = (overrides && overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')]) ? overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')] : false;
-		var overrides2 = (overrides && overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')]) ? overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')] : false;
+		// apply specific overrides if in Panama City, Panama
+		var in_range = false;
+		if (self.position.coords.latitude && self.position.coords.latitude < 9.171759 && self.position.coords.latitude > 8.866779 && self.position.coords.longitude && self.position.coords.longitude > -79.841223 && self.position.coords.longitude < -79.122352) {
+			in_range = true;
+		}
+		
+		var overrides0 = (overrides && overrides[moment.unix(timestamp).format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).format('YYYY-MM-DD')] : false;
+		var overrides1 = (overrides && overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')] : false;
+		var overrides2 = (overrides && overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')] : false;
 		
 		var hdate = new Hebcal.HDate(new Date(timestamp * 1000)).setLocation(self.position.coords.latitude,self.position.coords.longitude);
 		var zmanim = (!overrides0) ? hdate.getZemanim() : overrides0;
