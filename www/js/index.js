@@ -236,7 +236,7 @@ sa.prototype.init = function(){
 					self.loadLinks();
 				else if (page == 'logout') {
 					self.logout();
-					self.setProp(['self','session','inside'],false);
+					self.setProp(['session','inside'],false);
 				}
 
 				// set last url for back button
