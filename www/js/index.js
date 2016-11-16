@@ -82,13 +82,11 @@ sa.prototype.init = function(){
 				},{ enableHighAccuracy: true });
 	    	}
 
-			$(document).ready(function() {
-				// initialize hebdate object and set position (default Panama City)
-				self.setProp('hebdate',new Hebcal.HDate());
-				self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
-	
-				callback(); 
-			});
+			// initialize hebdate object and set position (default Panama City)
+			self.setProp('hebdate',new Hebcal.HDate());
+			self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
+
+			callback();
 		},
 		function (callback) {
 			// link parameters

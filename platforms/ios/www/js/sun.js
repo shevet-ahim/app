@@ -501,7 +501,7 @@ function calcSunriseSet(rise, JD, latitude, longitude, timezone, dst,dateobj) {
                 timeLocal += increment * 1440.0
                 jday -= increment
             }
-            response = timeString(jday, timeLocal)
+            response = timeString(timeLocal, 2)
         }
     } 
     /*
