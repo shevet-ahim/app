@@ -179,6 +179,9 @@ body {
     margin:0px;
     padding:0px ;
     width:100%;
+    position: relative;
+    overflow:hidden;
+    overflow-y:auto;
 }
 
 /* Portrait layout (default) */
@@ -320,7 +323,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     text-decoration: none;
     color: #FFF;
     font-weight: 200 !important;
-    text-shadow: 0px 0px 1px #0382A0;
+	text-shadow: none;
 }
 #sa-top-nav .o1 .contain{
     position:relative;
@@ -388,17 +391,17 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     padding-top:15px;
 }
 #sa-top-nav #sa-title {
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:40px;
-    right:40px;
-    text-align:center;
-    font-size:16px;
-    text-decoration:none;
-    font-weight:600;
-    color: #FFF;
-    text-shadow: 0px 0px 1px #0382A0;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:40px;
+	right:40px;
+	text-align:center;
+	font-size:16px;
+	text-decoration:none;
+	font-weight:600;
+	color: #FFF;
+	text-shadow: none;
 }
 #sa-top-nav #sa-menu-button {
     left:0;
@@ -585,8 +588,8 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     position: relative;
     font-size: 16px;
     font-weight: normal;
-    text-shadow:1px 1px 5px #016E82;
-    font-weight: 600;
+    text-shadow:none !important;
+	font-weight: 600;
 }
 #sa-menu .sa-menu-inner .sa-menu-menu a .menu-icon{
     position: absolute;
@@ -695,6 +698,13 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     color:#00586F;
     text-decoration:none;
     font-weight:600;
+}
+.sa-schedule .title a i{
+	position:relative;
+	z-index:2;
+	color:#333;
+	text-decoration:none;
+	font-weight:200;
 }
 .sa-schedule .title .bg{
     z-index:1;
