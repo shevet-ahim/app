@@ -1,6 +1,6 @@
 window.onerror = function (errorMsg, url, lineNumber) {
-    return true;
-    //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
+    //return true;
+    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 
 //==== PHONEGAP FUNCTIONALITY ====
@@ -82,11 +82,13 @@ sa.prototype.init = function(){
 				},{ enableHighAccuracy: true });
 	    	}
 
-			// initialize hebdate object and set position (default Panama City)
-			self.setProp('hebdate',new Hebcal.HDate());
-			self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
-
-			callback();
+			$(window).on('load', function() {
+				// initialize hebdate object and set position (default Panama City)
+				self.setProp('hebdate',new Hebcal.HDate());
+				self.hebdate.setLocation(self.position.coords.latitude,self.position.coords.longitude);
+	
+				callback(); 
+			});
 		},
 		function (callback) {
 			// link parameters
