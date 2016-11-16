@@ -1,5 +1,5 @@
 window.onerror = function (errorMsg, url, lineNumber) {
-	//return true;
+	return true;
     //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 
