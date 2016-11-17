@@ -262,6 +262,10 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     display: none !important;
 }
 
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{
+	text-shadow: none;
+}
+
 #sa-startup-mask{
     position: absolute;
     top: 0;
