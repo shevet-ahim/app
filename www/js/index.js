@@ -263,12 +263,6 @@ sa.prototype.init = function(){
 				self.resizePanels();
 				self.externalLinks();
 
-				var page = ui.toPage.prop("id");
-				if (page == 'news-feed') {
-					setTimeout(function(){
-						self.startTicker();
-					},1000);
-				}
 				$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
 			});
 			
@@ -303,7 +297,6 @@ sa.prototype.init = function(){
 				self.updateHdate();
 				self.loadTefilot();
 				self.loadSettings();
-				self.startTicker();
 			},30000);
 
 			setInterval(function() {
@@ -312,7 +305,7 @@ sa.prototype.init = function(){
 
 			callback();
 		},
-		function (callback) {$("body").pagecontainer("change","#login");
+		function (callback) {
 			// get stored session
 			this.session.signed_up = this.getItem('sa-signed-up');
 			this.session.id = this.getItem('sa-session-id');
@@ -332,6 +325,7 @@ sa.prototype.init = function(){
 					this.loadFeed(false);
 					this.loadDateOverrides();
 				}
+				this.startTicker();
 			}
 			else if (this.session.id && this.session.key && this.session.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
@@ -441,6 +435,8 @@ sa.prototype.login = function(button,info){
 							self.displaySettings(true);
 						});
 					}
+					
+					self.startTicker();
 				}
 				else if (self.session.status == 'pending')
 					$("body").pagecontainer("change","#signup-waiting");
@@ -663,7 +659,7 @@ sa.prototype.loadTefilot = function(return_data){
 
 sa.prototype.loadFeed = function(more,preload){
 	$.mobile.loading('show');
-	
+
 	var reload = (!this.session.inside && !preload);
 	var start = null;
 	var end = null;
@@ -2408,56 +2404,36 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
-	if ($('#sa-tefilot-scroll .scrolling').length > 0 || !$('#sa-tefilot-scroll').is(':visible'))
-		return false;
-
 	var self = this;
-	var elem = $('#sa-tefilot-scroll .scroll:first');
-	var elem_f = $('#sa-tefilot-scroll .scroll:first');
-	var elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-	var elem_sub_l_w = elem_sub_l.outerWidth();
-	var elem_w = elem.outerWidth();
-	var window_w = parseFloat($('#sa-tefilot').parent().width()) - parseFloat($('#sa-tefilot-event').outerWidth());
-	var cloned = false;
+	var scroll = $('#sa-tefilot-scroll .scroll');
 
-	if (elem_sub_l.length == 0) {
-		setTimeout(function(){
-			self.startTicker();
-		},1000);
-		return false;
-	}
+	window.ticker = setInterval(function(){
+		var scroll_elems = scroll.find('.sa-tefila');
+		var window_w = parseFloat($('#sa-tefilot-scroll').width());
+		var new_l = 0;
+		var cur_l = scroll.position().left;
+		
+		if (scroll.width() < window_w || scroll_elems.length == 0)
+			return false;
 
-	if (elem.width() < window_w)
-		return false;
-
-	var properties = {duration:400,easing:'linear',complete:function(){
-		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties).addClass('scrolling');
-	},done: function(){
-		offset = elem_sub_l.offset();
-		if (elem_sub_l && offset) {
-			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 2) {
-				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),50)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
-				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-				cloned = true;
+		$(scroll_elems).each(function(i){
+			var l = $(this).position().left;
+			var r = $(this).width() + l;
+			
+			if ((r - window_w + cur_l) > ($(this).width() * .1)) {
+				new_l = l - 5;
+				return false;
 			}
-		}
-
-		if (elem_f && elem_f.offset()) {
-			if (elem_f.offset().left < (elem_f.width() * -1)) {
-				elem_f.remove();
-				elem_f = $('#sa-tefilot-scroll .scroll:first');
-				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-				cloned = false;
-			}
-		}
-
-	}};
-	elem.stop().animate({left:'-=50px'},properties);
+		});
+		
+		scroll.fadeOut(200,function(){
+			scroll.css('left',(-1 * new_l) + 'px').fadeIn(200);
+		});
+	},5000);
 }
 
 sa.prototype.stopTicker = function() {
-    $('#sa-tefilot-scroll .scroll').stop().removeClass('scrolling').css('left','0');
-    $('#sa-tefilot-scroll .scroll:not(:first)').remove();
+	clearInterval(window.ticker);
 }
 
 sa.prototype.displayHeader = function(mode,title,params) {
