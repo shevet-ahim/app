@@ -258,6 +258,10 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	display: none !important;
 }
 
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{
+	text-shadow: none;
+}
+
 #sa-startup-mask{
 	position: absolute;
     top: 0;
@@ -316,7 +320,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	text-decoration: none;
     color: #FFF;
     font-weight: 200 !important;
-	text-shadow: 0px 0px 1px #0382A0;
+	text-shadow: none;
 }
 #sa-top-nav .o1 .contain{
 	position:relative;
@@ -394,7 +398,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	text-decoration:none;
 	font-weight:600;
 	color: #FFF;
-	text-shadow: 0px 0px 1px #0382A0;
+	text-shadow: none;
 }
 #sa-top-nav #sa-menu-button {
 	left:0;
@@ -581,7 +585,7 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
     position: relative;
     font-size: 16px;
     font-weight: normal;
-    text-shadow:1px 1px 5px #016E82;
+    text-shadow:none !important;
 	font-weight: 600;
 }
 #sa-menu .sa-menu-inner .sa-menu-menu a .menu-icon{
@@ -691,6 +695,13 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 	color:#00586F;
 	text-decoration:none;
 	font-weight:600;
+}
+.sa-schedule .title a i{
+	position:relative;
+	z-index:2;
+	color:#333;
+	text-decoration:none;
+	font-weight:200;
 }
 .sa-schedule .title .bg{
 	z-index:1;
