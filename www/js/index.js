@@ -196,8 +196,10 @@ sa.prototype.init = function(){
 			$(document).on("pagecontainerbeforeshow",function(event,ui) {
 				var page = ui.toPage.prop("id");
 				if (page == 'news-feed') {
-					self.loadSettings();
-					self.loadFeed(false);
+					if (!self.preloaded) {
+						self.loadSettings();
+						self.loadFeed(false);
+					}
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -301,7 +303,7 @@ sa.prototype.init = function(){
 
 			setInterval(function() {
 		       self.loadMore();
-			},400);
+			},2000);
 
 			callback();
 		},
@@ -321,10 +323,14 @@ sa.prototype.init = function(){
 				$("body").pagecontainer("change","#news-feed");
 				$("#sa-top-nav").show();
 				$("#sa-bottom-nav").show();
+				
 				if (!this.preloaded) {
 					this.loadFeed(false);
 					this.loadDateOverrides();
 				}
+				else
+					this.preloaded = false;
+				
 				this.startTicker();
 			}
 			else if (this.session.id && this.session.key && this.session.status == 'pending') {
@@ -659,7 +665,7 @@ sa.prototype.loadTefilot = function(return_data){
 
 sa.prototype.loadFeed = function(more,preload){
 	$.mobile.loading('show');
-
+	console.log('asd')
 	var reload = (!this.session.inside && !preload);
 	var start = null;
 	var end = null;
@@ -675,19 +681,24 @@ sa.prototype.loadFeed = function(more,preload){
 
 	var self = this;
 	var feed = (!more) ? this.getItem('sa-feed') : [];
+	var last = this.getItem('sa-feed-last');
 	var events = (!more) ? this.getItem('sa-events') : [];
 	var content = (!more) ? this.getItem('sa-content') : [];
 	var old_feed = (more) ? this.getItem('sa-old-items') : [];
 	var popups_shown = this.getItem('sa-popups');
 	var new_items = [];
 	var popups = [];
+	var delay = 0;
 	popups_shown = (!popups_shown) ? [] : popups_shown;
 	
 	if (!more && feed) {
+		delay = 3000;
 		$.mobile.loading('hide');
 		$('.ui-page-active .sa-loading-mask').remove();
 		
 		self.displayFeed('news-feed',feed);
+		if (moment().unix() - last < 300)
+			return false;
 	}
 	
 	if (reload) {
@@ -696,120 +707,123 @@ sa.prototype.loadFeed = function(more,preload){
 		content = [];
 	}
 
-	this.addRequest('Events','get',[true,null,null,null,this.session.age,this.session.sex,null,start,end]);
-	this.addRequest('Content','get',[null,null,this.session.age,this.session.sex,null,start,end]);
-	this.sendRequests(function(result){
-		// check for upcoming holidays
-		for (i = 0;i <= 7; i++) {
-			var hdate = new Hebcal.HDate(moment().add(i,'days').toDate()).setLocation(self.position.coords.latitude,self.position.coords.longitude);
-			var holidays = hdate.holidays();
-			var candles = hdate.candleLighting();
-			var timestamp = (candles) ? moment(candles).unix() : moment(hdate.gregEve()).unix();
-			
-			var title = null;
-			if (holidays[0] && holidays[0].desc) {
-				title = holidays[0].desc[0].replace(/[0-9]/g,'');
-			}
-			
-			if (title) {
-				new_items.push({title: title, type: 'event', id: title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'), timestamp: timestamp, category: 'Fiestas Religiosas', content: 'Recordatorio para fecha religiosa.', is_zman:true});
-				break;
-			}
-		}
-		
-		// receive and parse events
-		if (result) {
-			var results = result.Events.get.results[0];
-			for (i in results) {
-				results[i].timestamp = self.getEventTimestamp(results[i]);
-				new_items.push(results[i]);
-			}
-		}
-
-		// receive and parse content items
-		if (result && result.Content.get.results[0]) {
-			var results = result.Content.get.results[0];
-			for (i in results) {
-				results[i].timestamp = self.getEventTimestamp(results[i]);
-				new_items.push(results[i]);
-
-				if (results[i].is_popup == 'Y' && popups_shown.indexOf(results[i].id) < 0) {
-					popups.push(results[i]);
-					popups_shown.push(results[i].id);
+	setTimeout(function(){
+		self.addRequest('Events','get',[true,null,null,null,self.session.age,self.session.sex,null,start,end]);
+		self.addRequest('Content','get',[null,null,self.session.age,self.session.sex,null,start,end]);
+		self.sendRequests(function(result){
+			// check for upcoming holidays
+			for (i = 0;i <= 7; i++) {
+				var hdate = new Hebcal.HDate(moment().add(i,'days').toDate()).setLocation(self.position.coords.latitude,self.position.coords.longitude);
+				var holidays = hdate.holidays();
+				var candles = hdate.candleLighting();
+				var timestamp = (candles) ? moment(candles).unix() : moment(hdate.gregEve()).unix();
+				
+				var title = null;
+				if (holidays[0] && holidays[0].desc) {
+					title = holidays[0].desc[0].replace(/[0-9]/g,'');
+				}
+				
+				if (title) {
+					new_items.push({title: title, type: 'event', id: title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'), timestamp: timestamp, category: 'Fiestas Religiosas', content: 'Recordatorio para fecha religiosa.', is_zman:true});
+					break;
 				}
 			}
-		}
-
-		feed = (!feed) ? [] : feed;
-		events = (!events) ? [] : events;
-		content = (!content) ? [] : content;
-
-		if (new_items.length > 0) {
-			// sorting oldest first
-			new_items.sort(function(a,b) {
-				return a.timestamp - b.timestamp;
-			});
-
-			// add to cache and remove oldest items
-			for (i in new_items) {
-				var found = $.grep(feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-				if (found && found.length > 0)
-					continue;
-
-				feed.push(new_items[i]);
-				if (feed.length > 50)
-					feed.shift();
-
-				if (new_items[i].type == 'event') {
-					var found = $.grep(events,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-					if (found && found.length > 0)
-						continue;
-
-					events.push(new_items[i]);
-					if (events.length > 50)
-						events.shift();
+			
+			// receive and parse events
+			if (result) {
+				var results = result.Events.get.results[0];
+				for (i in results) {
+					results[i].timestamp = self.getEventTimestamp(results[i]);
+					new_items.push(results[i]);
 				}
-
-				if (new_items[i].type == 'content') {
-					var found = $.grep(content,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-					if (found && found.length > 0)
-						continue;
-
-					if (new_items[i].key != 'anuncios') {
-						content.push(new_items[i]);
-						if (content.length > 50)
-							content.shift();
+			}
+	
+			// receive and parse content items
+			if (result && result.Content.get.results[0]) {
+				var results = result.Content.get.results[0];
+				for (i in results) {
+					results[i].timestamp = self.getEventTimestamp(results[i]);
+					new_items.push(results[i]);
+	
+					if (results[i].is_popup == 'Y' && popups_shown.indexOf(results[i].id) < 0) {
+						popups.push(results[i]);
+						popups_shown.push(results[i].id);
 					}
 				}
-
-				var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-				if (found && found.length > 0)
-					continue;
-
-				old_feed.push(new_items[i]);
-				if (old_feed.length > 500)
-					old_feed.shift();
 			}
-		}
-
-		if (!preload) {
-			self.displayFeed('news-feed',feed,more);
-			self.displayAnnouncements(popups);
-		}
-
-		if (!more) {
-			self.setItem('sa-feed',feed);
-			self.setItem('sa-events',events);
-			self.setItem('sa-content',content);
-		}
-		
-		if (!preload) {
-			self.setItem('sa-old-items',old_feed);
-			self.setItem('sa-popups',popups_shown);
-		}
-		
-		self.setProp('more_waiting',false);
-	});
+	
+			feed = (!feed) ? [] : feed;
+			events = (!events) ? [] : events;
+			content = (!content) ? [] : content;
+	
+			if (new_items.length > 0) {
+				// sorting oldest first
+				new_items.sort(function(a,b) {
+					return a.timestamp - b.timestamp;
+				});
+	
+				// add to cache and remove oldest items
+				for (i in new_items) {
+					var found = $.grep(feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+					if (found && found.length > 0)
+						continue;
+	
+					feed.push(new_items[i]);
+					if (feed.length > 50)
+						feed.shift();
+	
+					if (new_items[i].type == 'event') {
+						var found = $.grep(events,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+						if (found && found.length > 0)
+							continue;
+	
+						events.push(new_items[i]);
+						if (events.length > 50)
+							events.shift();
+					}
+	
+					if (new_items[i].type == 'content') {
+						var found = $.grep(content,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+						if (found && found.length > 0)
+							continue;
+	
+						if (new_items[i].key != 'anuncios') {
+							content.push(new_items[i]);
+							if (content.length > 50)
+								content.shift();
+						}
+					}
+	
+					var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+					if (found && found.length > 0)
+						continue;
+	
+					old_feed.push(new_items[i]);
+					if (old_feed.length > 500)
+						old_feed.shift();
+				}
+			}
+	
+			if (!preload) {
+				self.displayFeed('news-feed',feed,more);
+				self.displayAnnouncements(popups);
+			}
+	
+			if (!more) {
+				self.setItem('sa-feed',feed);
+				self.setItem('sa-feed-last',moment().unix());
+				self.setItem('sa-events',events);
+				self.setItem('sa-content',content);
+			}
+			
+			if (!preload) {
+				self.setItem('sa-old-items',old_feed);
+				self.setItem('sa-popups',popups_shown);
+			}
+			
+			self.setProp('more_waiting',false);
+		});
+	},delay);
 }
 
 sa.prototype.loadSettings = function(callback){
@@ -834,6 +848,8 @@ sa.prototype.loadSettings = function(callback){
 					self.loadTefilot();
 					self.loadFeed(false);
 				}
+				
+				this.preloaded = false;
 			}
 			else if (results.user.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
