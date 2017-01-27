@@ -12,8 +12,7 @@ bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
 },
 onDeviceReady: function() {
-	console.log('one')
-    window.sa = new sa();
+    //window.sa = new sa();
 }
 };
 
