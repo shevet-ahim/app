@@ -12,7 +12,7 @@ bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
 },
 onDeviceReady: function() {
-    //window.sa = new sa();
+    window.sa = new sa();
 }
 };
 
@@ -75,12 +75,14 @@ sa.prototype.init = function(){
 	    	});
 
 	    	// get current position
+	    	/*
 	    	if (navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition) {
 				navigator.geolocation.getCurrentPosition(function(position){
 					self.setProp('position',position);
 				},function(error){
 				},{ enableHighAccuracy: true });
 	    	}
+	    	*/
 
 			// initialize hebdate object and set position (default Panama City)
 			self.setProp('hebdate',new Hebcal.HDate());
