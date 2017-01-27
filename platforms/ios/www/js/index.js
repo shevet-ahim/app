@@ -6,13 +6,13 @@ window.onerror = function (errorMsg, url, lineNumber) {
 //==== PHONEGAP FUNCTIONALITY ====
 var app = {
 initialize: function() {
+	console.log('one')
     this.bindEvents();
 },
 bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
 },
 onDeviceReady: function() {
-	alert('habob')
     window.sa = new sa();
 }
 };
