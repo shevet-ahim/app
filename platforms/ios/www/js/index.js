@@ -9,9 +9,10 @@ initialize: function() {
     this.bindEvents();
 },
 bindEvents: function() {
-    document.addEventListener('deviceready', this.onDeviceReady, false);
+    //document.addEventListener('deviceready', this.onDeviceReady, false);
 },
 onDeviceReady: function() {
+	alert('habob')
     window.sa = new sa();
 }
 };
