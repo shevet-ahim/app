@@ -665,7 +665,7 @@ sa.prototype.loadTefilot = function(return_data){
 
 sa.prototype.loadFeed = function(more,preload){
 	$.mobile.loading('show');
-
+	
 	var reload = (!this.session.inside && !preload);
 	var start = null;
 	var end = null;
@@ -2566,7 +2566,7 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
-    /*
+	/*
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
     $('.ui-page-active:not(.outside)').width($(window).width() * (10/12));
