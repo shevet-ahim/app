@@ -2566,6 +2566,7 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
+	/*
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
     $('.ui-page-active:not(.outside)').width($(window).width() * (10/12));
@@ -2576,6 +2577,7 @@ sa.prototype.resizePanels = function() {
                    $(document).scrollLeft(0);
         }
     });
+    */
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {

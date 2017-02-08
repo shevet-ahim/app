@@ -265,7 +265,7 @@ sa.prototype.init = function(){
 				self.resizePanels();
 				self.externalLinks();
 
-				$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
+				//$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
 			});
 			
 			// lightbox
@@ -665,7 +665,7 @@ sa.prototype.loadTefilot = function(return_data){
 
 sa.prototype.loadFeed = function(more,preload){
 	$.mobile.loading('show');
-	console.log('asd')
+
 	var reload = (!this.session.inside && !preload);
 	var start = null;
 	var end = null;
@@ -690,6 +690,9 @@ sa.prototype.loadFeed = function(more,preload){
 	var popups = [];
 	var delay = 0;
 	popups_shown = (!popups_shown) ? [] : popups_shown;
+	
+	if (!old_feed)
+		old_feed = [];
 	
 	if (!more && feed) {
 		delay = 3000;
@@ -2563,6 +2566,7 @@ sa.prototype.activateHeader = function(elem,page) {
 }
 
 sa.prototype.resizePanels = function() {
+    /*
     $('body').width($(window).width() * (10/12));
     $('html').width($(window).width() * (10/12));
     $('.ui-page-active:not(.outside)').width($(window).width() * (10/12));
@@ -2573,6 +2577,7 @@ sa.prototype.resizePanels = function() {
                    $(document).scrollLeft(0);
         }
     });
+    */
 }
 
 sa.prototype.addToCalendar = function(name,location,start,end) {
