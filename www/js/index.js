@@ -265,7 +265,7 @@ sa.prototype.init = function(){
 				self.resizePanels();
 				self.externalLinks();
 
-				$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
+				//$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
 			});
 			
 			// lightbox
