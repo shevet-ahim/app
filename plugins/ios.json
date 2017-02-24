@@ -7,30 +7,25 @@
         "files": {}
     },
     "installed_plugins": {
-        "at.oneminutedistraction.phonenumber": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
         "cordova-plugin-facebook4": {
             "APP_ID": "148235158916239",
             "APP_NAME": "ShevetApp",
-            "PACKAGE_NAME": "com.shevetahim.app"
+            "PACKAGE_NAME": "com.shevetahimapp.app"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.shevetahim.app"
+            "GEOLOCATION_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.shevetahimapp.app"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.shevetahim.app"
+            "PACKAGE_NAME": "com.shevetahimapp.app"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.shevetahim.app"
-        },
-        "cordova-plugin-calendar": {
-            "PACKAGE_NAME": "com.shevetahim.app"
+            "PACKAGE_NAME": "com.shevetahimapp.app"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.shevetahim.app"
+            "PACKAGE_NAME": "com.shevetahimapp.app"
         }
     }
 }
