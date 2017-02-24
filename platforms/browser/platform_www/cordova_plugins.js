@@ -89,6 +89,14 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
+        "id": "cordova-plugin-calendar.Calendar",
+        "pluginId": "cordova-plugin-calendar",
+        "clobbers": [
+            "Calendar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -101,7 +109,8 @@ module.exports.metadata =
     "cordova-plugin-facebook4": "1.7.4",
     "cordova-plugin-keyboard": "1.1.4",
     "cordova-plugin-compat": "1.1.0",
-    "cordova-plugin-geolocation": "2.4.1"
+    "cordova-plugin-geolocation": "2.4.1",
+    "cordova-plugin-calendar": "4.5.5"
 }
 // BOTTOM OF METADATA
 });

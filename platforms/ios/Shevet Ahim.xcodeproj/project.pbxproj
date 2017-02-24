@@ -21,6 +21,9 @@
 		BB0F4DF6D99246148BD3DC40 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E697B0262C4E72AC27C2D5 /* CDVInAppBrowser.m */; };
 		C30ECD79F7E74D2BBECDB15A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C066427B4334D35BF8D8784 /* Bolts.framework */; };
 		DE9A091552A24B1790A9C7B6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 924956FE020B45EFB4EE3D44 /* CoreLocation.framework */; };
+		0767BA3D4D164F14B302192F /* Calendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D12CEB64364EB69F89744B /* Calendar.m */; };
+		6C0A472535BD46BABC84C911 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9366BCB3DF8A402385FAC2B9 /* EventKit.framework */; };
+		FCE86004D7D84E9B91553A65 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB280699F394D07AF7BF89C /* EventKitUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,10 @@
 		EFC951616ACA4E2586C55BFD /* CDVLocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocation.m; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; };
 		F47B7AE1D44B4D7996F31255 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "Shevet Ahim/config.xml"; sourceTree = "<group>"; };
+		50D12CEB64364EB69F89744B /* Calendar.m */ = {isa = PBXFileReference; name = "Calendar.m"; path = "cordova-plugin-calendar/Calendar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		253D494415E840B0B2C21209 /* Calendar.h */ = {isa = PBXFileReference; name = "Calendar.h"; path = "cordova-plugin-calendar/Calendar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		9366BCB3DF8A402385FAC2B9 /* EventKit.framework */ = {isa = PBXFileReference; name = "EventKit.framework"; path = "System/Library/Frameworks/EventKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		1DB280699F394D07AF7BF89C /* EventKitUI.framework */ = {isa = PBXFileReference; name = "EventKitUI.framework"; path = "System/Library/Frameworks/EventKitUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +92,8 @@
 				A079DBC81F2F4A4E8BE90366 /* FBSDKLoginKit.framework in Frameworks */,
 				69FF15CE405C4ADD89147B8D /* FBSDKShareKit.framework in Frameworks */,
 				DE9A091552A24B1790A9C7B6 /* CoreLocation.framework in Frameworks */,
+				6C0A472535BD46BABC84C911 /* EventKit.framework in Frameworks */,
+				FCE86004D7D84E9B91553A65 /* EventKitUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +169,8 @@
 				EBBFFBC986204C88B473901E /* FBSDKLoginKit.framework */,
 				BCEBF53F9A444CC199A2A808 /* FBSDKShareKit.framework */,
 				924956FE020B45EFB4EE3D44 /* CoreLocation.framework */,
+				9366BCB3DF8A402385FAC2B9 /* EventKit.framework */,
+				1DB280699F394D07AF7BF89C /* EventKitUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -191,6 +202,8 @@
 				E15A8BFFA29249C89AFADED0 /* CDVLocation.h */,
 				C3E697B0262C4E72AC27C2D5 /* CDVInAppBrowser.m */,
 				F47B7AE1D44B4D7996F31255 /* CDVInAppBrowser.h */,
+				50D12CEB64364EB69F89744B /* Calendar.m */,
+				253D494415E840B0B2C21209 /* Calendar.h */,
 			);
 			name = Plugins;
 			path = "Shevet Ahim/Plugins";
@@ -314,6 +327,7 @@
 				6696F576BCD84F7FBEF5F487 /* FacebookConnectPlugin.m in Sources */,
 				ACA7C9EF89EA40F58E38E65E /* CDVLocation.m in Sources */,
 				BB0F4DF6D99246148BD3DC40 /* CDVInAppBrowser.m in Sources */,
+				0767BA3D4D164F14B302192F /* Calendar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

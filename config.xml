@@ -99,4 +99,5 @@
     <plugin name="cordova-plugin-geolocation" spec="~2.4.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Allow geolocation for this application ?" />
     </plugin>
+    <plugin name="cordova-plugin-calendar" spec="~4.5.5" />
 </widget>

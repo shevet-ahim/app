@@ -31,6 +31,9 @@
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
+    <feature name="Calendar">
+        <param name="ios-package" value="Calendar" />
+    </feature>
     <name>Shevet Ahim</name>
     <description>
         Comunidad Shevet Ahim de Panamá - aplicación oficial.

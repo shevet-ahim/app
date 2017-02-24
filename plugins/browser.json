@@ -20,6 +20,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "cordova-plugin-calendar": {
+            "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
     "dependent_plugins": {
