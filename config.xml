@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="100020" id="com.shevetahimapp.app" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.shevetahim.app" version="1.0.2" android-versionCode="100019" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Shevet Ahim</name>
     <description>
         Comunidad Shevet Ahim de Panamá - aplicación oficial.
@@ -42,6 +42,7 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
+    <!-- <gap:plugin name="cordova-plugin-calendar" source="npm" version="4.4.6" /> -->
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />
     <icon gap:platform="android" gap:qualifier="hdpi" src="www/res/icon/android/icon-72-hdpi.png" />
@@ -68,6 +69,7 @@
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
     <access launch-external="yes" origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
+    <!-- <plugin name="cordova-plugin-calendar" source="npm" version="4.4.2" /> -->
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -80,9 +82,6 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <feature name="Geolocation">
-            <param name="ios-package" value="CDVLocation" />
-        </feature>
     </platform>
     <allow-navigation href="http://app.shevetahim.com/*" />
     <access launch-external="yes" origin="tel:*" />
@@ -96,8 +95,4 @@
         <variable name="APP_ID" value="148235158916239" />
         <variable name="APP_NAME" value="ShevetApp" />
     </plugin>
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.1">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Allow geolocation for this application ?" />
-    </plugin>
-    <plugin name="cordova-plugin-calendar" spec="~4.5.5" />
 </widget>

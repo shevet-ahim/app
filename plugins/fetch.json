@@ -1,12 +1,4 @@
 {
-    "cordova-plugin-inappbrowser": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-inappbrowser@1.6.1"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
@@ -23,17 +15,6 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-facebook4": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-facebook4@~1.7.1"
-        },
-        "is_top_level": true,
-        "variables": {
-            "APP_ID": "148235158916239",
-            "APP_NAME": "ShevetApp"
-        }
-    },
     "cordova-plugin-geolocation": {
         "source": {
             "type": "registry",
@@ -42,10 +23,78 @@
         "is_top_level": true,
         "variables": {}
     },
+    "cordova-plugin-inappbrowser": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-inappbrowser"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "at.oneminutedistraction.phonenumber": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/oneminutedistraction/phonenumber.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-facebook": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-facebook@0.2.2"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "cordova-plugin-calendar": {
         "source": {
             "type": "registry",
             "id": "cordova-plugin-calendar"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.phonegap.plugins.facebookconnect": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Telerik-Verified-Plugins/Facebook.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp"
+        }
+    },
+    "cordova-plugin-facebook4": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-facebook4"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp"
+        }
+    },
+    "phonegap-facebook-plugin": {
+        "source": {
+            "type": "registry",
+            "id": "phonegap-facebook-plugin@0.12.0"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "148235158916239",
+            "APP_NAME": "ShevetApp"
+        }
+    },
+    "cordova-plugin-keyboard": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cjpearson/cordova-plugin-keyboard",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}

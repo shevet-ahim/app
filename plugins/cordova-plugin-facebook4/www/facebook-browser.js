@@ -1,26 +1,15 @@
-/* globals */
-var __fbSdkReady = false;
-var __fbCallbacks = [];
-/* */
+/* global FB */
+var isInited = false
 
 exports.getLoginStatus = function getLoginStatus (s, f) {
-  if (!__fbSdkReady) {
-    return __fbCallbacks.push(function() {
-      getLoginStatus(s, f);
-    });
-  }
-
+  if (!assertInited()) return printError(f, new Error('init not called with valid version'))
   FB.getLoginStatus(function (response) {
     s(response)
   })
 }
 
 exports.showDialog = function showDialog (options, s, f) {
-  if (!__fbSdkReady) {
-    return __fbCallbacks.push(function() {
-      showDialog(options, s, f);
-    });
-  }
+  if (!assertInited()) return printError(f, new Error('init not called with valid version'))
 
   options.name = options.name || ''
   options.message = options.message || ''
@@ -28,23 +17,18 @@ exports.showDialog = function showDialog (options, s, f) {
   options.description = options.description || ''
   options.href = options.href || ''
   options.picture = options.picture || ''
-  options.quote = options.quote || ''
 
   FB.ui(options, function (response) {
     if (response && (response.request || !response.error_code)) {
       s(response)
       return
     }
-    f(response.message)
+    printError(f, response)
   })
 }
 // Attach this to a UI element, this requires user interaction.
 exports.login = function login (permissions, s, f) {
-  if (!__fbSdkReady) {
-    return __fbCallbacks.push(function() {
-      login(permissions, s, f);
-    });
-  }
+  if (!assertInited()) return printError(f, new Error('init not called with valid version'))
   // JS SDK takes an object here but the native SDKs use array.
   var options = {}
   if (permissions && permissions.length > 0) {
@@ -60,7 +44,7 @@ exports.login = function login (permissions, s, f) {
     if (response.authResponse) {
       s(response)
     } else {
-      f(response.status.message)
+      printError(f, response.status)
     }
   }, options)
 }
@@ -71,7 +55,7 @@ exports.getAccessToken = function getAccessToken (s, f) {
     s(response)
     return
   }
-  f('NO_TOKEN')
+  printError(f, new Error('NO_TOKEN'))
 }
 
 exports.logEvent = function logEvent (eventName, params, valueToSum, s, f) {
@@ -79,35 +63,25 @@ exports.logEvent = function logEvent (eventName, params, valueToSum, s, f) {
   s()
 }
 
-exports.logPurchase = function logPurchase (value, currency, s, f) {
+exports.logPurchase = function (value, currency, s, f) {
   // AppEvents are not avaliable in JS.
   s()
 }
 
-exports.appInvite = function appInvite (options, s, f) {
+exports.appInvite = function (options, s, f) {
   // App Invites are not avaliable in JS.
   s()
 }
 
-exports.logout = function logout (s, f) {
-  if (!__fbSdkReady) {
-    return __fbCallbacks.push(function() {
-      logout(s, f);
-    });
-  }
-
+exports.logout = function (s, f) {
+  if (!assertInited()) return printError(f, new Error('init not called with valid version'))
   FB.logout(function (response) {
     s(response)
   })
 }
 
-exports.api = function api (graphPath, permissions, s, f) {
-  if (!__fbSdkReady) {
-    return __fbCallbacks.push(function() {
-      api(graphPath, permissions, s, f);
-    });
-  }
-
+exports.api = function (graphPath, permissions, s, f) {
+  if (!assertInited()) return printError(f, new Error('init not called with valid version'))
   // JS API does not take additional permissions
   FB.api(graphPath, function (response) {
     if (response.error) {
@@ -118,33 +92,56 @@ exports.api = function api (graphPath, permissions, s, f) {
   })
 }
 
-exports.browserInit = function browserInit (appId, version, s) {
-  console.warn("browserInit is deprecated and may be removed in the future");
-  console.trace();
-}
+// Browser wrapper API ONLY
+exports.browserInit = function (appId, version, s) {
+  if (s == null && typeof version === 'function') {
+    s = version
+    version = null
+  }
 
-if (window.location.protocol === "file:") {
-  console.warn("Facebook JS SDK is not supported when using file:// protocol");
-} else {
-  window.fbAsyncInit = function() {
+  // Global :(
+  // This function will be called by the FB SDK when the client is inited
+  window.fbAsyncInit = function fbAsyncInit () {
+    version = version || 'v2.4'
+
     FB.init({
-      appId      : APP_ID,  // APP_ID is populated by the cordova after_prepare hook
-      xfbml      : true,
-      version    : 'v2.7'
-    });
+      appId: appId,
+      xfbml: false,
+      version: version
+    })
 
-    __fbSdkReady = true;
+    isInited = true
 
-    for (var i = 0; i < __fbCallbacks.length; i++) {
-      __fbCallbacks[i]();
-    }
-  };
+    if (typeof s === 'function') s()
+  }
 
-  (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+  // Bake in the JS SDK
+  insertSdk()
 }
+
+function assertInited () {
+  if (!isInited) {
+    return false
+  }
+  return true
+}
+
+function printError (f, err) {
+  if (typeof f === 'function') {
+    f(err.message)
+    return
+  }
+  console.error(err.stack)
+}
+
+function insertSdk () {
+  var js
+  var fjs = document.getElementsByTagName('script')[0]
+  if (document.getElementById('facebook-jssdk')) return
+
+  js = document.createElement('script')
+  js.id = 'facebook-jssdk'
+  js.src = 'https://connect.facebook.net/en_US/sdk.js'
+  fjs.parentNode.insertBefore(js, fjs)
+}
+
