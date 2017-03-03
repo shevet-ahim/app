@@ -1,0 +1,15 @@
+{
+  "name": "shevet-app",
+  "version": "0.1.0",
+  "description": "App for jewish communities.",
+  "keywords": [],
+  "author": "mbassan",
+  "dependencies": {
+    "phonegap": "6.0.1",
+    "cordova-plugin-facebook": "0.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shevet-ahim/app.git"
+  }
+}
