@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"CDVKeyboard\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"OneSignalPush\"><param name=\"ios-package\" value=\"OneSignalPush\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -93,6 +97,32 @@
                             "xml": "<dict><key>NSExceptionDomains</key><dict><key>facebook.com</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>fbcdn.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict><key>akamaihd.net</key><dict><key>NSIncludesSubdomains</key><true /><key>NSThirdPartyExceptionRequiresForwardSecrecy</key><false /></dict></dict></dict>",
                             "count": 2
                         }
+                    ],
+                    "UIBackgroundModes": [
+                        {
+                            "xml": "<array><string>remote-notification</string></array>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*-Debug.plist": {
+                "parents": {
+                    "aps-environment": [
+                        {
+                            "xml": "<string>development</string>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*-Release.plist": {
+                "parents": {
+                    "aps-environment": [
+                        {
+                            "xml": "<string>production</string>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -128,6 +158,9 @@
             "PACKAGE_NAME": "com.shevetahim.app"
         },
         "cordova-plugin-keyboard": {
+            "PACKAGE_NAME": "com.shevetahim.app"
+        },
+        "onesignal-cordova-plugin": {
             "PACKAGE_NAME": "com.shevetahim.app"
         }
     },
@@ -218,6 +251,14 @@
             "clobbers": [
                 "window.Keyboard"
             ]
+        },
+        {
+            "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+            "id": "onesignal-cordova-plugin.OneSignal",
+            "pluginId": "onesignal-cordova-plugin",
+            "clobbers": [
+                "OneSignal"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -228,6 +269,7 @@
         "cordova-plugin-calendar": "4.4.2",
         "com.phonegap.plugins.facebookconnect": "1.7.1.3",
         "cordova-plugin-facebook4": "1.7.1",
-        "cordova-plugin-keyboard": "1.1.4"
+        "cordova-plugin-keyboard": "1.1.4",
+        "onesignal-cordova-plugin": "2.0.11"
     }
 }

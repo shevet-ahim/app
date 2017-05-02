@@ -49,6 +49,13 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+        "id": "onesignal-cordova-plugin.OneSignal",
+        "clobbers": [
+            "OneSignal"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -60,7 +67,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-inappbrowser": "1.4.0",
     "cordova-plugin-whitelist": "1.0.0",
-    "cordova-plugin-facebook4": "1.7.1"
+    "cordova-plugin-facebook4": "1.7.1",
+    "onesignal-cordova-plugin": "2.0.11"
 };
 // BOTTOM OF METADATA
 });

@@ -1,5 +1,5 @@
 window.onerror = function (errorMsg, url, lineNumber) {
-	return true;
+	//return true;
     //alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
 }
 
@@ -31,6 +31,7 @@ function sa(){
 	this.session.sex = null;
 	this.session.has_children = null;
 	this.session.push_notifications = null;
+	this.session.inside = null;
 
 	// app properties
 	this.hebdate = null;
@@ -183,16 +184,22 @@ sa.prototype.init = function(){
 				self.displayAnnouncements();
 			});
 			$("#sa-menu").panel();
+			
+			self.setProp('preloaded',true);
+			self.loadFeed(false,true);
+			self.loadSettings();
+			self.loadDateOverrides();
+			self.loadTefilot();
+			self.loadZmanim(true);
 
 			// page load events
 			$(document).on("pagecontainerbeforeshow",function(event,ui) {
-				self.setProp('preloaded',true);
-
 				var page = ui.toPage.prop("id");
 				if (page == 'news-feed') {
-					self.loadTefilot();
-					self.loadFeed();
-					self.loadSettings();
+					if (!self.preloaded) {
+						self.loadSettings();
+						self.loadFeed(false);
+					}
 				}
 				else if (page == 'events')
 					self.loadEvents(true);
@@ -229,8 +236,10 @@ sa.prototype.init = function(){
 					self.displaySettings();
 				else if (page == 'links')
 					self.loadLinks();
-				else if (page == 'logout')
+				else if (page == 'logout') {
 					self.logout();
+					self.setProp(['session','inside'],false);
+				}
 
 				// set last url for back button
 				self.setProp('last_url',ui.prevPage.prop("id"));
@@ -240,7 +249,7 @@ sa.prototype.init = function(){
 			$(document).on("pagebeforechange",function(event,ui) {
 				if (ui && ui.toPage && ui.toPage.prop) {
 					var page = ui.toPage.prop("id");
-					if ((page == 'signup' || page == 'signup-waiting' || page == 'signup-rejected' || page == 'login') && self.session.id > 0) {
+					if ((page == 'signup' || page == 'signup-waiting' || page == 'signup-rejected' || page == 'login') && self.session.inside) {
 						event.preventDefault();
 			            event.stopPropagation();
 					}
@@ -256,13 +265,7 @@ sa.prototype.init = function(){
 				self.resizePanels();
 				self.externalLinks();
 
-				var page = ui.toPage.prop("id");
-				if (page == 'news-feed') {
-					setTimeout(function(){
-						self.startTicker();
-					},1000);
-				}
-				$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
+				//$('#sa-menu').height($('#sa-menu').find('.ui-panel-inner').height());
 			});
 			
 			// lightbox
@@ -296,12 +299,11 @@ sa.prototype.init = function(){
 				self.updateHdate();
 				self.loadTefilot();
 				self.loadSettings();
-				self.startTicker();
 			},30000);
 
 			setInterval(function() {
 		       self.loadMore();
-			},400);
+			},2000);
 
 			callback();
 		},
@@ -321,10 +323,15 @@ sa.prototype.init = function(){
 				$("body").pagecontainer("change","#news-feed");
 				$("#sa-top-nav").show();
 				$("#sa-bottom-nav").show();
+				
 				if (!this.preloaded) {
-					this.loadTefilot();
-					this.loadFeed();
+					this.loadFeed(false);
+					this.loadDateOverrides();
 				}
+				else
+					this.preloaded = false;
+				
+				this.startTicker();
 			}
 			else if (this.session.id && this.session.key && this.session.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
@@ -426,7 +433,7 @@ sa.prototype.login = function(button,info){
 					}
 					else {
 						self.loadTefilot();
-						self.loadFeed();
+						self.loadFeed(false);
 						self.loadSettings(function(){
 							$("body").pagecontainer("change","#settings");
 							$("#sa-top-nav").show();
@@ -434,6 +441,8 @@ sa.prototype.login = function(button,info){
 							self.displaySettings(true);
 						});
 					}
+					
+					self.startTicker();
 				}
 				else if (self.session.status == 'pending')
 					$("body").pagecontainer("change","#signup-waiting");
@@ -552,6 +561,7 @@ sa.prototype.logout = function(){
 	this.session.age = null;
 	this.session.sex = null;
 	this.session.has_children = null;
+	this.session.inside = null;
 	this.removeItem('sa-session-id');
 	this.removeItem('sa-session-key');
 	this.removeItem('sa-session-status');
@@ -648,11 +658,15 @@ sa.prototype.loadTefilot = function(return_data){
 	});
 }
 
-sa.prototype.loadFeed = function(more){
+sa.prototype.loadFeed = function(more,preload){
 	$.mobile.loading('show');
 	
+	var reload = (!this.session.inside && !preload);
 	var start = null;
 	var end = null;
+	
+	if (!preload)
+		this.session.inside = true;
 
 	if (more) {
 		this.more_last_timestamp = (!this.more_last_timestamp) ? moment().subtract(this.more_interval_days,'days').unix() : moment(this.more_last_timestamp * 1000).subtract(this.more_interval_days,'days').unix();
@@ -662,123 +676,152 @@ sa.prototype.loadFeed = function(more){
 
 	var self = this;
 	var feed = (!more) ? this.getItem('sa-feed') : [];
+	var last = this.getItem('sa-feed-last');
 	var events = (!more) ? this.getItem('sa-events') : [];
 	var content = (!more) ? this.getItem('sa-content') : [];
 	var old_feed = (more) ? this.getItem('sa-old-items') : [];
 	var popups_shown = this.getItem('sa-popups');
 	var new_items = [];
 	var popups = [];
+	var delay = 0;
 	popups_shown = (!popups_shown) ? [] : popups_shown;
-
-	this.addRequest('Events','get',[true,null,null,null,this.session.age,this.session.sex,null,start,end]);
-	this.addRequest('Content','get',[null,null,this.session.age,this.session.sex,null,start,end]);
-	this.sendRequests(function(result){
-		// check for upcoming holidays
-		for (i = 0;i <= 7; i++) {
-			var hdate = new Hebcal.HDate(moment().add(i,'days').toDate()).setLocation(self.position.coords.latitude,self.position.coords.longitude);
-			var holidays = hdate.holidays();
-			var candles = hdate.candleLighting();
-			
-			var title = null;
-			if (holidays[0] && holidays[0].desc) {
-				title = holidays[0].desc[0].replace(/[0-9]/g,'');
-			}
-			if (candles)
-				timestamp = moment(candles).unix();
-			
-			if (title) {
-				new_items.push({title: title, type: 'event', id: title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'), timestamp: timestamp, category: 'Fiestas Religiosas', content: 'Recordatorio para fecha religiosa.', is_zman:true});
-				break;
-			}
-		}
+	
+	if (!old_feed)
+		old_feed = [];
+	
+	if (!more && feed) {
+		delay = 3000;
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
 		
-		// receive and parse events
-		if (result) {
-			var results = result.Events.get.results[0];
-			for (i in results) {
-				results[i].timestamp = self.getEventTimestamp(results[i]);
-				new_items.push(results[i]);
-			}
-		}
+		self.displayFeed('news-feed',feed);
+		if (moment().unix() - last < 300)
+			return false;
+	}
+	
+	if (reload) {
+		feed = [];
+		events = [];
+		content = [];
+	}
 
-		// receive and parse content items
-		if (result && result.Content.get.results[0]) {
-			var results = result.Content.get.results[0];
-			for (i in results) {
-				results[i].timestamp = self.getEventTimestamp(results[i]);
-				new_items.push(results[i]);
-
-				if (results[i].is_popup == 'Y' && popups_shown.indexOf(results[i].id) < 0) {
-					popups.push(results[i]);
-					popups_shown.push(results[i].id);
+	setTimeout(function(){
+		self.addRequest('Events','get',[true,null,null,null,self.session.age,self.session.sex,null,start,end]);
+		self.addRequest('Content','get',[null,null,self.session.age,self.session.sex,null,start,end]);
+		self.sendRequests(function(result){
+			// check for upcoming holidays
+			for (i = 0;i <= 7; i++) {
+				var hdate = new Hebcal.HDate(moment().add(i,'days').toDate()).setLocation(self.position.coords.latitude,self.position.coords.longitude);
+				var holidays = hdate.holidays();
+				var candles = hdate.candleLighting();
+				var timestamp = (candles) ? moment(candles).unix() : moment(hdate.gregEve()).unix();
+				
+				var title = null;
+				if (holidays[0] && holidays[0].desc) {
+					title = holidays[0].desc[0].replace(/[0-9]/g,'');
+				}
+				
+				if (title) {
+					new_items.push({title: title, type: 'event', id: title.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-'), timestamp: timestamp, category: 'Fiestas Religiosas', content: 'Recordatorio para fecha religiosa.', is_zman:true});
+					break;
 				}
 			}
-		}
-
-		feed = (!feed) ? [] : feed;
-		events = (!events) ? [] : events;
-		content = (!content) ? [] : content;
-
-		if (new_items.length > 0) {
-			// sorting oldest first
-			new_items.sort(function(a,b) {
-				return a.timestamp - b.timestamp;
-			});
-
-			// add to cache and remove oldest items
-			for (i in new_items) {
-				var found = $.grep(feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-				if (found && found.length > 0)
-					continue;
-
-				feed.push(new_items[i]);
-				if (feed.length > 50)
-					feed.shift();
-
-				if (new_items[i].type == 'event') {
-					var found = $.grep(events,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-					if (found && found.length > 0)
-						continue;
-
-					events.push(new_items[i]);
-					if (events.length > 50)
-						events.shift();
+			
+			// receive and parse events
+			if (result) {
+				var results = result.Events.get.results[0];
+				for (i in results) {
+					results[i].timestamp = self.getEventTimestamp(results[i]);
+					new_items.push(results[i]);
 				}
-
-				if (new_items[i].type == 'content') {
-					var found = $.grep(content,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-					if (found && found.length > 0)
-						continue;
-
-					if (new_items[i].key != 'anuncios') {
-						content.push(new_items[i]);
-						if (content.length > 50)
-							content.shift();
+			}
+	
+			// receive and parse content items
+			if (result && result.Content.get.results[0]) {
+				var results = result.Content.get.results[0];
+				for (i in results) {
+					results[i].timestamp = self.getEventTimestamp(results[i]);
+					new_items.push(results[i]);
+	
+					if (results[i].is_popup == 'Y' && popups_shown.indexOf(results[i].id) < 0) {
+						popups.push(results[i]);
+						popups_shown.push(results[i].id);
 					}
 				}
-
-				var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
-				if (found && found.length > 0)
-					continue;
-
-				old_feed.push(new_items[i]);
 			}
-		}
-
-		self.displayFeed('news-feed',feed,more);
-		self.displayAnnouncements(popups);
-
-		if (!more) {
-			self.setItem('sa-feed',feed);
-			self.setItem('sa-events',events);
-			self.setItem('sa-content',content);
-		}
-		else
-			self.setItem('sa-old-items',old_feed);
-
-		self.setItem('sa-popups',popups_shown);
-		self.setProp('more_waiting',false);
-	});
+	
+			feed = (!feed) ? [] : feed;
+			events = (!events) ? [] : events;
+			content = (!content) ? [] : content;
+	
+			if (new_items.length > 0) {
+				// sorting oldest first
+				new_items.sort(function(a,b) {
+					return a.timestamp - b.timestamp;
+				});
+	
+				// add to cache and remove oldest items
+				for (i in new_items) {
+					var found = $.grep(feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+					if (found && found.length > 0)
+						continue;
+	
+					feed.push(new_items[i]);
+					if (feed.length > 50)
+						feed.shift();
+	
+					if (new_items[i].type == 'event') {
+						var found = $.grep(events,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+						if (found && found.length > 0)
+							continue;
+	
+						events.push(new_items[i]);
+						if (events.length > 50)
+							events.shift();
+					}
+	
+					if (new_items[i].type == 'content') {
+						var found = $.grep(content,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+						if (found && found.length > 0)
+							continue;
+	
+						if (new_items[i].key != 'anuncios') {
+							content.push(new_items[i]);
+							if (content.length > 50)
+								content.shift();
+						}
+					}
+	
+					var found = $.grep(old_feed,function(item){ return item.type == new_items[i].type && item.id == new_items[i].id; });
+					if (found && found.length > 0)
+						continue;
+	
+					old_feed.push(new_items[i]);
+					if (old_feed.length > 500)
+						old_feed.shift();
+				}
+			}
+	
+			if (!preload) {
+				self.displayFeed('news-feed',feed,more);
+				self.displayAnnouncements(popups);
+			}
+	
+			if (!more) {
+				self.setItem('sa-feed',feed);
+				self.setItem('sa-feed-last',moment().unix());
+				self.setItem('sa-events',events);
+				self.setItem('sa-content',content);
+			}
+			
+			if (!preload) {
+				self.setItem('sa-old-items',old_feed);
+				self.setItem('sa-popups',popups_shown);
+			}
+			
+			self.setProp('more_waiting',false);
+		});
+	},delay);
 }
 
 sa.prototype.loadSettings = function(callback){
@@ -801,8 +844,10 @@ sa.prototype.loadSettings = function(callback){
 				$("body").pagecontainer("change","#news-feed");
 				if (!self.preloaded) {
 					self.loadTefilot();
-					self.loadFeed();
+					self.loadFeed(false);
 				}
+				
+				this.preloaded = false;
 			}
 			else if (results.user.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
@@ -869,6 +914,14 @@ sa.prototype.loadEvents = function(in_feed,category,for_kids,more){
 
 	var self = this;
 	var events = (!more) ? this.getItem('sa-events' + (key ? '-' + key : '')) : [];
+	
+	if (!more && events) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayFeed(page,events,false,['event'],category);
+		more = true;
+	}
 
 	this.addRequest('Events','get',[in_feed,category,null,null,age,sex,null,start,end]);
 	this.sendRequests(function(result){
@@ -961,148 +1014,72 @@ sa.prototype.loadShiurim = function(){
 	});
 }
 
-sa.prototype.loadZmanim = function(){
+sa.prototype.loadZmanim = function(preload){
 	$.mobile.loading('show');
+	
+	var days_before = -1;
+	var days_after = 3;
 	
 	var params = this.params;
 	var self = this;
-	var new_items = [];
 	var timestamp = (!params || !params.timestamp) ? moment().unix() : params.timestamp;
-	var events = (!params || !params.timestamp || !moment().isSame(params.timestamp * 1000,'day')) ? [] : this.getItem('sa-zmanim');
+	var cache = this.getItem('sa-zmanim');
+	cache = (!cache) ? {} : cache;
+	var tefilot_cats = self.getItem('sa-tefilot-cats');
+	tefilot_cats = (!tefilot_cats) ? {} : tefilot_cats;
+	var showed_already = false;
+	
+	if (cache[moment.unix(timestamp).format('M-D')]) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		if (!preload) {
+			self.displaySchedule('zmanim',cache[moment.unix(timestamp).format('M-D')].events);
+			showed_already = true;
+		}
+		
+		if (params && params.timestamp)
+			return false;
+	}
+	
+	for (i = days_before;i <= days_after; i++) {
+		var t = (i < 0) ? moment.unix(timestamp).subtract(Math.abs(i),'days').unix() : moment.unix(timestamp).add(Math.abs(i),'days').unix();
+		this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,t,t]);
+	}
 
 	this.addRequest('Events','get',[null,['rezos','limud','levaya'],null,null,null,null,null,timestamp,timestamp]);
 	this.sendRequests(function(result){
-		// get zmanim
-		var hdate = new Hebcal.HDate(new Date(timestamp * 1000)).setLocation(self.position.coords.latitude,self.position.coords.longitude);
-		var zmanim = hdate.getZemanim();
-		var sedra = hdate.getSedra();
-		var daf = hdate.dafyomi();
-		var holidays = hdate.holidays(true);
-		var candles = hdate.candleLighting();
-		var omer = hdate.omer();
-		var havdalah = hdate.next().havdalah();
+		var d = days_before;
+		var cache = {};
 		
-		var day_info = {holidays:null, omer:null, candles:null, havdalah:null, sedra:null, daf:null};
-		if (holidays[0] && holidays[0].desc) {
-			var h_arr = [];
-			for (i in holidays) {
-				h_arr.push(holidays[i].desc[0].replace('Ch','J').replace('ch','j'));
-			}
-			day_info.holidays = h_arr.join(' / ');
-		}
-		if (omer && omer > 0)
-			day_info.omer = 'Día <b>' + omer + '</b> del Omer.';
-		if (candles)
-			day_info.candles = moment(candles).format('h:mm A');
-		if (havdalah)
-			day_info.havdalah = moment(havdalah).format('h:mm A');
-		if (sedra)
-			day_info.sedra = sedra.join(' / ');
-		if (daf)
-			day_info.daf = daf;
-
-		if (zmanim && Object.keys(zmanim).length > 0) {
-			var lookup = {neitz_hachama: 'Netz',sof_zman_shma: 'Final tiempo de Shema',sof_zman_tfilla:'Final tiempo de Tefilá',mincha_gedola:'Minjá Guedolá',mincha_ketana:'Minjá Ketaná',shkiah:'Shekiá',tzeit:'Salida de las estrellas'};
-			for (i in zmanim) {
-				if (typeof lookup[i] == 'undefined')
-					continue;
-				
-				new_items.push({type: 'zman', title: lookup[i], id: i,timestamp: moment(zmanim[i]).unix()});
-			}
-		}
-
-		if (candles)
-			new_items.push({type: 'zman', title: 'Encendido de las velas', id: 'candles', timestamp: moment(candles).subtract(1,'days').unix()});
-		if (havdalah)
-			new_items.push({type: 'zman', title: 'Havdalah', id: 'havdalah' ,timestamp: moment(havdalah).unix()});
-
-		// receive and parse events
-		if (result) {
-			var tefilot_cats = self.getItem('sa-tefilot-cats');
-			var tefilot_places = self.getItem('sa-tefilot-places');
-
-			var results = result.Events.get.results[0];
-			var tefilot = {};
-			for (i in results) {
-				// sort tefilot seperately
-				if (typeof results[i].p_key != 'undefined' && results[i].p_key == 'rezos') {
-					results[i].place_abbr = results[i].place.replace('Sinagoga ','');
-					if (!tefilot[results[i].key])
-						tefilot[results[i].key] = {};
-					if (!tefilot[results[i].key][results[i].place_abbr])
-						tefilot[results[i].key][results[i].place_abbr] = {times:[],name:null};
-
-					var t = results[i].time.split(' ');
-					var t1 = t[1].split(':');
-					
-					var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm A');
-					if (tefilot[results[i].key][results[i].place_abbr].times.indexOf(time) < 0)
-						tefilot[results[i].key][results[i].place_abbr].times.push(time);
-					
-					tefilot[results[i].key][results[i].place_abbr].name = tefilot_places[results[i].place_abbr];
-					tefilot_cats[results[i].key] = results[i].category;
-				}
-				else {
-					// sort other events
-					results[i].timestamp = self.getEventTimestamp(results[i]);
-					new_items.push(results[i]);
-				}
-			}
-		}
-
-		if (tefilot && Object.keys(tefilot).length > 0) {
-			var places = {};
-			for (key in tefilot) {
-				var item = {type:'tefilah', title: tefilot_cats[key], id: key, places:{}};
-				if (key == 'shajarit')
-					item.timestamp = moment(zmanim.neitz_hachama).add(1,'seconds').unix();
-				else if (key == 'musaf')
-					item.timestamp = moment(zmanim.sof_zman_tfilla).add(1,'seconds').unix();
-				else if (key == 'minja')
-					item.timestamp = moment(zmanim.mincha_ketana).add(1,'seconds').unix();
-				else if (key == 'shir')
-					item.timestamp = moment(zmanim.plag_hamincha).add(1,'seconds').unix();
-				else if (key == 'neilah')
-					item.timestamp = moment(zmanim.plag_hamincha).add(1,'seconds').unix();
-				else if (key == 'arbit')
-					item.timestamp = moment(zmanim.shkiah).add(1,'seconds').unix();
-				else
-					item.timestamp = moment(zmanim.shkiah).add(1,'seconds').unix();
-
-				for (abbr in tefilot[key]) {
-					item.places[tefilot_places[abbr]] = tefilot[key][abbr];
-				}
-				new_items.push(item);
-			}
-		}
-
-		events = (!events) ? [] : events;
-		if (new_items.length > 0) {
-			events = [];
-
-			// add to cache and remove oldest items
+		for (i in result.Events.get.results) {
+			var ts = (d < 0) ? moment.unix(timestamp).subtract(Math.abs(d),'days').unix() : moment.unix(timestamp).add(Math.abs(d),'days').unix();
+			var results = result.Events.get.results[i];
 			
-			for (i in new_items) {
-				var found = $.grep(events,function(item1){ return item1.type == new_items[i].type && item1.id == new_items[i].id; });
-				if (found && found.length > 0)
-					continue;
-				
-				events.push(new_items[i]);
-				if (events.length > 50)
-					events.shift();
-			}
+			cache[moment.unix(ts).format('M-D')] = {events: results};
+			if (d == 0 && !showed_already && !preload)
+				self.displaySchedule('zmanim',results);
 			
-			// sorting oldest first
-			events.sort(function(a,b) {
-				return b.timestamp - a.timestamp;
-			});
+			d++;
 		}
+		
+		self.setItem('sa-zmanim',cache);
+		self.setItem('sa-tefilot-cats',tefilot_cats);
+	});
+}
 
-		self.displaySchedule('zmanim',events,day_info);
-		if (!params || !params.timestamp || !moment().isSame(params.timestamp * 1000,'day')) {
-			self.setItem('sa-zmanim',events);
-			self.setItem('sa-tefilot-cats',tefilot_cats);
-		}
+sa.prototype.loadDateOverrides = function(){
+	var self = this;
+	var cache = this.getItem('sa-date-overrides');
+	cache = (!cache) ? {} : cache;
+	
+	this.addRequest('DateOverrides','get',[]);
+	this.sendRequests(function(result){
+		var cache = {};
+		if (result)
+			cache = result.DateOverrides.get.results[0];
+			
+		self.setItem('sa-date-overrides',cache);
 	});
 }
 
@@ -1125,6 +1102,14 @@ sa.prototype.loadContent = function(more,category){
 	var category = (params && params.category) ? params.category : category;
 	category = (category == 'all') ? null : category;
 	var content = this.getItem('sa-content' + (category ? '-' + category : ''));
+	
+	if (!more && content) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayFeed('content',content,false,['content']);
+		more = true;
+	}
 
 	this.addRequest('Content','get',['torah',category,this.session.age,this.session.sex,null,start,end]);
 	this.sendRequests(function(result){
@@ -1174,9 +1159,18 @@ sa.prototype.loadDirectory = function(category){
 	
 	var params = this.params;
 	var self = this;
-	var directory = this.getItem('sa-directory-' + category);
 	var category = (params && params.category) ? params.category : category;
-
+	var directory = this.getItem('sa-directory-' + category);
+	var last = this.getItem('sa-directory-last-' + category);
+	
+	if (directory && (moment().unix() - last < 3600)) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayDirectory(directory,category);
+		return false;
+	}
+	
 	this.addRequest('Dir','get',[category]);
 	this.sendRequests(function(result){
 		if (result) {
@@ -1189,6 +1183,7 @@ sa.prototype.loadDirectory = function(category){
 
 			self.displayDirectory(directory,category);
 			self.setItem('sa-directory-' + category,directory);
+			self.setItem('sa-directory-last-' + category,moment().unix());
 		}
 	});
 }
@@ -1198,6 +1193,15 @@ sa.prototype.loadProducts = function(){
 	
 	var self = this;
 	var products = this.getItem('sa-products');
+	var last = this.getItem('sa-products-last');
+	
+	if (products && (moment().unix() - last < 3600)) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayProducts('#kashrut-products',products);
+		return false;
+	}
 
 	this.addRequest('Products','get',[]);
 	this.sendRequests(function(result){
@@ -1211,6 +1215,7 @@ sa.prototype.loadProducts = function(){
 
 			self.displayProducts('#kashrut-products',products);
 			self.setItem('sa-products',products);
+			self.setItem('sa-products-last',moment().unix());
 		}
 	});
 }
@@ -1220,6 +1225,15 @@ sa.prototype.loadShlijim = function(){
 	
 	var self = this;
 	var shlijim = this.getItem('sa-shlijim');
+	var last = this.getItem('sa-shlijim-last');
+	
+	if (shlijim && (moment().unix() - last < 3600)) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayShlijim('#shlijim',shlijim);
+		return false;
+	}
 
 	this.addRequest('Shlijim','get',[]);
 	this.sendRequests(function(result){
@@ -1233,6 +1247,7 @@ sa.prototype.loadShlijim = function(){
 
 			self.displayShlijim('#shlijim',shlijim);
 			self.setItem('sa-shlijim',shlijim);
+			self.setItem('sa-shlijim-last',moment().unix());
 		}
 	});
 }
@@ -1242,6 +1257,15 @@ sa.prototype.loadLinks = function(){
 	
 	var self = this;
 	var links = this.getItem('sa-links');
+	var last = this.getItem('sa-links-last');
+	
+	if (links && (moment().unix() - last < 3600)) {
+		$.mobile.loading('hide');
+		$('.ui-page-active .sa-loading-mask').remove();
+		
+		self.displayLinks('#links',links);
+		return false;
+	}
 
 	this.addRequest('Links','get',[]);
 	this.sendRequests(function(result){
@@ -1255,6 +1279,7 @@ sa.prototype.loadLinks = function(){
 
 			self.displayLinks('#links',links);
 			self.setItem('sa-links',links);
+			self.setItem('sa-links-last',moment().unix());
 		}
 	});
 }
@@ -1290,6 +1315,12 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 	var dummy = $('#sa-feed-dummy');
 	if (feed && feed.length > 0) {
 		self.setProp('more_attempts',0);
+		var clones = [];
+		
+		// sorting oldest first
+		feed.sort(function(a,b) {
+			return a.timestamp - b.timestamp;
+		});
 
 		for (i in feed) {
 			if ($('#'+page).find('#feed-' + feed[i].type + '-' + feed[i].id).length > 0 || (types.length > 0 && types.indexOf(feed[i].type) < 0))
@@ -1350,10 +1381,16 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 			clone.removeClass('dummy');
 
 			if (more)
-				$('#' + page + ' .ui-content').append(clone);
+				clones.push(clone);
 			else
-				$('#' + page + ' .ui-content').prepend(clone);
+				clones.unshift(clone);
 		}
+		
+		if (more)
+			$('#' + page + ' .ui-content').append(clones);
+		else
+			$('#' + page + ' .ui-content').prepend(clones);
+		
 		$('#' + page + ' .ui-content').find('.sa-no-results').remove();
 	}
 	else if (!more) {
@@ -1381,7 +1418,7 @@ sa.prototype.displayFeed = function(page,feed,more,types,category,topics){
 	$('#sa-menu').height($(document).height());
 }
 
-sa.prototype.displaySchedule = function(page,events,day_info){
+sa.prototype.displaySchedule = function(page,results){
 	var params = this.params;
 	var self = this;
 	var title = '';
@@ -1393,6 +1430,8 @@ sa.prototype.displaySchedule = function(page,events,day_info){
 
 	var timestamp = (!params || !params.timestamp) ? moment().unix() : params.timestamp;
 	var title_clone = self.displayHeader('calendar',title,{page: page,timestamp:timestamp});
+	var overrides = self.getItem('sa-date-overrides');
+	var events = [];
 
 	$('#' + page + ' .ui-content').html('');
 	$('#' + page + ' .ui-content').append(title_clone);
@@ -1400,19 +1439,79 @@ sa.prototype.displaySchedule = function(page,events,day_info){
 	this.activateHeader(title_clone,page);
 	
 	if (page == 'zmanim') {
+		// apply specific overrides if in Panama City, Panama
+		var in_range = false;
+		if (self.position.coords.latitude && self.position.coords.latitude < 9.171759 && self.position.coords.latitude > 8.866779 && self.position.coords.longitude && self.position.coords.longitude > -79.841223 && self.position.coords.longitude < -79.122352) {
+			in_range = true;
+		}
+		
+		var overrides0 = (overrides && overrides[moment.unix(timestamp).format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).format('YYYY-MM-DD')] : false;
+		var overrides1 = (overrides && overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).add(1,'days').format('YYYY-MM-DD')] : false;
+		var overrides2 = (overrides && overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')] && in_range) ? overrides[moment.unix(timestamp).add(2,'days').format('YYYY-MM-DD')] : false;
+		
+		var hdate = new Hebcal.HDate(new Date(timestamp * 1000)).setLocation(self.position.coords.latitude,self.position.coords.longitude);
+		var zmanim = (!overrides0) ? hdate.getZemanim() : overrides0;
+		var sedra = hdate.getSedra();
+		var daf = hdate.dafyomi();
+		var holidays = hdate.holidays(true);
+		var holidays_next = hdate.next().holidays();
+		var candles = (!overrides0) ? hdate.candleLighting() : overrides0.candles;
+		var omer = hdate.omer();
+		
+		if (holidays_next[0] && holidays_next[0].YOM_TOV_ENDS)
+			var havdalah = (!overrides2) ? hdate.next().next().havdalah() : overrides2.tzeit;
+		else if (hdate.havdalah())
+			var havdalah = (!overrides0) ? hdate.havdalah() : overrides0.tzeit;
+		else if (hdate.next().havdalah())
+			var havdalah = (!overrides1) ? hdate.next().havdalah() : overrides1.tzeit;
+		
+		var day_info = {holidays:null, omer:null, candles:null, havdalah:null, sedra:null, daf:null};
+		if (holidays[0] && holidays[0].desc) {
+			var h_arr = [];
+			for (i in holidays) {
+				h_arr.push(holidays[i].desc[0].replace('Ch','J').replace('ch','j'));
+			}
+			day_info.holidays = h_arr.join(' / ');
+		}
+		if (omer && omer > 0)
+			day_info.omer = 'Día <b>' + omer + '</b> del Omer.';
+		if (candles)
+			day_info.candles = moment(candles).format('h:mm A');
+		if (havdalah)
+			day_info.havdalah = moment(havdalah).format('h:mm A');
+		if (sedra)
+			day_info.sedra = sedra.join(' / ');
+		if (daf)
+			day_info.daf = daf;
+
+		if (zmanim && Object.keys(zmanim).length > 0) {
+			var lookup = {neitz_hachama: 'Netz <i>(Zman)</i>',netz: 'Netz <i>(Zman)</i>',sof_zman_shma: 'Final tiempo de Shema <i>(Zman)</i>',shema: 'Final tiempo de Shema <i>(Zman)</i>',sof_zman_tfilla:'Final tiempo de Tefilá <i>(Zman)</i>',tefilah:'Final tiempo de Tefilá <i>(Zman)</i>',mincha_gedola:'Minjá Guedolá <i>(Zman)</i>',minha_gedola:'Minjá Guedolá <i>(Zman)</i>',mincha_ketana:'Minjá Ketaná <i>(Zman)</i>',minha_ketana:'Minjá Ketaná <i>(Zman)</i>',shkiah:'Shekiá',shekia:'Shekiá <i>(Zman)</i>',tzeit:'Salida de las estrellas <i>(Zman)</i>',tzet:'Salida de las estrellas <i>(Zman)</i>'};
+			for (i in zmanim) {
+				if (typeof lookup[i] == 'undefined')
+					continue;
+				
+				events.push({type: 'zman', title: lookup[i], id: i,timestamp: moment(zmanim[i]).unix()});
+			}
+		}
+
+		if (candles)
+			events.push({type: 'zman', title: 'Encendido de las velas', id: 'candles', timestamp: moment(candles).subtract(1,'days').unix()});
+		if (havdalah)
+			events.push({type: 'zman', title: 'Havdalah', id: 'havdalah' ,timestamp: moment(havdalah).unix()});
+		
 		var i_clone = $('#sa-day-info-dummy').clone().removeClass('dummy').attr('id','');
 		if (day_info) {
 			for (k in day_info) {
 				if (day_info[k]) {
 					$(i_clone).find('.' + k + ' .item-value').html(day_info[k]);
 					if (k == 'havdalah') {
-						if (moment.unix(timestamp).format('d') == 5) {
-							$(i_clone).find('.item-name:not(.alt)').removeClass('dummy');
-							$(i_clone).find('.item-name.alt').addClass('dummy');
+						if (moment.unix(timestamp).format('d') == 5 || moment.unix(timestamp).format('d') == 6) {
+							$(i_clone).find('.' + k + ' .item-name:not(.alt)').removeClass('dummy');
+							$(i_clone).find('.' + k + ' .item-name.alt').addClass('dummy');
 						}
 						else {
-							$(i_clone).find('.item-name:not(.alt)').addClass('dummy');
-							$(i_clone).find('.item-name.alt').removeClass('dummy');
+							$(i_clone).find('.' + k + ' .item-name:not(.alt)').addClass('dummy');
+							$(i_clone).find('.' + k + ' .item-name.alt').removeClass('dummy');
 						}
 					}
 				}
@@ -1422,6 +1521,70 @@ sa.prototype.displaySchedule = function(page,events,day_info){
 		}
 		$('#' + page + ' .ui-content .sa-calendar-nav').after(i_clone);
 	}
+	
+	// receive and parse events
+	if (results) {
+		var tefilot = {};
+		var tefilot_cats = {};
+		for (i in results) {
+			// sort tefilot seperately
+			if (typeof results[i].p_key != 'undefined' && results[i].p_key == 'rezos') {
+				results[i].place_abbr = results[i].place.replace('Sinagoga ','');
+				if (!tefilot[results[i].key])
+					tefilot[results[i].key] = {};
+				if (!tefilot[results[i].key][results[i].place_abbr])
+					tefilot[results[i].key][results[i].place_abbr] = {times:[],name:null};
+
+				var t = results[i].time.split(' ');
+				var t1 = t[1].split(':');
+				
+				var time = moment().hour(t1[0]).minute(t1[1]).format('h:mm A');
+				if (tefilot[results[i].key][results[i].place_abbr].times.indexOf(time) < 0)
+					tefilot[results[i].key][results[i].place_abbr].times.push(time);
+				
+				tefilot[results[i].key][results[i].place_abbr].name = results[i].place_abbr;
+				tefilot_cats[results[i].key] = results[i].category;
+			}
+			else {
+				// sort other events
+				results[i].timestamp = self.getEventTimestamp(results[i]);
+				events.push(results[i]);
+			}
+		}
+	}
+
+	if (tefilot && Object.keys(tefilot).length > 0) {
+		var places = {};
+		for (key in tefilot) {
+			var item = {type:'tefilah', title: tefilot_cats[key], id: key, places:{}};
+			if (key == 'shajarit')
+				item.timestamp = moment(zmanim.neitz_hachama).add(1,'seconds').unix();
+			else if (key == 'musaf')
+				item.timestamp = moment(zmanim.sof_zman_tfilla).add(1,'seconds').unix();
+			else if (key == 'minja')
+				item.timestamp = moment(zmanim.mincha_ketana).add(1,'seconds').unix();
+			else if (key == 'shir')
+				item.timestamp = moment(zmanim.plag_hamincha).add(1,'seconds').unix();
+			else if (key == 'neilah')
+				item.timestamp = moment(zmanim.plag_hamincha).add(1,'seconds').unix();
+			else if (key == 'arbit')
+				item.timestamp = moment(zmanim.shkiah).add(1,'seconds').unix();
+			else if (key == 'selihot')
+				item.timestamp = moment(zmanim.neitz_hachama).add(-1,'seconds').unix();
+			else
+				item.timestamp = moment(zmanim.shkiah).add(1,'seconds').unix();
+
+			for (abbr in tefilot[key]) {
+				item.places[abbr] = tefilot[key][abbr];
+			}
+			events.push(item);
+		}
+	}
+
+	// sorting oldest first
+	events.sort(function(a,b) {
+		return b.timestamp - a.timestamp;
+	});
 
 	var dummy = $('#sa-schedule-dummy');
 	if (events && events.length > 0) {
@@ -1484,6 +1647,7 @@ sa.prototype.displayProducts = function(container,products){
 
 	$(container + ' .sa-listview').find('li').remove();
 	if (products && products.length > 0) {
+		var clones = [];
 		for (i in products) {
 			var clone = $('#sa-product-dummy').clone();
 			clone.find('h2').html(products[i].name);
@@ -1506,9 +1670,11 @@ sa.prototype.displayProducts = function(container,products){
 
 			clone.attr('id','product-' + products[i].id);
 			clone.removeClass('dummy');
-			$(container + ' .ui-listview-outer').append(clone);
 			clone.collapsible({refresh:true});
+			clones.push(clone);
 		}
+		
+		$(container + ' .ui-listview-outer').append(clones);
 		$(container + ' .ui-listview-outer').find('.sa-no-results').remove();
 	}
 	else {
@@ -1719,6 +1885,13 @@ sa.prototype.displayDirectory = function(directory,category){
 sa.prototype.displayDetail = function(){
 	var params = this.params;
 	var error_string = 'Por razones técnicas, no se puede mostrar este item.';
+	
+	if (!params || !params.id || !params.type) {
+		this.displayErrors([error_string]);
+		console.error('Error: Missing detail params.');
+		return false;
+	}
+	
 	var query = params.type;
 	var page = params.type;
 
@@ -1735,12 +1908,6 @@ sa.prototype.displayDetail = function(){
 		page = 'events';
 	}
 
-	if (!params.id || !params.type) {
-		this.displayErrors([error_string]);
-		console.error('Error: Missing detail params.');
-		return false;
-	}
-
 	// find the detail items in db
 	var items = this.getItem('sa-' + query);
 	if (!items || items.length == 0) {
@@ -1753,13 +1920,13 @@ sa.prototype.displayDetail = function(){
 	}
 
 	var filtered = items.filter(function(item) {
-		return item.id == params.id;
+		return (item.id == params.id && item.type == params.type);
 	});
-
+	
 	if (!filtered || filtered.length == 0) {
 		var items = this.getItem('sa-old-items');
 		var filtered = items.filter(function(item) {
-			return item.id == params.id;
+			return (item.id == params.id && item.type == params.type);
 		});
 
 		if (!filtered || filtered.length == 0) {
@@ -2251,56 +2418,36 @@ sa.prototype.getEventTimestamp = function(event) {
 }
 
 sa.prototype.startTicker = function() {
-	if ($('#sa-tefilot-scroll .scrolling').length > 0)
-		return false;
-
 	var self = this;
-	var elem = $('#sa-tefilot-scroll .scroll:first');
-	var elem_f = $('#sa-tefilot-scroll .scroll:first');
-	var elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-	var elem_sub_l_w = elem_sub_l.outerWidth();
-	var elem_w = elem.outerWidth();
-	var window_w = parseFloat($('#sa-tefilot').parent().width()) - parseFloat($('#sa-tefilot-event').outerWidth());
-	var cloned = false;
+	var scroll = $('#sa-tefilot-scroll .scroll');
 
-	if (elem_sub_l.length == 0) {
-		setTimeout(function(){
-			self.startTicker();
-		},1000);
-		return false;
-	}
+	window.ticker = setInterval(function(){
+		var scroll_elems = scroll.find('.sa-tefila');
+		var window_w = parseFloat($('#sa-tefilot-scroll').width());
+		var new_l = 0;
+		var cur_l = scroll.position().left;
+		
+		if (scroll.width() < window_w || scroll_elems.length == 0)
+			return false;
 
-	if (elem.width() < window_w)
-		return false;
-
-	var properties = {duration:400,easing:'linear',complete:function(){
-		$('#sa-tefilot-scroll .scroll').stop().animate({left:'-=10px'},properties).addClass('scrolling');
-	},done: function(){
-		offset = elem_sub_l.offset();
-		if (elem_sub_l && offset) {
-			if (offset.left <= 0 && $('#sa-tefilot-scroll .scroll').length <= 2) {
-				elem = $('#sa-tefilot-scroll .scroll:last').clone().css('left',Math.max((offset.left + elem_sub_l_w),50)+'px').insertAfter('#sa-tefilot-scroll .scroll:last');
-				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-				cloned = true;
+		$(scroll_elems).each(function(i){
+			var l = $(this).position().left;
+			var r = $(this).width() + l;
+			
+			if ((r - window_w + cur_l) > ($(this).width() * .1)) {
+				new_l = l - 5;
+				return false;
 			}
-		}
-
-		if (elem_f && elem_f.offset()) {
-			if (elem_f.offset().left < (elem_f.width() * -1)) {
-				elem_f.remove();
-				elem_f = $('#sa-tefilot-scroll .scroll:first');
-				elem_sub_l = $('#sa-tefilot-scroll .scroll:last');
-				cloned = false;
-			}
-		}
-
-	}};
-	elem.stop().animate({left:'-=50px'},properties);
+		});
+		
+		scroll.fadeOut(200,function(){
+			scroll.css('left',(-1 * new_l) + 'px').fadeIn(200);
+		});
+	},5000);
 }
 
 sa.prototype.stopTicker = function() {
-	$('#sa-tefilot-scroll .scroll').stop().removeClass('scrolling').css('left','0');
-	$('#sa-tefilot-scroll .scroll:not(:first)').remove();
+	clearInterval(window.ticker);
 }
 
 sa.prototype.displayHeader = function(mode,title,params) {

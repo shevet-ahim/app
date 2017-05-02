@@ -6,5 +6,6 @@
     "Accounts.framework": 1,
     "Security.framework": 1,
     "EventKit.framework": 2,
-    "EventKitUI.framework": 2
+    "EventKitUI.framework": 2,
+    "SystemConfiguration.framework": 1
 }

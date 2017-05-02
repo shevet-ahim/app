@@ -30,7 +30,7 @@ function sa(){
 	this.session.age = null;
 	this.session.sex = null;
 	this.session.has_children = null;
-	this.session.push_notifications = null;
+	this.session.push_notifications = true;
 	this.session.inside = null;
 
 	// app properties
@@ -42,6 +42,7 @@ function sa(){
 	this.last_url = null;
 	this.hatzalah_phone = null;
 	this.dsi_phone = null;
+	this.push_initialized = null;
 
 	// lazy loading
 	this.more_waiting = null;
@@ -414,7 +415,7 @@ sa.prototype.login = function(button,info){
 				self.setProp(['session','age'],result.User.login.results[0].age);
 				self.setProp(['session','sex'],result.User.login.results[0].sex);
 				self.setProp(['session','has_children'],result.User.login.results[0].has_children);
-				self.setProp(['session','push_notifications'],result.User.login.results[0].push_notifications);
+				self.setProp(['session','push_notifications'],(result.User.login.results[0].push_notifications == 'Y'));
 
 				self.setItem('sa-signed-up',true);
 				self.setItem('sa-session-id',result.User.login.results[0].session_id);
@@ -423,7 +424,7 @@ sa.prototype.login = function(button,info){
 				self.setItem('sa-session-age',result.User.login.results[0].age);
 				self.setItem('sa-session-sex',result.User.login.results[0].sex);
 				self.setItem('sa-session-has-children',result.User.login.results[0].has_children);
-				self.setItem('sa-session-push-notifications',result.User.login.results[0].push_notifications);
+				self.setItem('sa-session-push-notifications',(result.User.login.results[0].push_notifications == 'Y'));
 
 				if (self.session.status == 'approved') {
 					if (result.User.login.results[0].has_logged_in == 'Y') {
@@ -501,12 +502,14 @@ sa.prototype.saveSettings = function(button){
 	self.setProp(['session','age'],info.age);
 	self.setProp(['session','sex'],info.sex);
 	self.setProp(['session','has_children'],info.has_children);
-	self.setProp(['session','push_notifications'],info.push_notifications);
+	self.setProp(['session','push_notifications'],(info.push_notifications == 'Y'));
 
 	self.setItem('sa-session-age',info.age);
 	self.setItem('sa-session-sex',info.sex);
 	self.setItem('sa-session-has-children',info.has_children);
-	self.setItem('sa-session-push-notifications',info.push_notifications);
+	self.setItem('sa-session-push-notifications',(info.push_notifications == 'Y'));
+	
+	window.plugins.OneSignal.setSubscription(info.push_notifications == 'Y'));
 
 	this.addRequest('User','saveSettings',[info]);
 	this.sendRequests(function(result){
@@ -826,7 +829,8 @@ sa.prototype.loadFeed = function(more,preload){
 
 sa.prototype.loadSettings = function(callback){
 	var self = this;
-	this.addRequest('Settings','getForApp',[]);
+	var position = (this.position && this.position.coords this.position.coords.latitude && this.position.coords.longitude) ? this.position.coords : {latitude:'',longitude:''};
+	this.addRequest('Settings','getForApp',[position.latitude,position.longitude]);
 	this.sendRequests(function(result){
 		if (result) {
 			var results = result.Settings.getForApp.results[0];
@@ -839,6 +843,8 @@ sa.prototype.loadSettings = function(callback){
 			self.setItem('sa-content-cats',results.content_cats);
 			self.setProp('hatzalah_phone',results.hatzalah_phone);
 			self.setProp('dsi_phone',results.dsi_phone);
+			self.setProp(['session','push_notifications'],(results.user.push_notifications == 'Y'));
+			self.setItem('sa-session-push-notifications',(results.user.push_notifications == 'Y'));
 
 			if (results.user.status == 'approved' && initial_status != 'approved') {
 				$("body").pagecontainer("change","#news-feed");
@@ -847,7 +853,20 @@ sa.prototype.loadSettings = function(callback){
 					self.loadFeed(false);
 				}
 				
-				this.preloaded = false;
+				self.setProp('preloaded',false);
+				
+				if (!self.push_initialized) {
+					var iosSettings = {};
+			        iosSettings["kOSSettingsKeyAutoPrompt"] = false;
+			        iosSettings["kOSSettingsKeyInAppLaunchURL"] = false;
+			        
+					self.setProp('push_initialized',false);
+					// initialize OneSignal push notifications
+					// window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+					window.plugins.OneSignal.startInit(results.one_signal_app_id).handleNotificationOpened(self.pushOpened).iOSSettings(iosSettings).endInit();
+					window.plugins.OneSignal.setSubscription(this.session.push_notifications);
+					// window.plugins.OneSignal.syncHashedEmail(userEmail);
+				}
 			}
 			else if (results.user.status == 'pending') {
 				$("body").pagecontainer("change","#signup-waiting");
@@ -2178,7 +2197,7 @@ sa.prototype.displaySettings = function(init){
 
 	if (this.cfg.user.has_children)
 		$('#settings #has-children').prop('checked',true).checkboxradio('refresh');
-	if (this.cfg.user.push_notifications)
+	if (this.cfg.user.push_notifications == 'Y')
 		$('#settings #push-notifications').prop('checked',true).checkboxradio('refresh');
 
 	if (this.cfg.user.fb_id && this.cfg.user.fb_id != 0)
@@ -2612,4 +2631,8 @@ sa.prototype.headerDate = function() {
 		omer = ' (Omer ' + this.hebdate.omer() + ')';
 	
 	return this.hebdate.toString().replace('Ch','J').replace('ch','j') + omer;
+}
+
+sa.prototype.pushOpened = function(jsonData) {
+	
 }

@@ -85,6 +85,14 @@ module.exports = [
         "clobbers": [
             "window.Keyboard"
         ]
+    },
+    {
+        "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+        "id": "onesignal-cordova-plugin.OneSignal",
+        "pluginId": "onesignal-cordova-plugin",
+        "clobbers": [
+            "OneSignal"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -97,7 +105,8 @@ module.exports.metadata =
     "cordova-plugin-calendar": "4.4.2",
     "com.phonegap.plugins.facebookconnect": "1.7.1.3",
     "cordova-plugin-facebook4": "1.7.1",
-    "cordova-plugin-keyboard": "1.1.4"
+    "cordova-plugin-keyboard": "1.1.4",
+    "onesignal-cordova-plugin": "2.0.11"
 }
 // BOTTOM OF METADATA
 });
