@@ -8,25 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Shevet_Ahim in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Shevet_Ahim */; };
-		1D3623260D0F684500981E51 /* Classes in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* Classes */; };
-		1D60589B0D05DD56006BFB54 /* Shevet_Ahim in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* Shevet_Ahim */; };
+		0AD486F21F282983001D2FB6 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD486F11F282983001D2FB6 /* Images-2.xcassets */; };
+		0AD486F41F282A7C001D2FB6 /* Images-3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AD486F31F282A7C001D2FB6 /* Images-3.xcassets */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
-		302D95F114D2391D003F00A1 /* Classes in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* Classes */; };
-		302D95F214D2391D003F00A1 /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* Classes */; };
 		3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A50F1AB8059700498E2A /* build-debug.xcconfig */; };
 		3047A5131AB8059700498E2A /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5101AB8059700498E2A /* build-release.xcconfig */; };
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		345A370D6CFE40458446B3CC /* Plugins in Frameworks */ = {isa = PBXBuildFile; fileRef = 83808A6013FF40AC92B7E0AD /* Plugins */; };
-		470795B3D0E749638602BB8C /* Plugins in Sources */ = {isa = PBXBuildFile; fileRef = BD8EBC0154E94832A3FF8AE3 /* Plugins */; };
-		480E566B0CBD482884733DC1 /* Plugins in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE2221BF6914040ACEC6690 /* Plugins */; };
 		52BF5368EA074CA68B326231 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F07220780B14D199D8FA8D9 /* EventKitUI.framework */; };
-		6A655AD7FBE94C709956FBF9 /* Plugins in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B38D38107C544AC9644670E /* Plugins */; };
 		828A76B663E4466DB4A4CF1F /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C840C09A0F446979456DCB1 /* EventKit.framework */; };
-		B59A2A649EAB498080C26C8B /* Plugins in Frameworks */ = {isa = PBXBuildFile; fileRef = 844B78C45D1D4D2795356055 /* Plugins */; };
 		BE31C988706D435BBECDDE62 /* Plugins in Sources */ = {isa = PBXBuildFile; fileRef = 22EBD3353F474FDEA4376C8C /* Plugins */; };
 		D4866BE23E3149688588E618 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682597FBE1A54C658B003900 /* CoreLocation.framework */; };
-		DEBAABA17AFA4170BBEFCEA7 /* Plugins in Sources */ = {isa = PBXBuildFile; fileRef = E612274580B54019867E3477 /* Plugins */; };
-		F07F20EE2FCF4A5187402B64 /* Plugins in Sources */ = {isa = PBXBuildFile; fileRef = ECA8341885BB4520904B5188 /* Plugins */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,39 +40,24 @@
 
 /* Begin PBXFileReference section */
 		0207DA571B56EA530066E2B4 /* Shevet_Ahim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shevet_Ahim; sourceTree = SOURCE_ROOT; };
-		06423F72DE624E7A854E11F4 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		1C2123EAAF874266A9B0A50D /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		1D3623240D0F684500981E51 /* Classes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Classes; path = Shevet_Ahim/Classes; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* Classes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Classes; path = Shevet_Ahim/Classes; sourceTree = "<group>"; };
+		0AD486F11F282983001D2FB6 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "Shevet_Ahim/Images-2.xcassets"; sourceTree = SOURCE_ROOT; };
+		0AD486F31F282A7C001D2FB6 /* Images-3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-3.xcassets"; path = "Shevet_Ahim/Images-3.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D6058910D05DD3D006BFB54 /* Shevet_Ahim.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shevet_Ahim.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22EBD3353F474FDEA4376C8C /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* Shevet_Ahim */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Shevet_Ahim; sourceTree = "<group>"; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		302D95EE14D2391D003F00A1 /* Classes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Classes; path = Shevet_Ahim/Classes; sourceTree = "<group>"; };
-		302D95EF14D2391D003F00A1 /* Classes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Classes; path = Shevet_Ahim/Classes; sourceTree = "<group>"; };
-		302D95F014D2391D003F00A1 /* Classes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Classes; path = Shevet_Ahim/Classes; sourceTree = "<group>"; };
 		3047A50F1AB8059700498E2A /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "cordova/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* Shevet_Ahim */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Shevet_Ahim; sourceTree = "<group>"; };
-		382A506AE776420591DAD901 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		5B38D38107C544AC9644670E /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
 		682597FBE1A54C658B003900 /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6F07220780B14D199D8FA8D9 /* EventKitUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 		83808A6013FF40AC92B7E0AD /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		844B78C45D1D4D2795356055 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Shevet_Ahim */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Shevet_Ahim; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		9C840C09A0F446979456DCB1 /* EventKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
-		BD8EBC0154E94832A3FF8AE3 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		CA254DF88AD04E0A86EABC43 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		E612274580B54019867E3477 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
-		ECA8341885BB4520904B5188 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
-		ED33DF2A687741AEAF9F8254 /* Shevet_Ahim */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Shevet_Ahim; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* Shevet_Ahim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shevet_Ahim; sourceTree = "<group>"; };
-		FDE2221BF6914040ACEC6690 /* Plugins */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder; name = Plugins; path = Shevet_Ahim/Plugins; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,9 +67,6 @@
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				345A370D6CFE40458446B3CC /* Plugins in Frameworks */,
-				B59A2A649EAB498080C26C8B /* Plugins in Frameworks */,
-				6A655AD7FBE94C709956FBF9 /* Plugins in Frameworks */,
-				480E566B0CBD482884733DC1 /* Plugins in Frameworks */,
 				D4866BE23E3149688588E618 /* CoreLocation.framework in Frameworks */,
 				828A76B663E4466DB4A4CF1F /* EventKit.framework in Frameworks */,
 				52BF5368EA074CA68B326231 /* EventKitUI.framework in Frameworks */,
@@ -106,10 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				302D95EE14D2391D003F00A1 /* Classes */,
-				302D95EF14D2391D003F00A1 /* Classes */,
-				302D95F014D2391D003F00A1 /* Classes */,
-				1D3623240D0F684500981E51 /* Classes */,
-				1D3623250D0F684500981E51 /* Classes */,
 			);
 			name = Classes;
 			path = "Shevet Ahim/Classes";
@@ -144,8 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				32CA4F630368D1EE00C91783 /* Shevet_Ahim */,
-				29B97316FDCFA39411CA2CEA /* Shevet_Ahim */,
-				ED33DF2A687741AEAF9F8254 /* Shevet_Ahim */,
 			);
 			name = "Other Sources";
 			path = "Shevet Ahim";
@@ -154,9 +122,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0AD486F31F282A7C001D2FB6 /* Images-3.xcassets */,
+				0AD486F11F282983001D2FB6 /* Images-2.xcassets */,
 				0207DA571B56EA530066E2B4 /* Shevet_Ahim */,
 				3047A50E1AB8057F00498E2A /* config */,
-				8D1107310486CEB800E47090 /* Shevet_Ahim */,
 			);
 			name = Resources;
 			path = "Shevet Ahim/Resources";
@@ -166,9 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				83808A6013FF40AC92B7E0AD /* Plugins */,
-				844B78C45D1D4D2795356055 /* Plugins */,
-				5B38D38107C544AC9644670E /* Plugins */,
-				FDE2221BF6914040ACEC6690 /* Plugins */,
 				682597FBE1A54C658B003900 /* CoreLocation.framework */,
 				9C840C09A0F446979456DCB1 /* EventKit.framework */,
 				6F07220780B14D199D8FA8D9 /* EventKitUI.framework */,
@@ -198,13 +164,6 @@
 			isa = PBXGroup;
 			children = (
 				22EBD3353F474FDEA4376C8C /* Plugins */,
-				382A506AE776420591DAD901 /* Plugins */,
-				E612274580B54019867E3477 /* Plugins */,
-				1C2123EAAF874266A9B0A50D /* Plugins */,
-				BD8EBC0154E94832A3FF8AE3 /* Plugins */,
-				CA254DF88AD04E0A86EABC43 /* Plugins */,
-				ECA8341885BB4520904B5188 /* Plugins */,
-				06423F72DE624E7A854E11F4 /* Plugins */,
 			);
 			name = Plugins;
 			path = "Shevet Ahim/Plugins";
@@ -292,10 +251,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				302D95F214D2391D003F00A1 /* Classes in Resources */,
 				3047A5131AB8059700498E2A /* build-release.xcconfig in Resources */,
+				0AD486F41F282A7C001D2FB6 /* Images-3.xcassets in Resources */,
 				3047A5141AB8059700498E2A /* build.xcconfig in Resources */,
 				0207DA581B56EA530066E2B4 /* Shevet_Ahim in Resources */,
+				0AD486F21F282983001D2FB6 /* Images-2.xcassets in Resources */,
 				3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,13 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589B0D05DD56006BFB54 /* Shevet_Ahim in Sources */,
-				1D3623260D0F684500981E51 /* Classes in Sources */,
-				302D95F114D2391D003F00A1 /* Classes in Sources */,
 				BE31C988706D435BBECDDE62 /* Plugins in Sources */,
-				DEBAABA17AFA4170BBEFCEA7 /* Plugins in Sources */,
-				470795B3D0E749638602BB8C /* Plugins in Sources */,
-				F07F20EE2FCF4A5187402B64 /* Plugins in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +384,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Shevet_Ahim;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -456,6 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = Shevet_Ahim;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
